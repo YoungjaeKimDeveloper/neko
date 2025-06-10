@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import { neon } from "@neondatabase/serverless";
+import initDB from "./db/db_init";
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -13,22 +14,6 @@ if (!DB_URL) {
 
 const sql = neon(DB_URL);
 
-async function initDB() {
-  try {
-    await sql`
-      CREATE TABLE IF NOT EXISTS user(
-        id UUID PRIMARY KEY gen_random_uuid(),
-        email VARCHAR(255),
-        password VARCHAR(255),
-        user_name VARCHAR(255),
-        user_profile_image VARCHAR(255),
-        location VARCHAR(255),
-        created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
-      )
-    `;
-  } catch (error) {}
-}
-
 console.log(DB_URL);
 // SERVER SINGLETON
 const app = express();
@@ -39,6 +24,7 @@ app.use(express.json());
 
 app.use(morgan("dev"));
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+  await initDB();
   console.log(`SERVER IS RUNNING IN ${PORT}`);
 });
