@@ -1,3 +1,8 @@
+/*
+
+    CAPSULATION DB
+    
+ */
 // db.ts
 import { neon } from "@neondatabase/serverless";
 import dotenv from "dotenv";
