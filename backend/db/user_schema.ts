@@ -1,19 +1,18 @@
-import express from "express";
 import dotenv from "dotenv";
-import morgan from "morgan";
 import { neon } from "@neondatabase/serverless";
 
 dotenv.config();
-const PORT = process.env.PORT;
+
 const DB_URL = process.env.DB_URL;
 
 if (!DB_URL) {
+  console.error("DB_URL IS NOT VALID❗️");
   throw new Error("DB_URL IS NOT VALID");
 }
 
 const sql = neon(DB_URL);
 
-async function initDB() {
+async function user_table() {
   try {
     await sql`
       CREATE TABLE IF NOT EXISTS user(
@@ -26,19 +25,10 @@ async function initDB() {
         created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
       )
     `;
-  } catch (error) {}
+    console.log("DB CONNECTED✅");
+  } catch (error: any) {
+    console.error("Failed to connect user_table", error.message);
+  }
 }
 
-console.log(DB_URL);
-// SERVER SINGLETON
-const app = express();
-
-// middleware
-// JSON - BODY
-app.use(express.json());
-
-app.use(morgan("dev"));
-
-app.listen(PORT, () => {
-  console.log(`SERVER IS RUNNING IN ${PORT}`);
-});
+export default user_table;
