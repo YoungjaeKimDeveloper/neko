@@ -1,6 +1,6 @@
 /*
-
-    Core Functionality - AUth
+    Contract
+    Core Functionality - Auth
     Class
     - Methods
         - 1. Signup
@@ -24,8 +24,4 @@ export interface AuthRepo {
   ): Promise<User | null>;
   // Login
   login(email: string, password: string): Promise<User | null>;
-  // Logout
-  logout(): Promise<void>;
-  // getCurrentUser
-  getCurrentUser(): Promise<User | null>;
 }
