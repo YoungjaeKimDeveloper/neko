@@ -1,7 +1,7 @@
-import createCommentTable from "./schema/comment_schema";
-import createLikeTable from "./schema/like_schema";
-import createPostTable from "./schema/post_schema";
-import createUserTable from "./schema/user_schema";
+import createCommentTable from "./schemas/comment_schema";
+import createLikeTable from "./schemas/like_schema";
+import createPostTable from "./schemas/post_schema";
+import createUserTable from "./schemas/user_schema";
 
 async function initDB() {
   try {
