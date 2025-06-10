@@ -9,5 +9,6 @@ export default interface User {
   password: string;
   user_name: string;
   user_profile_image?: string;
-  created_at: Date;
+  location?: string;
+  created_at?: Date;
 }
