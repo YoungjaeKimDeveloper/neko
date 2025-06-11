@@ -4,6 +4,8 @@ export const generateToken = (email: string) => {
   if (jwtKey == null) {
     throw new Error("JWT_SECRENT IS NOT EXISTED");
   }
-  const token = jwt.sign({ email: email }, jwtKey);
+  const token = jwt.sign({ email: email }, jwtKey, {
+    expiresIn: "3d",
+  });
   return token;
 };

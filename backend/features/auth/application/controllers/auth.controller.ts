@@ -1,9 +1,8 @@
-import sql from "../../../../db/config/db";
 import { ResponseDTO } from "../../../../lib/dto/response.dto";
 import AuthNeonRepo from "../../data/auth.neon";
 import { LoginDTO, SignUpDTO } from "../dto/request/auth.request.dto";
 import { Response, Request } from "express";
-import jwt from "jsonwebtoken";
+
 import bcrypt from "bcrypt";
 import {
   emailValidation,
@@ -16,8 +15,8 @@ const authNeonRepo = new AuthNeonRepo();
 // <params,res,request,query>
 export const signup = async (
   req: Request<{}, {}, SignUpDTO>,
-  res: Response<ResponseDTO>
-) => {
+  res: Response
+): Promise<any> => {
   try {
     // email,password,user_name
     const { email, password, userName: user_name } = req.body;
@@ -84,7 +83,7 @@ export const signup = async (
 export const login = async (
   req: Request<{}, {}, LoginDTO>,
   res: Response<ResponseDTO>
-) => {
+): Promise<any> => {
   try {
     const { email, password } = req.body;
     // Validation - 0
@@ -118,4 +117,8 @@ export const login = async (
   }
 };
 
-// import jwt from "jsonwebtoken";
+// logout
+export const logout = async (req: Request, res: Response): Promise<any> => {
+  res.clearCookie("authToken");
+  return res.status(200).json({ success: true, message: "logged out✅" });
+};
