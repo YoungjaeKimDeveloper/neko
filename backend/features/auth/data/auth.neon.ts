@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 /*
     Implement core logic based on authRepo
     1. Signup
@@ -31,12 +32,14 @@ class AuthNeonRepo implements AuthRepo {
   //   Login
   login = async (email: string, password: string): Promise<User | null> => {
     try {
-      const user = await sql`
+      const users = await sql`
         SELECT * 
         FROM users
-        WHERE email = ${email} AND password = ${password}
+        WHERE email = ${email} 
         `;
-      return user.length > 0 ? (user[0] as User) : null;
+      const user = users.length > 0 ? (users[0] as User) : null;
+      const isMatch = await bcrypt.compare(password, user!.password);
+      return isMatch ? user : null;
     } catch (error: any) {
       console.error("FAILED TO login in AUTHNEON:", error.message);
       console.error("FAILED TO login in AUTHNEON:", error.stack);
