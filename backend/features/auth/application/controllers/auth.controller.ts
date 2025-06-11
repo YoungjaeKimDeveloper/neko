@@ -10,6 +10,7 @@ import {
   usernameValidation,
 } from "../validations/auth.validation";
 import { generateToken } from "../../../../lib/utils/auth/generateToken";
+import User from "../../domain/entities/user";
 
 const authNeonRepo = new AuthNeonRepo();
 // <params,res,request,query>
@@ -122,4 +123,10 @@ export const login = async (
 export const logout = async (req: Request, res: Response): Promise<any> => {
   res.clearCookie("authToken");
   return res.status(200).json({ success: true, message: "logged out✅" });
+};
+
+//getCurrentUser
+
+export const getCurrentUser = async (req: any, res: Response): Promise<any> => {
+  return res.json(req.user);
 };

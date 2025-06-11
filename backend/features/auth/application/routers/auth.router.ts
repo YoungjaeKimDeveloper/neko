@@ -4,7 +4,13 @@
 
 */
 import express from "express";
-import { login, logout, signup } from "../controllers/auth.controller";
+import {
+  login,
+  logout,
+  signup,
+  getCurrentUser,
+} from "../controllers/auth.controller";
+import { verifyToken } from "../../../../lib/utils/auth/verifyAuth";
 
 const authRouter = express.Router();
 
@@ -15,5 +21,5 @@ authRouter.post("/login", login);
 // logout
 authRouter.post("/logout", logout);
 // getcurrenuUser
-
+authRouter.get("/me", verifyToken, getCurrentUser);
 export default authRouter;
