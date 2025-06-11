@@ -5,29 +5,91 @@
 */
 
 import sql from "../../../db/config/db";
+import User from "../../auth/domain/entities/user";
 import { CreatePostDTO, UpdatePostDTO } from "../domain/dto/post.dto";
 import Post from "../domain/entities/post";
 import PostRepo from "../domain/repo/post.repo";
 
 class PostNeon implements PostRepo {
   // CREATE POST
-  //   createPost =async(post: CreatePostDTO): Promise<Post | null> =>{
-  //     try{
-  //         await sql`
+  createPost = async (post: CreatePostDTO): Promise<Post | null> => {
+    try {
+      const newPost = await sql`
+          INSERT INTO posts(title,content,image_url,user_id)
+          VALUES (
+            ${post.title},${post.content},${post.image_url ?? null},${
+        post.user_id
+      })
+          RETURNING *
+          `;
+      if (newPost == null) {
+        return null;
+      }
+      return newPost[0] as Post;
+    } catch (error: any) {
+      console.error("ERROR IN createPost: ", error.message);
+      console.error("ERROR IN createPost: ", error.stack);
+      return null;
+    }
+  };
 
-  //         `
-  //     }catch(error){
+  fetchPostByUserId = async (params: {
+    userId: string;
+  }): Promise<Post[] | []> => {
+    try {
+      const posts = await sql`
+        SELECT * 
+        FROM posts
+        WHERE user_id= ${params.userId}
+      `;
+      if (posts == null) {
+        return [];
+      }
+      return posts as Post[];
+    } catch (error: any) {
+      console.error("ERROR IN createPost: ", error.message);
+      console.error("ERROR IN createPost: ", error.stack);
+      return [];
+    }
+  };
 
-  //     }
-  //   }
+  updatePost = async (params: UpdatePostDTO): Promise<Post | null> => {
+    try {
+      // Dynamic Object
+      const updateFields: any = {};
+      if (params.updatedTitle != null) updateFields.title = params.updatedTitle;
+      if (params.updatedContent != null)
+        updateFields.content = params.updatedContent;
+      if (params.updatedImageUrl != null)
+        updateFields.image_url = params.updatedImageUrl;
+      // if Nothing to update
+      if (Object.keys(updateFields).length === 0) return null;
 
-  fetchPostByUserId(params: { userId: string }): Promise<Post[] | []> {
-    throw new Error("Method not implemented.");
-  }
-  updatePost(params: UpdatePostDTO): Promise<Post | null> {
-    throw new Error("Method not implemented.");
-  }
-  deletePost(params: { postId: string }): Promise<void> {
-    throw new Error("Method not implemented.");
-  }
+      const result = await sql`
+        UPDATE posts
+        SET ${sql(updateFields)}
+        WHERE id = ${params.postId}
+        RETURNING *
+      `;
+      return (result[0] as Post) ?? null;
+    } catch (error: any) {
+      console.error("ERROR IN updateFields: ", error.message);
+      console.error("ERROR IN updateFields: ", error.stack);
+      return null;
+    }
+  };
+
+  deletePost = async (params: { postId: string }): Promise<void> => {
+    try {
+      await sql`
+      DELETE FROM posts
+      WHERE id = ${params.postId}
+      RETURNING *
+      `;
+      console.log("POST HAS BEEN DELETED");
+    } catch (error: any) {
+      console.error("ERROR IN deletePost: ", error.message);
+      console.error("ERROR IN deletePost: ", error.stack);
+    }
+  };
 }

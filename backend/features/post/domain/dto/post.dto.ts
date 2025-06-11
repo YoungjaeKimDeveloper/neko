@@ -10,5 +10,4 @@ export interface UpdatePostDTO {
   updatedTitle?: string;
   updatedContent?: string;
   updatedImageUrl?: string;
-  user_id: string;
 }
