@@ -17,7 +17,7 @@ async function createUserTable() {
         created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
       )
     `;
-    console.log("USERs TABLE CREATED✅");
+    console.log("USERS TABLE CREATED✅");
   } catch (error: any) {
     console.error("FAILED TO CREATE USER TABLE MESSAGE: ", error.message);
     console.error("FAILED TO CREATE USER TABLE Trace :", error.stack);

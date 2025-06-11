@@ -8,9 +8,9 @@ async function createPostTable() {
     await sql`
             CREATE TABLE IF NOT EXISTS posts(
                 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-                title VARCHAR(255) NOT NULL,
-                content VARCHAR(255) NOT NULL,
-                image_url VARCHAR(255),
+                title TEXT NOT NULL,
+                content TEXT NOT NULL,
+                image_url TEXT,
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
                 user_id UUID REFERENCES users(id) ON DELETE CASCADE
             )
