@@ -10,6 +10,7 @@ import {
   passwordValidation,
   usernameValidation,
 } from "../validations/auth.validation";
+import { generateToken } from "../../../../lib/utils/auth/generateToken";
 
 const authNeonRepo = new AuthNeonRepo();
 // <params,res,request,query>
@@ -61,11 +62,7 @@ export const signup = async (
     }
     console.log(`New user created ✅: ${user_name}`);
     // 2.Create token
-    const jwtKey = process.env.JWT_SECRET;
-    if (jwtKey == null) {
-      throw new Error("JWT_SECRENT IS NOT EXISTED");
-    }
-    const token = jwt.sign({ email: email }, jwtKey);
+    const token = generateToken(newUser.email);
     res.cookie("authToken", token, {
       httpOnly: true,
       // Q -?
@@ -104,11 +101,7 @@ export const login = async (
         message: "INVALID USER ",
       });
     }
-    const jwtKey = process.env.JWT_SECRET;
-    if (jwtKey == null) {
-      throw new Error("JWT_SECRENT IS NOT EXISTED");
-    }
-    const token = jwt.sign({ email: email }, jwtKey);
+    const token = generateToken(email);
     res.cookie("authToken", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -124,3 +117,5 @@ export const login = async (
     });
   }
 };
+
+// import jwt from "jsonwebtoken";
