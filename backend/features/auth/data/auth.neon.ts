@@ -1,12 +1,14 @@
 /*
     Implement core logic based on authRepo
+    1. Signup
+    2. Login
 */
 
 import sql from "../../../db/config/db";
 import User from "../domain/entities/user";
 import { AuthRepo } from "../domain/repo/auth.repo";
 
-class AuthNeonRpo implements AuthRepo {
+class AuthNeonRepo implements AuthRepo {
   // Signup
   signUp = async (
     email: string,
@@ -42,3 +44,5 @@ class AuthNeonRpo implements AuthRepo {
     }
   };
 }
+
+export default AuthNeonRepo;
