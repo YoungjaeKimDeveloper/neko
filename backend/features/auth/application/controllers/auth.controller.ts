@@ -36,6 +36,7 @@ export const signup = async (
     }
     // Validation - 2
     const existedEmail = await emailValidation(email);
+    console.log(`existedEmail:${existedEmail}`);
     if (existedEmail) {
       return res
         .status(500)
