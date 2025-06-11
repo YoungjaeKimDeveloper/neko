@@ -1,3 +1,4 @@
+import { CreatePostDTO, UpdatePostDTO } from "../dto/post.dto";
 import Post from "../entities/post";
 
 /*
@@ -10,20 +11,6 @@ import Post from "../entities/post";
 */
 
 // CREATE POST DTO INTERFACE
-interface CreatePostDTO {
-  title: string;
-  content: string;
-  image_url: string;
-  user_id: string;
-}
-// UPDATE POST DTO INTERFACE
-interface UpdatePostDTO {
-  postId: string;
-  updatedTitle?: string;
-  updatedContent?: string;
-  updatedImageUrl?: string;
-  user_id: string;
-}
 
 export default interface PostRepo {
   // CREATE

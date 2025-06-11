@@ -1,6 +1,6 @@
 import { ResponseDTO } from "../../../../lib/dto/response.dto";
 import AuthNeonRepo from "../../data/auth.neon";
-import { LoginDTO, SignUpDTO } from "../dto/request/auth.request.dto";
+import { LoginDTO, SignUpDTO } from "../../domain/dto/request/auth.request.dto";
 import { Response, Request } from "express";
 
 import bcrypt from "bcrypt";
