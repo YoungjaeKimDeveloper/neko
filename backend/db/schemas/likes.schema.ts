@@ -4,9 +4,9 @@ async function createLikeTable() {
   try {
     await sql`
         CREATE TABLE IF NOT EXISTS likes(
-            id uuid PRIMARY KEY DEFAULT gen_random_uuid() ,
-            user_id uuid UNIQUE REFERENCES users(id),
-            post_id uuid UNIQUE REFERENCES posts(id)
+            user_id uuid REFERENCES users(id),
+            post_id uuid REFERENCES posts(id),
+            PRIMARY KEY (user_id,post_id)
         )        
     `;
     console.log("LIKES TABLE CREATED✅");
