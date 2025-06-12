@@ -1,5 +1,5 @@
 import { ResponseDTO } from "../../../../lib/dto/response.dto";
-import AuthNeonRepo from "../../data/auth.neon";
+import AuthNeonRepo from "../../data/auth.neon.repo";
 import { LoginDTO, SignUpDTO } from "../../domain/dto/request/auth.request.dto";
 import { Response, Request } from "express";
 

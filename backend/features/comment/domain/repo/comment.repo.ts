@@ -8,7 +8,7 @@ import Comment from "../entity/comment";
 
 */
 
-export default interface CommentRepo {
+export interface CommentRepo {
   createComment(comment: CommentRequestDTO): Promise<Comment | null>;
   deleteComment(params: { id: string }): Promise<void>;
 }
