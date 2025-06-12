@@ -10,4 +10,5 @@ export interface UpdatePostDTO {
   updatedTitle?: string;
   updatedContent?: string;
   updatedImageUrl?: string;
+  updated_at?: Date;
 }

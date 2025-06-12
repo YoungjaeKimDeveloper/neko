@@ -56,18 +56,14 @@ class PostNeon implements PostRepo {
   updatePost = async (params: UpdatePostDTO): Promise<Post | null> => {
     try {
       // Dynamic Object
-      const updateFields: any = {};
-      if (params.updatedTitle != null) updateFields.title = params.updatedTitle;
-      if (params.updatedContent != null)
-        updateFields.content = params.updatedContent;
-      if (params.updatedImageUrl != null)
-        updateFields.image_url = params.updatedImageUrl;
-      // if Nothing to update
-      if (Object.keys(updateFields).length === 0) return null;
 
       const result = await sql`
         UPDATE posts
-        SET ${sql(updateFields)}
+        SET 
+        title = ${params.updatedTitle},
+        content = ${params.updatedContent},
+        image_url = ${params.updatedImageUrl}
+        updated_at = now()
         WHERE id = ${params.postId}
         RETURNING *
       `;

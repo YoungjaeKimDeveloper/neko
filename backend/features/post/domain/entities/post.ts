@@ -9,5 +9,7 @@ export default interface Post {
   content: string;
   image_url?: string;
   user_id: string;
+
   created_at?: Date;
+  updated_at: Date;
 }

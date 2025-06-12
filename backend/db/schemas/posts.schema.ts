@@ -12,6 +12,7 @@ async function createPostTable() {
                 content TEXT NOT NULL,
                 image_url TEXT,
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+                updated_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
                 user_id UUID REFERENCES users(id) ON DELETE CASCADE
             )
         `;
