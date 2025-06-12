@@ -4,8 +4,8 @@ async function createLikeTable() {
   try {
     await sql`
         CREATE TABLE IF NOT EXISTS likes(
-            user_id uuid REFERENCES users(id),
-            post_id uuid REFERENCES posts(id),
+            user_id uuid REFERENCES users(id) ON DELETE CASCADE,
+            post_id uuid REFERENCES posts(id) ON DELETE CASCADE,
             PRIMARY KEY (user_id,post_id)
         )        
     `;
