@@ -1,3 +1,8 @@
+import {
+  DeleteNotificationDTO,
+  FetchNotificationByUserIdDTO,
+  ReadNotificationDTO,
+} from "./../dto/notification.dto";
 /*
 
     CORE LOGIC for Notification - CONTRACT
@@ -6,8 +11,17 @@
     3. Delete Notification
 */
 
+import { CreateNotificationDTO } from "../dto/notification.dto";
+
 export default interface NotificationRepo {
-  createNotification(): Promise<Notification | null>;
-  readNotification(): Promise<Notification | null>;
-  deleteNotification(): Promise<Notification | null>;
+  createNotification(
+    notification: CreateNotificationDTO
+  ): Promise<Notification | null>;
+  fetchNotificationByUserId(
+    params: FetchNotificationByUserIdDTO
+  ): Promise<Notification[] | []>;
+  readNotification(params: ReadNotificationDTO): Promise<Notification | null>;
+  deleteNotification(
+    params: DeleteNotificationDTO
+  ): Promise<Notification | null>;
 }

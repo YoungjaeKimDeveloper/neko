@@ -1,6 +1,7 @@
 /*
 
     Notification DTO
+    - Data Transfer Object
 
 */
 
@@ -13,14 +14,14 @@ export interface CreateNotificationDTO {
   related_post_id: string;
 }
 
-export interface fetchNotificationBYUserIDDTO {
+export interface FetchNotificationByUserIdDTO {
   user_id: string;
 }
 
-export interface readNotificationDTO {
+export interface ReadNotificationDTO {
   id: string;
 }
 
-export interface deleteNotificationDTO {
+export interface DeleteNotificationDTO {
   id: string;
 }
