@@ -5,13 +5,13 @@
 */
 
 // key(lowerCase): Value(upperCase)
-enum NotificationType {
+export enum NotificationType {
   comment = "COMMENT",
   like = "LIKE",
 }
 
 export default interface Notification {
-  id: string;
+  id?: string;
   type: NotificationType;
   is_read: boolean;
   user_id: string;

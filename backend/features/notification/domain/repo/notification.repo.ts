@@ -6,5 +6,8 @@
     3. Delete Notification
 */
 
-
-export default
+export default interface NotificationRepo {
+  createNotification(): Promise<Notification | null>;
+  readNotification(): Promise<Notification | null>;
+  deleteNotification(): Promise<Notification | null>;
+}
