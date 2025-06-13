@@ -42,16 +42,16 @@ export const verifyToken = async (
     console.log(`user email ${userEmail}`);
 
     const user = await sql`
-    SELECT * 
+    SELECT id,email,user_name,user_profile_image,location,created_at
     FROM users
     WHERE email = ${userEmail} 
     `;
-    if (!user) {
+    if (!user || user.length == 0) {
       return res
         .status(404)
         .json({ success: false, message: "User is not existed" });
     }
-    req.user = user;
+    req.user = user[0];
     next();
   } catch (error) {
     console.error("Failed to verify Token");
