@@ -19,9 +19,9 @@ export interface FetchNotificationByUserIdDTO {
 }
 
 export interface ReadNotificationDTO {
-  id: string;
+  notificationId: string;
 }
 
 export interface DeleteNotificationDTO {
-  id: string;
+  notificationId: string;
 }

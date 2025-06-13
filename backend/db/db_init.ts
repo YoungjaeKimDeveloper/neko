@@ -1,6 +1,6 @@
 import createCommentTable from "./schemas/comments.chema";
 import createLikeTable from "./schemas/likes.schema";
-import createNotificationTable from "./schemas/notification";
+import createNotificationTable from "./schemas/notification.schema";
 import createPostTable from "./schemas/posts.schema";
 import createUserTable from "./schemas/users.schema";
 

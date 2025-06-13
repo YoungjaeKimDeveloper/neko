@@ -22,8 +22,8 @@ app.use("/api/auth", authRouter);
 app.listen(PORT, async () => {
   try {
     await initDB();
-    console.log(`SERVER IS RUNNING IN ${PORT}`);
+    console.log(`SERVER IS RUNNING IN ${PORT}💨`);
   } catch (error: any) {
-    console.error(`FAILED TO RUN SERVER ${error.message}`);
+    console.error(`FAILED TO RUN SERVER ${error.message}❌`);
   }
 });
