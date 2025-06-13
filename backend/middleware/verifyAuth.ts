@@ -8,6 +8,7 @@ import sql from "../db/config/db";
 */
 import { Request, Response, NextFunction } from "express";
 import { ResponseDTO } from "../lib/dto/response.dto";
+import User from "../features/auth/domain/entities/user";
 
 interface VerifiedRequest extends Request {
   user?: any;
@@ -51,7 +52,7 @@ export const verifyToken = async (
         .status(404)
         .json({ success: false, message: "User is not existed" });
     }
-    req.user = user[0];
+    req.user = user[0] as User;
     next();
   } catch (error) {
     console.error("Failed to verify Token");

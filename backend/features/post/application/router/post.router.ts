@@ -10,7 +10,6 @@ import { createPost } from "../controllers/post.controller";
  4.deletePost
 */
 
-import { Express } from "express";
 import { verifyToken } from "../../../../middleware/verifyAuth";
 
 const postRouter = express.Router();
