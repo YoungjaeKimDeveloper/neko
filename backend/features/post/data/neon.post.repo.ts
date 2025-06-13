@@ -10,7 +10,7 @@ import { CreatePostDTO, UpdatePostDTO } from "../domain/dto/post.dto";
 import Post from "../domain/entities/post";
 import PostRepo from "../domain/repo/post.repo";
 
-class PostNeon implements PostRepo {
+class NeonPostRepo implements PostRepo {
   // CREATE POST
   createPost = async (post: CreatePostDTO): Promise<Post | null> => {
     try {
@@ -89,3 +89,5 @@ class PostNeon implements PostRepo {
     }
   };
 }
+
+export default NeonPostRepo;

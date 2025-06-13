@@ -1,7 +1,7 @@
 export interface CreatePostDTO {
   title: string;
   content: string;
-  image_url: string;
+  image_url?: string;
   user_id: string;
 }
 // UPDATE POST DTO INTERFACE

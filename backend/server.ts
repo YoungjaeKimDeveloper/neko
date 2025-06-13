@@ -1,10 +1,14 @@
+// External library
 import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
-import initDB from "./db/db_init";
 import cookieParser from "cookie-parser";
+// Internal modules
+import initDB from "./db/db_init";
+// Internal Routers
 import authRouter from "./features/auth/application/routers/auth.router";
-import { Request, Response } from "express";
+import postRouter from "./features/post/application/router/post.router";
+
 dotenv.config();
 const PORT = process.env.PORT || 8000;
 
@@ -17,8 +21,11 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
 // ROUTER SRP
-
+// auth
 app.use("/api/auth", authRouter);
+// post
+app.use("/api/post", postRouter);
+// Server
 app.listen(PORT, async () => {
   try {
     await initDB();
