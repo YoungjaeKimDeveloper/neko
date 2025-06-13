@@ -62,7 +62,7 @@ class NeonPostRepo implements PostRepo {
         SET 
         title = ${params.updatedTitle},
         content = ${params.updatedContent},
-        image_url = ${params.updatedImageUrl}
+        image_url = ${params.updatedImageUrl},
         updated_at = now()
         WHERE id = ${params.postId}
         RETURNING *

@@ -15,7 +15,7 @@ import { verifyToken } from "../../../../middleware/verifyAuth";
 const postRouter = express.Router();
 
 // create
-postRouter.post("/post", verifyToken, createPost);
+postRouter.post("/createNewPost", verifyToken, createPost);
 
 // fetchPostByUserId
 
