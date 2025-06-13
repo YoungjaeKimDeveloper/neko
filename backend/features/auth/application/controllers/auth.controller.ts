@@ -9,7 +9,7 @@ import {
   passwordValidation,
   usernameValidation,
 } from "../validations/auth.validation";
-import { generateToken } from "../../../../lib/utils/auth/generateToken";
+import { generateToken } from "../token/generateToken";
 import User from "../../domain/entities/user";
 
 const authNeonRepo = new AuthNeonRepo();

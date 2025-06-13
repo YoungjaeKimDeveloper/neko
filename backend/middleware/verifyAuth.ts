@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import sql from "../../../db/config/db";
+import sql from "../db/config/db";
 /*
 
     Verify Token
@@ -7,7 +7,7 @@ import sql from "../../../db/config/db";
 
 */
 import { Request, Response, NextFunction } from "express";
-import { ResponseDTO } from "../../dto/response.dto";
+import { ResponseDTO } from "../lib/dto/response.dto";
 
 interface VerifiedRequest extends Request {
   user?: any;
@@ -33,7 +33,7 @@ export const verifyToken = async (
         .json({ success: false, message: "Secret key is not existed" });
     }
     const decoded = jwt.verify(token, secretKey) as jwt.JwtPayload;
-    const userEmail = decoded.email;
+    const userEmail = decoded?.email;
     if (!userEmail) {
       return res
         .status(404)

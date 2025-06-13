@@ -10,7 +10,7 @@ import {
   signup,
   getCurrentUser,
 } from "../controllers/auth.controller";
-import { verifyToken } from "../../../../lib/utils/auth/verifyAuth";
+import { verifyToken } from "../../../../middleware/verifyAuth";
 
 const authRouter = express.Router();
 
