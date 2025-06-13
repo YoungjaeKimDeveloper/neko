@@ -9,6 +9,8 @@ export default interface Post {
   content: string;
   image_url?: string;
   user_id: string;
+  is_found?: boolean;
+  reward_amount?: number;
 
   created_at?: Date;
   updated_at?: Date;

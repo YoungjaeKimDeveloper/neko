@@ -15,11 +15,14 @@ class NeonPostRepo implements PostRepo {
   createPost = async (post: CreatePostDTO): Promise<Post | null> => {
     try {
       const newPost = await sql`
-          INSERT INTO posts(title,content,image_url,user_id)
+          INSERT INTO posts(title,content,image_url,reward_amount,location, user_id)
           VALUES (
-            ${post.title},${post.content},${post.image_url ?? null},${
-        post.user_id
-      })
+            ${post.title},
+            ${post.content},
+            ${post.image_url ?? null},
+            ${post.reward_amount ?? 0},
+            ${post.location}, 
+            ${post.user_id})
           RETURNING *
           `;
       if (newPost == null) {
