@@ -114,7 +114,7 @@ export const updatePost = async (req: Request, res: Response<ResponseDTO>) => {
     // Validation - 0
     if (!postId || postId == null) {
       return res
-        .status(404)
+        .status(401)
         .json({ success: false, message: "Post Id is required" });
     }
 
@@ -136,7 +136,9 @@ export const updatePost = async (req: Request, res: Response<ResponseDTO>) => {
       result;
     const newTitle = updated_title ?? title;
     const newContent = updated_content ?? content;
-    const newImageUrl = updated_imageUrl ?? image_url;
+    const newImageUrl = updated_imageUrl
+      ? (await cloudinary.uploader.upload(updated_imageUrl)).secure_url
+      : image_url;
     const newRewardAmount = updated_reward_amount ?? reward_amount;
     const newlLcation = upDated_location ?? location;
     const newIsFound = updated_is_found ?? is_found;
@@ -163,5 +165,49 @@ export const updatePost = async (req: Request, res: Response<ResponseDTO>) => {
     return res
       .status(500)
       .json({ success: false, message: "Error in update Post" });
+  }
+};
+// Delete Post
+export const deletePost = async (req: Request, res: Response<ResponseDTO>) => {
+  try {
+    if (!(req as VerifiedUserRequest).user) {
+      return res.status(401).json({ success: false, message: "INVALUD USER" });
+    }
+    const userId = (req as VerifiedUserRequest).user.id;
+    const postId = req.params.postId;
+    // Validation - 0
+    if (!postId || postId == null) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Post Id is required" });
+    }
+    const result = await neonPostRepo.fetchSinglePost({ postId });
+    // Validation - 1
+    if (result == null) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Cannot find the post" });
+    }
+    // Validation - 1
+    if (result.user_id !== userId) {
+      return res
+        .status(401)
+        .json({ success: false, message: "UNAUTHORIZED TO EDIT THE POST" });
+    }
+    //
+    const deletedResult = await neonPostRepo.deletePost({ postId });
+    if (deletedResult == null) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Failed to delete the post" });
+    }
+    return res
+      .status(201)
+      .json({ success: true, message: "Post has been deleted" });
+  } catch (error) {
+    errorLog({ location: "delete", error: error });
+    return res
+      .status(500)
+      .json({ success: false, message: "Error in delet Post" });
   }
 };
