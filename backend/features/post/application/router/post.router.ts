@@ -19,7 +19,7 @@ postRouter.post("/create-new-post", createPost);
 // fetchPostByUserId
 postRouter.get("/fetch-posts-by-userId", createPost);
 // updatePost
-
+postRouter.put("/update/:postId")
 // deletePost
 
 export default postRouter;

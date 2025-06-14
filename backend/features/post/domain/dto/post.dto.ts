@@ -9,11 +9,11 @@ export interface CreatePostDTO {
 // UPDATE POST DTO INTERFACE
 export interface UpdatePostDTO {
   postId: string;
-  updatedTitle?: string;
-  updatedContent?: string;
-  updatedImageUrl?: string;
-  reward_amount?: number;
-  location?: string;
-  is_found?: boolean;
+  updated_title?: string;
+  updated_content?: string;
+  updated_imageUrl?: string;
+  updated_reward_amount?: number;
+  upDated_location?: string;
+  updated_is_found?: boolean;
   updated_at?: Date;
 }

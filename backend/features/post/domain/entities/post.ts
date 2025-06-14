@@ -11,7 +11,7 @@ export default interface Post {
   user_id: string;
   is_found?: boolean;
   reward_amount?: number;
-
+  location?: string;
   created_at?: Date;
   updated_at?: Date;
 }

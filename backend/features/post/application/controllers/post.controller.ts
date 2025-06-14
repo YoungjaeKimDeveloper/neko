@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import User from "../../../auth/domain/entities/user";
 import cloudinary from "../../../../lib/cloudinary/cloudinary.config";
-import { CreatePostDTO } from "../../domain/dto/post.dto";
+import { CreatePostDTO, UpdatePostDTO } from "../../domain/dto/post.dto";
 import { ResponseDTO } from "../../../../lib/dto/response.dto";
 import NeonPostRepo from "../../data/neon.post.repo";
 import { errorLog } from "../../../../lib/utils/error/error.log";
@@ -75,7 +75,10 @@ export const createPost = async (
   }
 };
 
-export const fetchPosts = async (req: Request, res: Response<ResponseDTO>) => {
+export const fetchPostsByUserId = async (
+  req: Request,
+  res: Response<ResponseDTO>
+) => {
   try {
     if (!(req as VerifiedUserRequest).user) {
       return res.status(401).json({ success: false, message: "INVALUD USER" });
@@ -90,5 +93,75 @@ export const fetchPosts = async (req: Request, res: Response<ResponseDTO>) => {
     return res
       .status(500)
       .json({ success: false, message: "Internal ERROR in fetch posts" });
+  }
+};
+
+export const updatePost = async (req: Request, res: Response<ResponseDTO>) => {
+  try {
+    if (!(req as VerifiedUserRequest).user) {
+      return res.status(401).json({ success: false, message: "INVALUD USER" });
+    }
+    const userId = (req as VerifiedUserRequest).user.id;
+    const postId = req.params.postId;
+    const {
+      updated_title,
+      updated_content,
+      updated_imageUrl,
+      updated_reward_amount,
+      upDated_location,
+      updated_is_found,
+    }: UpdatePostDTO = req.body;
+    // Validation - 0
+    if (!postId || postId == null) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Post Id is required" });
+    }
+
+    // post
+    const result = await neonPostRepo.fetchSinglePost({ postId });
+    // Validation - 1
+    if (result == null) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Cannof find the post" });
+    }
+    if (result.user_id !== userId) {
+      return res
+        .status(401)
+        .json({ success: false, message: "UNAUTHORIZED TO EDIT THE POST" });
+    }
+    // New Values
+    const { title, content, image_url, reward_amount, location, is_found } =
+      result;
+    const newTitle = updated_title ?? title;
+    const newContent = updated_content ?? content;
+    const newImageUrl = updated_imageUrl ?? image_url;
+    const newRewardAmount = updated_reward_amount ?? reward_amount;
+    const newlLcation = upDated_location ?? location;
+    const newIsFound = updated_is_found ?? is_found;
+
+    const updatedResult = await neonPostRepo.updatePost({
+      postId,
+      updated_title: newTitle,
+      updated_content: newContent,
+      updated_imageUrl: newImageUrl,
+      updated_reward_amount: newRewardAmount,
+      upDated_location: newlLcation,
+      updated_is_found: newIsFound,
+    });
+    if (updatedResult == null) {
+      return res
+        .status(500)
+        .json({ success: false, message: "Failed to update Post" });
+    }
+    return res
+      .status(201)
+      .json({ success: true, message: "Post Updated", data: result });
+  } catch (error) {
+    errorLog({ location: "updatePost", error: error });
+    return res
+      .status(500)
+      .json({ success: false, message: "Error in update Post" });
   }
 };

@@ -5,6 +5,7 @@
 */
 
 import sql from "../../../db/config/db";
+import { errorLog } from "../../../lib/utils/error/error.log";
 import User from "../../auth/domain/entities/user";
 import { CreatePostDTO, UpdatePostDTO } from "../domain/dto/post.dto";
 import Post from "../domain/entities/post";
@@ -43,7 +44,7 @@ class NeonPostRepo implements PostRepo {
       const posts = await sql`
         SELECT * 
         FROM posts
-        WHERE user_id= ${params.userId}
+        WHERE id= ${params.userId}
       `;
       if (posts == null) {
         return [];
@@ -63,12 +64,12 @@ class NeonPostRepo implements PostRepo {
       const result = await sql`
         UPDATE posts
         SET 
-        title = ${params.updatedTitle},
-        content = ${params.updatedContent},
-        image_url = ${params.updatedImageUrl},
-        location = ${params.location},
-        reward_amount= ${params.reward_amount},
-        is_found = ${params.is_found},
+        title = ${params.updated_title},
+        content = ${params.updated_content},
+        image_url = ${params.updated_imageUrl},
+        location = ${params.upDated_location},
+        reward_amount= ${params.updated_reward_amount},
+        is_found = ${params.updated_is_found},
         updated_at = now()
         WHERE id = ${params.postId}
         RETURNING *
@@ -92,6 +93,25 @@ class NeonPostRepo implements PostRepo {
     } catch (error: any) {
       console.error("ERROR IN deletePost: ", error.message);
       console.error("ERROR IN deletePost: ", error.stack);
+    }
+  };
+  // + fetch single item to match the writer and looged user
+  fetchSinglePost = async (params: {
+    postId: string;
+  }): Promise<Post | null> => {
+    try {
+      const posts = await sql`
+        SELECT * 
+        FROM posts
+        WHERE post_id= ${params.postId}
+      `;
+      if (posts == null) {
+        return null;
+      }
+      return posts[0] as Post;
+    } catch (error: any) {
+      errorLog({ location: "FetchSingle Post", error });
+      return null;
     }
   };
 }
