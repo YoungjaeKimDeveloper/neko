@@ -1,10 +1,10 @@
 export interface CreatePostDTO {
   title: string;
   content: string;
+  location: string;
+  user_id: string;
   image_url?: string;
   reward_amount?: number;
-  location?: string;
-  user_id: string;
 }
 // UPDATE POST DTO INTERFACE
 export interface UpdatePostDTO {

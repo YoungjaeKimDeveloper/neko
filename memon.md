@@ -23,3 +23,5 @@
 
 1. ✅ Implement Notification - Data layer with Neon
 2. Implement Post application layer
+
+14/06 0. shared file 만들기

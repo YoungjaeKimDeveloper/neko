@@ -36,7 +36,7 @@ class NeonPostRepo implements PostRepo {
     }
   };
 
-  fetchPostByUserId = async (params: {
+  fetchPostsByUserId = async (params: {
     userId: string;
   }): Promise<Post[] | []> => {
     try {

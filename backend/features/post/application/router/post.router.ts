@@ -13,12 +13,11 @@ import { createPost } from "../controllers/post.controller";
 import { verifyToken } from "../../../../middleware/verifyAuth";
 
 const postRouter = express.Router();
-
+postRouter.use(verifyToken);
 // create
-postRouter.post("/createNewPost", verifyToken, createPost);
-
+postRouter.post("/create-new-post", createPost);
 // fetchPostByUserId
-
+postRouter.get("/fetch-posts-by-userId", createPost);
 // updatePost
 
 // deletePost
