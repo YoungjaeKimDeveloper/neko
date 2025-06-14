@@ -13,6 +13,8 @@ import { errorLog } from "../../../../lib/utils/error/error.log";
     3.update 
     4. delete Post
 
+  -- Needs to create Validation
+
 */
 // Neon Instance
 const neonPostRepo = new NeonPostRepo();
@@ -96,7 +98,10 @@ export const fetchPostsByUserId = async (
   }
 };
 
-export const updatePost = async (req: Request, res: Response<ResponseDTO>) => {
+export const updatePost = async (
+  req: Request,
+  res: Response<ResponseDTO>
+): Promise<any> => {
   try {
     if (!(req as VerifiedUserRequest).user) {
       return res.status(401).json({ success: false, message: "INVALUD USER" });
@@ -168,7 +173,10 @@ export const updatePost = async (req: Request, res: Response<ResponseDTO>) => {
   }
 };
 // Delete Post
-export const deletePost = async (req: Request, res: Response<ResponseDTO>) => {
+export const deletePost = async (
+  req: Request,
+  res: Response<ResponseDTO>
+): Promise<any> => {
   try {
     if (!(req as VerifiedUserRequest).user) {
       return res.status(401).json({ success: false, message: "INVALUD USER" });

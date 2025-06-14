@@ -1,5 +1,9 @@
 import express from "express";
-import { createPost } from "../controllers/post.controller";
+import {
+  createPost,
+  deletePost,
+  updatePost,
+} from "../controllers/post.controller";
 /*
  - Express is singleton but rotuer is not single
 
@@ -19,7 +23,9 @@ postRouter.post("/create-new-post", createPost);
 // fetchPostByUserId
 postRouter.get("/fetch-posts-by-userId", createPost);
 // updatePost
-postRouter.put("/update/:postId")
+postRouter.put("/update/:postId", updatePost);
+// updatePost
+postRouter.delete("/update/:postId", deletePost);
 // deletePost
 
 export default postRouter;
