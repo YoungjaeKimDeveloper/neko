@@ -9,7 +9,7 @@ import {
   logout,
   signup,
   getCurrentUser,
-} from "../controllers/auth.controller";
+} from "../controller/auth.controller";
 import { verifyToken } from "../../../../middleware/verifyAuth";
 
 const authRouter = express.Router();

@@ -6,7 +6,7 @@ import cookieParser from "cookie-parser";
 // Internal modules
 import initDB from "./db/db_init";
 // Internal Routers
-import authRouter from "./features/auth/application/routers/auth.router";
+import authRouter from "./features/auth/application/router/auth.router";
 import postRouter from "./features/post/application/router/post.router";
 
 dotenv.config();
