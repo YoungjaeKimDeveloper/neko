@@ -1,4 +1,3 @@
-import express from "express";
 /*
 
     Notification - Router
@@ -7,14 +6,22 @@ import express from "express";
     2. delete notification
 
     REST - REpresentational State Transfer 
-    /entity(resource)/identifier/action
+    /entity/identifier/action
 
 */
+import express from "express";
+import { verifyToken } from "../../../../middleware/verifyAuth";
+
+import {
+  fetchNotification,
+  readNotification,
+} from "../controller/notification.controller";
 
 const router = express.Router();
+router.use(verifyToken);
 // 0. fetchNotificationByUserId
-router.get("/notifications", fetchNotifications);
+router.get("/notifications", fetchNotification);
 // 1. read notification
-router.put("/notifications/:id/read", readNotification);
-// 1. delete notification
+router.put("/notifications/:notificationId/read", readNotification);
+// 2. delete notification
 router.delete("/notifications/:id", deleteNotification);

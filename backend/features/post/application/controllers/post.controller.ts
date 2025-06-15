@@ -18,7 +18,7 @@ import { errorLog } from "../../../../lib/utils/error/error.log";
 */
 // Neon Instance
 const neonPostRepo = new NeonPostRepo();
-interface VerifiedUserRequest extends Request {
+export interface VerifiedUserRequest extends Request {
   user: User;
 }
 
