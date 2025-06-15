@@ -15,6 +15,7 @@ import { verifyToken } from "../../../../middleware/verifyAuth";
 import {
   fetchNotification,
   readNotification,
+  deleteNotification,
 } from "../controller/notification.controller";
 
 const router = express.Router();
@@ -24,4 +25,4 @@ router.get("/notifications", fetchNotification);
 // 1. read notification
 router.put("/notifications/:notificationId/read", readNotification);
 // 2. delete notification
-router.delete("/notifications/:id", deleteNotification);
+router.delete("/notifications/:notificationId", deleteNotification);

@@ -38,14 +38,14 @@ export const readNotification = async (
   res: Response
 ): Promise<any> => {
   try {
-    const postId = req.params.notificationId;
-    if (!postId) {
+    const notificationId = req.params.notificationId;
+    if (!notificationId) {
       return res
         .status(401)
         .json({ success: false, message: "NotificationID is required" });
     }
     const result = await neonNotificationRepo.readNotification({
-      notificationId: postId,
+      notificationId: notificationId,
     });
     if (result == null) {
       return res
@@ -55,6 +55,39 @@ export const readNotification = async (
     return res.status(201).json({
       success: true,
       message: "Read the notification successfully",
+      data: result,
+    });
+  } catch (error) {
+    errorLog({ location: "Read Notification", error });
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Error in read Notification" });
+  }
+};
+
+// delete Notification
+export const deleteNotification = async (
+  req: Request,
+  res: Response<ResponseDTO>
+): Promise<any> => {
+  try {
+    const notificationId = req.params.notificationId;
+    if (!notificationId) {
+      return res
+        .status(401)
+        .json({ success: false, message: "NotificationID is required" });
+    }
+    const result = await neonNotificationRepo.deleteNotification({
+      notificationId: notificationId,
+    });
+    if (result == null) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Cannot find the notification" });
+    }
+    return res.status(201).json({
+      success: true,
+      message: "Delete the notification successfully",
       data: result,
     });
   } catch (error) {
