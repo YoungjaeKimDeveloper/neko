@@ -26,3 +26,5 @@ router.get("/notifications", fetchNotification);
 router.put("/notifications/:notificationId/read", readNotification);
 // 2. delete notification
 router.delete("/notifications/:notificationId", deleteNotification);
+
+export default router;

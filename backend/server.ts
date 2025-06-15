@@ -8,7 +8,7 @@ import initDB from "./db/db_init";
 // Internal Routers
 import authRouter from "./features/auth/application/router/auth.router";
 import postRouter from "./features/post/application/router/post.router";
-
+import notificationRouter from "./features/notification/application/router/notification.router";
 dotenv.config();
 const PORT = process.env.PORT || 8000;
 
@@ -25,6 +25,8 @@ app.use(cookieParser());
 app.use("/api/auth", authRouter);
 // post
 app.use("/api/post", postRouter);
+// notification
+app.use("/api/notification", notificationRouter);
 // Server
 app.listen(PORT, async () => {
   try {
