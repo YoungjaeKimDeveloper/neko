@@ -5,13 +5,16 @@ import express from "express";
     0. fetchNotificationByUserId
     1. read notification
     2. delete notification
-    
+
+    REST - REpresentational State Transfer 
+    /entity(resource)/identifier/action
+
 */
 
 const router = express.Router();
 // 0. fetchNotificationByUserId
-router.get("/fetchNotifications", fetchNotifications);
+router.get("/notifications", fetchNotifications);
 // 1. read notification
-router.put("/read/:id",readNotification)
+router.put("/notifications/:id/read", readNotification);
 // 1. delete notification
-router.delete("/delete/:id",deleteNotification)
+router.delete("/notifications/:id", deleteNotification);
