@@ -13,6 +13,7 @@ import {
   DeleteNotificationDTO,
 } from "../domain/dto/notification.dto";
 import NotificationRepo from "../domain/repo/notification.repo";
+import Notification from "../domain/entity/notification";
 import { errorLog } from "../../../lib/utils/error/error.log";
 
 class NeonNotificationRepo implements NotificationRepo {
@@ -79,3 +80,4 @@ class NeonNotificationRepo implements NotificationRepo {
     }
   };
 }
+export default NeonNotificationRepo;

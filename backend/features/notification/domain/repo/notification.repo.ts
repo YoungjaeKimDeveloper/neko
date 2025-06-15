@@ -3,6 +3,7 @@ import {
   FetchNotificationByUserIdDTO,
   ReadNotificationDTO,
 } from "./../dto/notification.dto";
+import Notification from "../entity/notification";
 /*
 
     CORE LOGIC for Notification - CONTRACT
