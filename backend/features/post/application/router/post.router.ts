@@ -2,6 +2,7 @@ import express from "express";
 import {
   createPost,
   deletePost,
+  fetchPostsByUserId,
   updatePost,
 } from "../controllers/post.controller";
 /*
@@ -19,13 +20,13 @@ import { verifyToken } from "../../../../middleware/verifyAuth";
 const postRouter = express.Router();
 postRouter.use(verifyToken);
 // create
-postRouter.post("/create-new-post", createPost);
+postRouter.post("/posts", createPost);
 // fetchPostByUserId
-postRouter.get("/fetch-posts-by-userId", createPost);
+postRouter.get("/user", fetchPostsByUserId);
 // updatePost
-postRouter.put("/update/:postId", updatePost);
+postRouter.put("/:postId", updatePost);
 // updatePost
-postRouter.delete("/update/:postId", deletePost);
+postRouter.delete("/:postId", deletePost);
 // deletePost
 
 export default postRouter;

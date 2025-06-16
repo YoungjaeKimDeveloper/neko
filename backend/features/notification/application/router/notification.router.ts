@@ -23,7 +23,7 @@ router.use(verifyToken);
 // 0. fetchNotificationByUserId
 router.get("/notifications", fetchNotification);
 // 1. read notification
-router.put("/notifications/:notificationId/read", readNotification);
+router.put("/notifications/:notificationId", readNotification);
 // 2. delete notification
 router.delete("/notifications/:notificationId", deleteNotification);
 

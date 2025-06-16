@@ -80,7 +80,7 @@ export const createPost = async (
 export const fetchPostsByUserId = async (
   req: Request,
   res: Response<ResponseDTO>
-) => {
+): Promise<any> => {
   try {
     if (!(req as VerifiedUserRequest).user) {
       return res.status(401).json({ success: false, message: "INVALUD USER" });

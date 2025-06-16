@@ -8,13 +8,15 @@
     5. _ X - > - O
     6. 자원은 항상 복수형 Collection을 의미하니까...
     Auth Functionality
+    7. URL은 항상 자원으로 이야기해야함
+
 
 */
 import express from "express";
 import {
-  login,
-  logout,
-  signup,
+  createUser,
+  issueAuthToken,
+  deleteToken,
   getCurrentUser,
 } from "../controller/auth.controller";
 import { verifyToken } from "../../../../middleware/verifyAuth";
@@ -22,11 +24,11 @@ import { verifyToken } from "../../../../middleware/verifyAuth";
 const authRouter = express.Router();
 
 // singup
-authRouter.post("/signup", signup);
+authRouter.post("/users", createUser);
 // login
-authRouter.post("/login", login);
+authRouter.post("/auth-tokens", issueAuthToken);
 // logout
-authRouter.post("/logout", logout);
+authRouter.post("/auth-tokens", deleteToken);
 // getcurrenuUser
 authRouter.get("/me", verifyToken, getCurrentUser);
 export default authRouter;

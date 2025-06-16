@@ -52,7 +52,7 @@ export const readNotification = async (
         .status(404)
         .json({ success: false, message: "Cannot find the notification" });
     }
-    return res.status(201).json({
+    return res.status(200).json({
       success: true,
       message: "Read the notification successfully",
       data: result,
@@ -85,7 +85,7 @@ export const deleteNotification = async (
         .status(404)
         .json({ success: false, message: "Cannot find the notification" });
     }
-    return res.status(201).json({
+    return res.status(204).json({
       success: true,
       message: "Delete the notification successfully",
       data: result,

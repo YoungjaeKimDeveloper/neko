@@ -14,7 +14,7 @@ import User from "../../domain/entities/user";
 
 const authNeonRepo = new AuthNeonRepo();
 // <params,res,request,query>
-export const signup = async (
+export const createUser = async (
   req: Request<{}, {}, SignUpDTO>,
   res: Response
 ): Promise<any> => {
@@ -82,7 +82,7 @@ export const signup = async (
 };
 
 // login
-export const login = async (
+export const issueAuthToken = async (
   req: Request<{}, {}, LoginDTO>,
   res: Response<ResponseDTO>
 ): Promise<any> => {
@@ -120,7 +120,10 @@ export const login = async (
 };
 
 // logout
-export const logout = async (req: Request, res: Response): Promise<any> => {
+export const deleteToken = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
   res.clearCookie("authToken");
   return res.status(200).json({ success: true, message: "logged out✅" });
 };

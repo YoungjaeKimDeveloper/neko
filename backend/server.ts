@@ -1,3 +1,10 @@
+/*
+
+  RESTful API
+  Representational + State + Transfer
+  API : Application Programming Interface
+  All resources should be plural 
+ */
 // External library
 import express from "express";
 import dotenv from "dotenv";
@@ -24,9 +31,9 @@ app.use(cookieParser());
 // auth
 app.use("/api/auth", authRouter);
 // post
-app.use("/api/post", postRouter);
+app.use("/api/posts", postRouter);
 // notification
-app.use("/api/notification", notificationRouter);
+app.use("/api/notifications", notificationRouter);
 // Server
 app.listen(PORT, async () => {
   try {
