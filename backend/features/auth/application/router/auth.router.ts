@@ -6,6 +6,7 @@
     3./로 계층표현
     4.URL은 소문자로만 URL = Uniform Resource Locator - 인터넷 상 자원의 위치를 말함.
     5. _ X - > - O
+    6. 자원은 항상 복수형 Collection을 의미하니까...
     Auth Functionality
 
 */
