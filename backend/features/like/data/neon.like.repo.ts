@@ -40,3 +40,5 @@ class NeonLikeRepo implements LikeRepo {
     }
   };
 }
+
+export default NeonLikeRepo;

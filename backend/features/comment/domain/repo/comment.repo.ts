@@ -10,5 +10,6 @@ import Comment from "../entity/comment";
 
 export interface CommentRepo {
   createComment(comment: CommentRequestDTO): Promise<Comment | null>;
+  // fetchComments()
   deleteComment(params: { id: string }): Promise<void>;
 }
