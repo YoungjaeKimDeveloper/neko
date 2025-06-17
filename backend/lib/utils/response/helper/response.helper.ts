@@ -7,3 +7,11 @@ export const sendResponse = (params: ResponseInterface) => {
     data: params.data ?? null,
   });
 };
+
+// How to use
+// sendResponse({
+//         res: res,
+//         status: RESPONSE_HTTP,
+//         success: ,
+//         message: `${RESPONSE_MESSAGES.} reason`,
+//       });

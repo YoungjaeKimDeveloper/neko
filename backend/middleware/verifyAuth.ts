@@ -9,6 +9,10 @@ import sql from "../db/config/db";
 import { Request, Response, NextFunction } from "express";
 import { ResponseDTO } from "../lib/dto/response.dto";
 import User from "../features/auth/domain/entities/user";
+import { sendResponse } from "../lib/utils/response/helper/response.helper";
+import { RESPONSE_HTTP } from "../lib/utils/constants/http-status";
+import { RESPONSE_MESSAGES } from "../lib/utils/constants/messages";
+import { errorLog } from "../lib/utils/error/error.log";
 
 interface VerifiedRequest extends Request {
   user?: any;
@@ -22,25 +26,34 @@ export const verifyToken = async (
     const token = req.cookies["authToken"];
     // Validation -1
     if (!token || token == null) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Token is not existed" });
+      return sendResponse({
+        res: res,
+        status: RESPONSE_HTTP.UNAUTHORIZED,
+        success: false,
+        message: `${RESPONSE_MESSAGES.UNAUTHORIZED} can't find the token`,
+      });
     }
     // Validation -1
     const secretKey = process.env.JWT_SECRET;
     if (!secretKey) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Secret key is not existed" });
+      return sendResponse({
+        res: res,
+        status: RESPONSE_HTTP.UNAUTHORIZED,
+        success: false,
+        message: `${RESPONSE_MESSAGES.UNAUTHORIZED} can't find the secret key`,
+      });
     }
     const decoded = jwt.verify(token, secretKey) as jwt.JwtPayload;
     const userEmail = decoded?.email;
     if (!userEmail) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User email key is not existed" });
+      return sendResponse({
+        res: res,
+        status: RESPONSE_HTTP.UNAUTHORIZED,
+        success: false,
+        message: `${RESPONSE_MESSAGES.UNAUTHORIZED} can't find the email`,
+      });
     }
-    console.log(`user email ${userEmail}`);
+    // console.log(`user email ${userEmail}`);
 
     const user = await sql`
     SELECT id,email,user_name,user_profile_image,location,created_at
@@ -48,16 +61,22 @@ export const verifyToken = async (
     WHERE email = ${userEmail} 
     `;
     if (!user || user.length == 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User is not existed" });
+      return sendResponse({
+        res: res,
+        status: RESPONSE_HTTP.NOT_FOUND,
+        success: false,
+        message: `${RESPONSE_MESSAGES.NOT_FOUND} can't find the user`,
+      });
     }
     req.user = user[0] as User;
     next();
   } catch (error) {
-    console.error("Failed to verify Token");
-    return res
-      .status(500)
-      .json({ success: false, message: "Error in Verify Token" });
+    errorLog({ location: "verify Token", error });
+    return sendResponse({
+      res: res,
+      status: RESPONSE_HTTP.INTERNAL,
+      success: false,
+      message: `${RESPONSE_MESSAGES.INTERNAL} verify Token`,
+    });
   }
 };
