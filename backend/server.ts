@@ -17,6 +17,7 @@ import authRouter from "./features/auth/application/router/auth.router";
 import postRouter from "./features/post/application/router/post.router";
 import notificationRouter from "./features/notification/application/router/notification.router";
 import likeRouter from "./features/like/application/routers/like.router";
+import commentRouter from "./features/comment/application/router/comment.router";
 dotenv.config();
 const PORT = process.env.PORT || 8000;
 
@@ -37,6 +38,8 @@ app.use("/api/posts", postRouter);
 app.use("/api/notifications", notificationRouter);
 // like
 app.use("/api/likes", likeRouter);
+// comment
+app.use("/api/comments", commentRouter);
 // Server
 app.listen(PORT, async () => {
   try {
