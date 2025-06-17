@@ -1,6 +1,7 @@
 /*
     CREATE COMMENT
 */
+import { errorLog } from "../../lib/utils/error/error.log";
 import sql from "../config/db";
 
 async function createCommentTable() {
@@ -16,8 +17,8 @@ async function createCommentTable() {
     `;
     console.log("Comment TABLE CREATED✅");
   } catch (error: any) {
-    console.error("FAILED TO CREATE Comment TABLE MESSAGE: ", error.message);
-    console.error("FAILED TO CREATE Comment TABLE Trace :", error.stack);
+    errorLog({ location: "create Comment Table", error });
+    throw new error("Failed to create Comment Table");
   }
 }
 

@@ -5,7 +5,11 @@
  */
 
 import sql from "../../../db/config/db";
-import { CommentRequestDTO } from "../domain/dto/comment.request.dto";
+import { errorLog } from "../../../lib/utils/error/error.log";
+import {
+  CommentDeletetDTO,
+  CommentRequestDTO,
+} from "../domain/dto/comment.request.dto";
 import Comment from "../domain/entity/comment";
 import { CommentRepo } from "../domain/repo/comment.repo";
 
@@ -22,23 +26,21 @@ class NeonCommentRepo implements CommentRepo {
 
       return newComment?.length > 0 ? (newComment[0] as Comment) : null;
     } catch (error: any) {
-      console.error("ERROR IN NeonCommentRepo: ", error.stack);
-      console.error("ERROR IN NeonCommentRepo: ", error.message);
+      errorLog({ location: "Create Comment", error });
       return null;
     }
   };
-  deleteComment = async (params: { id: string }): Promise<void> => {
+  deleteComment = async (params: CommentDeletetDTO): Promise<void> => {
     try {
       await sql`
       DELETE 
       FROM comments
-      WHERE id = ${params.id}
+      WHERE id = ${params.comment_id}
       RETURNING * 
       `;
       console.log("Comment deleted✅");
     } catch (error: any) {
-      console.error("ERROR IN deleteComment: ", error.stack);
-      console.error("ERROR IN deleteComment: ", error.message);
+      errorLog({ location: "Delete Comment", error });
       // 부른쪽에서 catch로 잡게됨
       throw new Error(`ERROR IN deleteComment:  ${error.message}`);
     }

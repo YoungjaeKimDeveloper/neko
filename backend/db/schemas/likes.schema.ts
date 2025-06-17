@@ -1,3 +1,4 @@
+import { errorLog } from "../../lib/utils/error/error.log";
 import sql from "../config/db";
 
 async function createLikeTable() {
@@ -11,8 +12,8 @@ async function createLikeTable() {
     `;
     console.log("LIKES TABLE CREATED✅");
   } catch (error: any) {
-    console.error("FAILED TO CREATE USER TABLE MESSAGE: ", error.message);
-    console.error("FAILED TO CREATE USER TABLE Trace :", error.stack);
+    errorLog({ location: "create like table", error });
+    throw new error("Failed to create comment like table");
   }
 }
 

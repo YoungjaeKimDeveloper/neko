@@ -1,4 +1,7 @@
-import { CommentRequestDTO } from "../dto/comment.request.dto";
+import {
+  CommentDeletetDTO,
+  CommentRequestDTO,
+} from "../dto/comment.request.dto";
 import Comment from "../entity/comment";
 /*
     DDD(Domain-Driven Development)
@@ -11,5 +14,5 @@ import Comment from "../entity/comment";
 export interface CommentRepo {
   createComment(comment: CommentRequestDTO): Promise<Comment | null>;
   // fetchComments()
-  deleteComment(params: { id: string }): Promise<void>;
+  deleteComment(params: CommentDeletetDTO): Promise<void>;
 }

@@ -4,6 +4,7 @@
 
 */
 
+import { errorLog } from "../../lib/utils/error/error.log";
 import sql from "../config/db";
 
 const createNotificationTable = async () => {
@@ -22,11 +23,8 @@ const createNotificationTable = async () => {
         `;
     console.log("NOTIFICATION TABLE CREATED✅");
   } catch (error: any) {
-    console.error(
-      "FAILED TO CREATE Notification TABLE MESSAGE: ",
-      error.message
-    );
-    console.error("FAILED TO CREATE Notification TABLE Trace :", error.stack);
+    errorLog({ location: "create notification Table", error });
+    throw new error("Failed to notification table");
   }
 };
 

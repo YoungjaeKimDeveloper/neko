@@ -9,9 +9,13 @@ export const sendResponse = (params: ResponseInterface) => {
 };
 
 // How to use
-// sendResponse({
+
+// return sendResponse({
 //         res: res,
 //         status: RESPONSE_HTTP,
 //         success: ,
 //         message: `${RESPONSE_MESSAGES.} reason`,
 //       });
+
+
+

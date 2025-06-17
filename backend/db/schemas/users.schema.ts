@@ -2,6 +2,7 @@
     USER SCHEMA     
 */
 
+import { errorLog } from "../../lib/utils/error/error.log";
 import sql from "../config/db";
 
 async function createUserTable() {
@@ -19,8 +20,8 @@ async function createUserTable() {
     `;
     console.log("USERS TABLE CREATED✅");
   } catch (error: any) {
-    console.error("FAILED TO CREATE USER TABLE MESSAGE: ", error.message);
-    console.error("FAILED TO CREATE USER TABLE Trace :", error.stack);
+    errorLog({ location: "create user table", error });
+    throw new error("Failed to create user table");
   }
 }
 

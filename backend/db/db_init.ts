@@ -1,3 +1,4 @@
+import { errorLog } from "../lib/utils/error/error.log";
 import createCommentTable from "./schemas/comments.chema";
 import createLikeTable from "./schemas/likes.schema";
 import createNotificationTable from "./schemas/notification.schema";
@@ -13,7 +14,8 @@ async function initDB() {
     await createNotificationTable();
     console.log("DB_INIT✅");
   } catch (error: any) {
-    console.error("FAILED TO DB_INIT❌", error.message);
+    errorLog({ location: "initDB", error });
+    throw new error("Failed to initDB");
   }
 }
 

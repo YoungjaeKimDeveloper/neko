@@ -1,6 +1,7 @@
 /*
     POST SCHEMA     
 */
+import { errorLog } from "../../lib/utils/error/error.log";
 import sql from "../config/db";
 import dotenv from "dotenv";
 dotenv.config({});
@@ -29,8 +30,8 @@ async function createPostTable() {
     console.log("POST TABLE CREATED✅");
     // Alert Table
   } catch (error: any) {
-    console.error("FAILED TO CREATE POST TABLE MESSAGE: ", error.message);
-    console.error("FAILED TO CREATE POST TABLE Trace :", error.stack);
+    errorLog({ location: "create post table", error });
+    throw new error("Failed to create post table");
   }
 }
 
