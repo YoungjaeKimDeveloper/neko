@@ -8,6 +8,7 @@ import bcrypt from "bcrypt";
 import sql from "../../../db/config/db";
 import User from "../domain/entities/user";
 import { AuthRepo } from "../domain/repo/auth.repo";
+import { errorLog } from "../../../lib/utils/error/error.log";
 
 class AuthNeonRepo implements AuthRepo {
   // Signup
@@ -24,8 +25,7 @@ class AuthNeonRepo implements AuthRepo {
         `;
       return newUser.length > 0 ? (newUser[0] as User) : null;
     } catch (error: any) {
-      console.error("FAILED TO CREATE NEW USER:", error.message);
-      console.error("FAILED TO CREATE NEW USER:", error.stack);
+      errorLog({ location: "neon Signup", error });
       return null;
     }
   };
@@ -41,8 +41,7 @@ class AuthNeonRepo implements AuthRepo {
       const isMatch = await bcrypt.compare(password, user!.password);
       return isMatch ? user : null;
     } catch (error: any) {
-      console.error("FAILED TO login in AUTHNEON:", error.message);
-      console.error("FAILED TO login in AUTHNEON:", error.stack);
+      errorLog({ location: "neon login", error });
       return null;
     }
   };
