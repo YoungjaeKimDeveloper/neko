@@ -13,7 +13,7 @@ export interface UpdatePostDTO {
   updated_content?: string;
   updated_imageUrl?: string;
   updated_reward_amount?: number;
-  upDated_location?: string;
+  updated_location?: string;
   updated_is_found?: boolean;
   updated_at?: Date;
 }

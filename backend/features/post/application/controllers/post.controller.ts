@@ -42,7 +42,7 @@ export const createPost = async (
       });
     }
     const userId = (req as VerifiedUserRequest).user.id;
-    let finalResult = "";
+    let uploadedImageUrl = "";
 
     const { title, content, image_url, reward_amount, location } = req.body;
     // Validation - 0
@@ -58,12 +58,19 @@ export const createPost = async (
     if (image_url) {
       try {
         const url = (await cloudinary.uploader.upload(image_url)).secure_url;
-        finalResult = url;
+        uploadedImageUrl = url;
       } catch (error) {
-        return errorLogV2({
+        errorLogV2({
           file: "post.controller.ts",
           function: "createPost",
           error: error,
+        });
+        return sendResponseV2({
+          res,
+          status: RESPONSE_HTTP.INTERNAL,
+          success: false,
+          details: "Failed to update image",
+          message: RESPONSE_MESSAGES.INTERNAL,
         });
       }
     }
@@ -71,7 +78,7 @@ export const createPost = async (
     const postDTO: CreatePostDTO = {
       title: title,
       content: content,
-      image_url: finalResult,
+      image_url: uploadedImageUrl,
       user_id: userId,
       reward_amount: reward_amount,
       location: location,
@@ -117,15 +124,29 @@ export const fetchPostsByUserId = async (
 ): Promise<any> => {
   try {
     if (!(req as VerifiedUserRequest).user) {
-      return res.status(401).json({ success: false, message: "INVALUD USER" });
+      return sendResponse({
+        res: res,
+        status: RESPONSE_HTTP.UNAUTHORIZED,
+        success: false,
+        message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
+      });
     }
     const userId = (req as VerifiedUserRequest).user.id;
     const result = await neonPostRepo.fetchPostsByUserId({ userId });
-    return res
-      .status(200)
-      .json({ success: true, message: "Posts fetched", data: result });
+    return sendResponseV2({
+      res: res,
+      status: RESPONSE_HTTP.OK,
+      success: true,
+      details: "Posts fetched",
+      message: `${RESPONSE_MESSAGES.SUCCESS}`,
+      data: result,
+    });
   } catch (error) {
-    errorLog({ location: "FetchPosts", error: error });
+    errorLogV2({
+      file: "post.controller.ts",
+      function: "fetchPostByUserId",
+      error: error,
+    });
     return res
       .status(500)
       .json({ success: false, message: "Internal ERROR in fetch posts" });
@@ -138,37 +159,63 @@ export const updatePost = async (
 ): Promise<any> => {
   try {
     if (!(req as VerifiedUserRequest).user) {
-      return res.status(401).json({ success: false, message: "INVALUD USER" });
+      return sendResponse({
+        res: res,
+        status: RESPONSE_HTTP.UNAUTHORIZED,
+        success: false,
+        message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
+      });
     }
     const userId = (req as VerifiedUserRequest).user.id;
+    if (!userId) {
+      return sendResponseV2({
+        res: res,
+        status: RESPONSE_HTTP.BAD_REQUEST,
+        success: false,
+        details: "Userid is required to update post.",
+        message: `${RESPONSE_MESSAGES.BAD_REQUEST}`,
+      });
+    }
     const postId = req.params.postId;
+    if (!postId) {
+      return sendResponseV2({
+        res: res,
+        status: RESPONSE_HTTP.BAD_REQUEST,
+        success: false,
+        details: "Postid is required to update post",
+        message: `${RESPONSE_MESSAGES.BAD_REQUEST}`,
+      });
+    }
     const {
       updated_title,
       updated_content,
       updated_imageUrl,
       updated_reward_amount,
-      upDated_location,
+      updated_location,
       updated_is_found,
     }: UpdatePostDTO = req.body;
     // Validation - 0
-    if (!postId || postId == null) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Post Id is required" });
-    }
 
     // post
     const result = await neonPostRepo.fetchSinglePost({ postId });
     // Validation - 1
     if (result == null) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Cannof find the post" });
+      return sendResponseV2({
+        res: res,
+        status: RESPONSE_HTTP.NOT_FOUND,
+        success: false,
+        details: "Failed to find the post",
+        message: `${RESPONSE_MESSAGES.BAD_REQUEST}`,
+      });
     }
     if (result.user_id !== userId) {
-      return res
-        .status(401)
-        .json({ success: false, message: "UNAUTHORIZED TO EDIT THE POST" });
+      return sendResponseV2({
+        res: res,
+        status: RESPONSE_HTTP.UNAUTHORIZED,
+        success: false,
+        details: "UNAUTHORIZED TO EDIT THE POST",
+        message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
+      });
     }
     // New Values
     const { title, content, image_url, reward_amount, location, is_found } =
@@ -179,7 +226,7 @@ export const updatePost = async (
       ? (await cloudinary.uploader.upload(updated_imageUrl)).secure_url
       : image_url;
     const newRewardAmount = updated_reward_amount ?? reward_amount;
-    const newlLcation = upDated_location ?? location;
+    const newlLcation = updated_location ?? location;
     const newIsFound = updated_is_found ?? is_found;
 
     const updatedResult = await neonPostRepo.updatePost({
@@ -188,22 +235,39 @@ export const updatePost = async (
       updated_content: newContent,
       updated_imageUrl: newImageUrl,
       updated_reward_amount: newRewardAmount,
-      upDated_location: newlLcation,
+      updated_location: newlLcation,
       updated_is_found: newIsFound,
     });
     if (updatedResult == null) {
-      return res
-        .status(500)
-        .json({ success: false, message: "Failed to update Post" });
+      return sendResponseV2({
+        res: res,
+        status: RESPONSE_HTTP.INTERNAL,
+        success: false,
+        details: "Failed to update post",
+        message: `${RESPONSE_MESSAGES.INTERNAL}`,
+      });
     }
-    return res
-      .status(201)
-      .json({ success: true, message: "Post Updated", data: result });
+    return sendResponseV2({
+      res: res,
+      status: RESPONSE_HTTP.CREATED,
+      success: true,
+      details: "Post Updated",
+      message: `${RESPONSE_MESSAGES.CREATE}`,
+      data: updatedResult,
+    });
   } catch (error) {
-    errorLog({ location: "updatePost", error: error });
-    return res
-      .status(500)
-      .json({ success: false, message: "Error in update Post" });
+    errorLogV2({
+      file: "post.controller.ts",
+      function: "UpdatePost",
+      error: error,
+    });
+    return sendResponseV2({
+      res: res,
+      status: RESPONSE_HTTP.INTERNAL,
+      success: false,
+      details: "Error in update post",
+      message: `${RESPONSE_MESSAGES.INTERNAL}`,
+    });
   }
 };
 // Delete Post
@@ -212,44 +276,78 @@ export const deletePost = async (
   res: Response<ResponseDTO>
 ): Promise<any> => {
   try {
+    // verify user
     if (!(req as VerifiedUserRequest).user) {
-      return res.status(401).json({ success: false, message: "INVALUD USER" });
+      return sendResponseV2({
+        res: res,
+        status: RESPONSE_HTTP.UNAUTHORIZED,
+        success: false,
+        details: "Invalid user",
+        message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
+      });
     }
     const userId = (req as VerifiedUserRequest).user.id;
     const postId = req.params.postId;
-    // Validation - 0
-    if (!postId || postId == null) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Post Id is required" });
+    // Validation - Check if there is postId
+
+    if (!postId) {
+      return sendResponseV2({
+        res: res,
+        status: RESPONSE_HTTP.BAD_REQUEST,
+        success: false,
+        details: "Postid is required to delete it",
+        message: `${RESPONSE_MESSAGES.BAD_REQUEST}`,
+      });
     }
     const result = await neonPostRepo.fetchSinglePost({ postId });
-    // Validation - 1
+    // Validation - Check if there is a single post
     if (result == null) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Cannot find the post" });
+      return sendResponseV2({
+        res: res,
+        status: RESPONSE_HTTP.NOT_FOUND,
+        success: false,
+        details: "Failed to fetch the post from neonPostRepo",
+        message: `${RESPONSE_MESSAGES.NOT_FOUND}`,
+      });
     }
     // Validation - 1
     if (result.user_id !== userId) {
-      return res
-        .status(401)
-        .json({ success: false, message: "UNAUTHORIZED TO EDIT THE POST" });
+      return sendResponseV2({
+        res: res,
+        status: RESPONSE_HTTP.UNAUTHORIZED,
+        success: false,
+        details: "Unauthorized to edit the post",
+        message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
+      });
     }
     //
     const deletedResult = await neonPostRepo.deletePost({ postId });
     if (deletedResult == null) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Failed to delete the post" });
+      return sendResponseV2({
+        res: res,
+        status: RESPONSE_HTTP.NOT_FOUND,
+        success: false,
+        details: "Failed to delete the post",
+        message: `${RESPONSE_MESSAGES.NOT_FOUND}`,
+      });
     }
-    return res
-      .status(201)
-      .json({ success: true, message: "Post has been deleted" });
+
+    return sendResponseV2({
+      res: res,
+      status: RESPONSE_HTTP.OK,
+      success: true,
+      details: "Post deleted successfully",
+      message: `${RESPONSE_MESSAGES.SUCCESS}`,
+    });
   } catch (error) {
     errorLog({ location: "delete", error: error });
-    return res
-      .status(500)
-      .json({ success: false, message: "Error in delet Post" });
+
+    return sendResponseV2({
+      res: res,
+      status: RESPONSE_HTTP.INTERNAL,
+      success: false,
+      details: "Internal error to delete post",
+      message: `${RESPONSE_MESSAGES.INTERNAL}`,
+    });
   }
 };

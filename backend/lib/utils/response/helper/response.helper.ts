@@ -30,6 +30,7 @@ export const sendResponseV2 = (params: ResponseInterfaceV2) => {
 //         status: RESPONSE_HTTP,
 //         success: ,
 //         message: `${RESPONSE_MESSAGES.}`,
+//         data:
 //       });
 
 // Version - 2
@@ -39,4 +40,5 @@ export const sendResponseV2 = (params: ResponseInterfaceV2) => {
 //         success: ,
 //         details:
 //         message: `${RESPONSE_MESSAGES.}`,
+//         data:
 //       });
