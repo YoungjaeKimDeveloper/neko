@@ -5,14 +5,14 @@
 */
 
 export const RESPONSE_MESSAGES = {
-  CREATE: "Data created:",
-  UPDATE: "Data updated successfully",
-  DELETE: "Data deleted successfully",
-  SUCCESS: "Request completed successfully:",
-  BAD_REQUEST: "Bad request:",
-  UNAUTHORIZED: "Unauthorized:",
-  NOT_FOUND: "Not found:",
-  INTERNAL: "Server error:",
+  CREATE: "data created:",
+  UPDATE: "data updated successfully",
+  DELETE: "data deleted successfully",
+  SUCCESS: "request completed successfully:",
+  BAD_REQUEST: "bad request:",
+  UNAUTHORIZED: "Unauthorized user:",
+  NOT_FOUND: "not found:",
+  INTERNAL: "server error:",
 };
 
 // return  sendResponse({

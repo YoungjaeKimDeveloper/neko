@@ -22,7 +22,7 @@ postRouter.use(verifyToken);
 // create
 postRouter.post("/posts", createPost);
 // fetchPostByUserId
-postRouter.get("/user", fetchPostsByUserId);
+postRouter.get("/", fetchPostsByUserId);
 // updatePost
 postRouter.put("/:postId", updatePost);
 // updatePost

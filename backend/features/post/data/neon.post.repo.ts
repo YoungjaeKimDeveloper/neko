@@ -6,7 +6,6 @@
 
 import sql from "../../../db/config/db";
 import { errorLog } from "../../../lib/utils/error/error.log";
-import User from "../../auth/domain/entities/user";
 import { CreatePostDTO, UpdatePostDTO } from "../domain/dto/post.dto";
 import Post from "../domain/entities/post";
 import PostRepo from "../domain/repo/post.repo";
@@ -31,8 +30,7 @@ class NeonPostRepo implements PostRepo {
       }
       return newPost[0] as Post;
     } catch (error: any) {
-      console.error("ERROR IN createPost: ", error.message);
-      console.error("ERROR IN createPost: ", error.stack);
+      errorLog({ location: "create post neon rpo", error });
       return null;
     }
   };
@@ -51,8 +49,7 @@ class NeonPostRepo implements PostRepo {
       }
       return posts as Post[];
     } catch (error: any) {
-      console.error("ERROR IN createPost: ", error.message);
-      console.error("ERROR IN createPost: ", error.stack);
+      errorLog({ location: "fetchPostByUserId Neon", error });
       return [];
     }
   };
@@ -76,8 +73,7 @@ class NeonPostRepo implements PostRepo {
       `;
       return (result[0] as Post) ?? null;
     } catch (error: any) {
-      console.error("ERROR IN updateFields: ", error.message);
-      console.error("ERROR IN updateFields: ", error.stack);
+      errorLog({ location: "neon repo update Post", error });
       return null;
     }
   };
@@ -91,8 +87,7 @@ class NeonPostRepo implements PostRepo {
       `;
       console.log("POST HAS BEEN DELETED");
     } catch (error: any) {
-      console.error("ERROR IN deletePost: ", error.message);
-      console.error("ERROR IN deletePost: ", error.stack);
+      errorLog({ location: "neoPost repo - deletePost", error });
     }
   };
   // + fetch single item to match the writer and looged user
@@ -110,7 +105,7 @@ class NeonPostRepo implements PostRepo {
       }
       return posts[0] as Post;
     } catch (error: any) {
-      errorLog({ location: "FetchSingle Post", error });
+      errorLog({ location: "FetchSingle Post - neon repo", error });
       return null;
     }
   };

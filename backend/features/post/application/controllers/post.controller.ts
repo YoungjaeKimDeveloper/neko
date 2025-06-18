@@ -4,7 +4,13 @@ import cloudinary from "../../../../lib/cloudinary/cloudinary.config";
 import { CreatePostDTO, UpdatePostDTO } from "../../domain/dto/post.dto";
 import { ResponseDTO } from "../../../../lib/dto/response.dto";
 import NeonPostRepo from "../../data/neon.post.repo";
-import { errorLog } from "../../../../lib/utils/error/error.log";
+import { errorLog, errorLogV2 } from "../../../../lib/utils/error/error.log";
+import {
+  sendResponse,
+  sendResponseV2,
+} from "../../../../lib/utils/response/helper/response.helper";
+import { RESPONSE_HTTP } from "../../../../lib/utils/constants/http-status";
+import { RESPONSE_MESSAGES } from "../../../../lib/utils/constants/messages";
 /*
     POST API(Hanlder)
     POST DB <----> POST API <----> Frontend
@@ -28,7 +34,12 @@ export const createPost = async (
 ): Promise<any> => {
   try {
     if (!(req as VerifiedUserRequest).user) {
-      return res.status(401).json({ success: false, message: "INVALUD USER" });
+      return sendResponse({
+        res: res,
+        status: RESPONSE_HTTP.UNAUTHORIZED,
+        success: false,
+        message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
+      });
     }
     const userId = (req as VerifiedUserRequest).user.id;
     let finalResult = "";
@@ -36,9 +47,11 @@ export const createPost = async (
     const { title, content, image_url, reward_amount, location } = req.body;
     // Validation - 0
     if (!title || !content || !location) {
-      return res.status(400).json({
+      return sendResponse({
+        res: res,
+        status: RESPONSE_HTTP.BAD_REQUEST,
         success: false,
-        message: "Missing required fields: title, content, or location",
+        message: `${RESPONSE_MESSAGES.BAD_REQUEST} `,
       });
     }
     // + image
@@ -47,7 +60,11 @@ export const createPost = async (
         const url = (await cloudinary.uploader.upload(image_url)).secure_url;
         finalResult = url;
       } catch (error) {
-        errorLog({ location: "Creat post cloudinary", error });
+        return errorLogV2({
+          file: "post.controller.ts",
+          function: "createPost",
+          error: error,
+        });
       }
     }
     // Follow the interface
@@ -62,18 +79,35 @@ export const createPost = async (
 
     const result = await neonPostRepo.createPost(postDTO);
     if (result == null) {
-      return res
-        .status(500)
-        .json({ success: false, message: "Failed to create new Post" });
+      return sendResponseV2({
+        res: res,
+        status: RESPONSE_HTTP.INTERNAL,
+        success: false,
+        details: "Failed to creat new post",
+        message: `${RESPONSE_MESSAGES.INTERNAL}`,
+      });
     }
-    return res
-      .status(200)
-      .json({ success: true, message: "New Post created✅", data: result });
+
+    return sendResponseV2({
+      res: res,
+      status: RESPONSE_HTTP.OK,
+      success: true,
+      details: "Post created",
+      message: RESPONSE_MESSAGES.CREATE,
+    });
   } catch (error) {
-    errorLog({ location: "createPost", error: error });
-    return res
-      .status(500)
-      .json({ success: false, message: "Failed to create new Post" });
+    errorLogV2({
+      file: "post controller",
+      function: "createPost",
+      error: error,
+    });
+    return sendResponseV2({
+      res: res,
+      status: RESPONSE_HTTP.INTERNAL,
+      success: false,
+      details: "Internal error in create post",
+      message: RESPONSE_MESSAGES.INTERNAL,
+    });
   }
 };
 
