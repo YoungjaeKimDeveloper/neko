@@ -17,7 +17,7 @@ import { RESPONSE_MESSAGES } from "../../../../lib/utils/constants/messages";
     1.CreatePost 
     2.fetchPostByUserId
     3.update 
-    4. delete Post.
+    4. delete Post
 
   -- Needs to create Validation
 
