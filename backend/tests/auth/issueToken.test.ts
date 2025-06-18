@@ -25,7 +25,7 @@ describe("issueToken", () => {
     const request = httpMocks.createRequest({
       method: "POST",
       body: {
-        email: "tester123@gmail.com",
+        email: "tester12345@gmail.com",
         password: "12312",
       },
     });
@@ -38,7 +38,7 @@ describe("issueToken", () => {
     const request = httpMocks.createRequest({
       method: "POST",
       body: {
-        email: "tester123@gmail.com",
+        email: "tester12345@gmail.com",
         password: "123123",
       },
     });

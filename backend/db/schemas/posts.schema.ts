@@ -18,15 +18,15 @@ async function createPostTable() {
                 user_id UUID REFERENCES users(id) ON DELETE CASCADE
             )
         `;
-    /* 
-    ✅ ADD NEW FIELDS IN THE MIDDLE OF PROCESS
-     await sql`
-     ALTER TABLE posts
-     ADD reward_amount INTEGER DEFAULT 0,
-     ADD location VARCHAR(255) DEFAULT 'Australia',
-     ADD is_found BOOLEAN DEFAULT false
-     `;
-    */
+
+    // ✅ ADD NEW FIELDS IN THE MIDDLE OF PROCESS
+    // await sql`
+    //  ALTER TABLE posts
+    //  ADD reward_amount INTEGER DEFAULT 0,
+    //  ADD location VARCHAR(255) DEFAULT 'Australia',
+    //  ADD is_found BOOLEAN DEFAULT false
+    //  `;
+
     console.log("POST TABLE CREATED✅");
     // Alert Table
   } catch (error: any) {

@@ -37,7 +37,7 @@ describe("createPost", () => {
   });
   // Happy path
   test("Happy path - create post successfully", async () => {
-    const userId = "61134b85-5d06-470c-9416-43442ab5a420";
+    const userId = "a523befe-08b8-4eee-b08e-e21386ba37f3";
     const request = httpMocks.createRequest({
       method: "POST",
       body: {
@@ -48,7 +48,7 @@ describe("createPost", () => {
       },
     });
     (request as any).user = {
-      id: "61134b85-5d06-470c-9416-43442ab5a420",
+      id: "a523befe-08b8-4eee-b08e-e21386ba37f3",
     };
     const response = httpMocks.createResponse();
     await createPost(request, response);
