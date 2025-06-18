@@ -3,3 +3,7 @@ export const TESTER = {
   email: "tester12345@gmail.com",
   password: "123123",
 };
+
+export const TEST_POST = {
+  id: "ff26d2ed-9e04-4aa1-89fd-938d84f87300",
+};

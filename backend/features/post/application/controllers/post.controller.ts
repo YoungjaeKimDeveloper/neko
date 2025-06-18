@@ -194,8 +194,20 @@ export const updatePost = async (
       updated_location,
       updated_is_found,
     }: UpdatePostDTO = req.body;
-    // Validation - 0
-
+    // Validation - 0 nothing to update
+    const atLeastOneUpdateField = Object.values(req.body).some(
+      (val) => val != undefined && val !== null && val !== ""
+    );
+    if (!atLeastOneUpdateField) {
+      return sendResponseV2({
+        res: res,
+        status: 400,
+        success: false,
+        details:
+          "user requested to update the post,but nothing to update - no need to call DB",
+        message: `${RESPONSE_HTTP.BAD_REQUEST}`,
+      });
+    }
     // post
     const result = await neonPostRepo.fetchSinglePost({ postId });
     // Validation - 1
@@ -228,7 +240,7 @@ export const updatePost = async (
     const newRewardAmount = updated_reward_amount ?? reward_amount;
     const newlLcation = updated_location ?? location;
     const newIsFound = updated_is_found ?? is_found;
-
+    // update result
     const updatedResult = await neonPostRepo.updatePost({
       postId,
       updated_title: newTitle,
@@ -249,7 +261,7 @@ export const updatePost = async (
     }
     return sendResponseV2({
       res: res,
-      status: RESPONSE_HTTP.CREATED,
+      status: RESPONSE_HTTP.OK,
       success: true,
       details: "Post Updated",
       message: `${RESPONSE_MESSAGES.CREATE}`,

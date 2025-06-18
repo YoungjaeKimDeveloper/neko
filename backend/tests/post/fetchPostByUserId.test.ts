@@ -1,7 +1,3 @@
-import httpMocks from "node-mocks-http";
-import { fetchPostsByUserId } from "../../features/post/application/controllers/post.controller";
-import { TESTER } from "../config/tester.id";
-
 /*
 
     fetchPostByUserId 
@@ -9,6 +5,10 @@ import { TESTER } from "../config/tester.id";
         - 2 sad patb
 
 */
+import httpMocks from "node-mocks-http";
+import { fetchPostsByUserId } from "../../features/post/application/controllers/post.controller";
+import { TESTER } from "../_config/tester.id";
+
 const tester = TESTER.id;
 describe("fetchPostByUserId", () => {
   // happy path - 1

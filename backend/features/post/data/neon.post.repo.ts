@@ -98,7 +98,7 @@ class NeonPostRepo implements PostRepo {
       const posts = await sql`
         SELECT * 
         FROM posts
-        WHERE post_id= ${params.postId}
+        WHERE id= ${params.postId}
       `;
       if (posts == null) {
         return null;
