@@ -1,8 +1,13 @@
 import httpMocks from "node-mocks-http";
 import { createUser } from "../../features/auth/application/controller/auth.controller";
+/*  
+  createUser function test 
+  Sad paht - 1
+  Happy path -1
+*/
 
 describe("createUser test", () => {
-  // sad path - signup
+  // sad path
   test("it returns 400 if missing email", async () => {
     let response;
     let request;

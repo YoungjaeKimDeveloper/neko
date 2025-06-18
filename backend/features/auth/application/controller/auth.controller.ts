@@ -112,7 +112,7 @@ export const issueAuthToken = async (
         res: res,
         status: RESPONSE_HTTP.BAD_REQUEST,
         success: false,
-        message: `${RESPONSE_MESSAGES.BAD_REQUEST} please fill up the all forms  `,
+        message: `${RESPONSE_MESSAGES.BAD_REQUEST} please fill up the all forms`,
       });
     }
     const authUser = await authNeonRepo.login(email, password);
