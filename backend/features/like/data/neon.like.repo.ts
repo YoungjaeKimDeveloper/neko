@@ -6,6 +6,7 @@
 */
 
 import sql from "../../../db/config/db";
+import { errorLog } from "../../../lib/utils/error/error.log";
 import { LikeDto, UnLikeDTO } from "../domain/dto/like.dto";
 import Like from "../domain/entity/like";
 import LikeRepo from "../domain/repo/like.repo";
@@ -20,8 +21,8 @@ class NeonLikeRepo implements LikeRepo {
             `;
       return result.length > 0 ? (result[0] as Like) : null;
     } catch (error: any) {
-      console.error("ERROR IN NeonLikeRepo: ", error.stack);
-      console.error("ERROR IN NeonLikeRepo: ", error.message);
+      errorLog({ location: "NeonLikeRepo - like", error });
+
       return null;
     }
   };
@@ -34,8 +35,7 @@ class NeonLikeRepo implements LikeRepo {
         `;
       return result.length > 0 ? (result[0] as Like) : null;
     } catch (error: any) {
-      console.error("ERROR IN NeonUnLikePost: ", error.stack);
-      console.error("ERROR IN NeonUnLikePost ", error.message);
+      errorLog({ location: "NeonLikeRepo - unlike", error });
       return null;
     }
   };

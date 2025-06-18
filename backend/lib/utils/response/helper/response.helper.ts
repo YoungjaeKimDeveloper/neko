@@ -8,13 +8,13 @@ export const sendResponse = (params: ResponseInterface) => {
   });
 };
 
-// How to use
+// Template
 
 // return sendResponse({
 //         res: res,
 //         status: RESPONSE_HTTP,
 //         success: ,
-//         message: `${RESPONSE_MESSAGES.} reason`,
+//         message: `${RESPONSE_MESSAGES.}`,
 //       });
 
 

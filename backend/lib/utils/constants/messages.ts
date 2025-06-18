@@ -15,9 +15,9 @@ export const RESPONSE_MESSAGES = {
   INTERNAL: "Server error:",
 };
 
-// sendResponse({
+// return  sendResponse({
 //     res: res,
-//     status: RESPONSE_HTTP.OK,
-//     success: true,
-//     message: `${RESPONSE_MESSAGES.SUCCESS} token deleted`,
+//     status: RESPONSE_HTTP.,
+//     success: ,
+//     message: `${RESPONSE_MESSAGES.} `,
 //   });

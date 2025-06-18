@@ -1,9 +1,11 @@
 import { Response, Request } from "express";
-import { FetchNotificationByUserIdDTO } from "../../domain/dto/notification.dto";
 import { VerifiedUserRequest } from "../../../post/application/controllers/post.controller";
 import { ResponseDTO } from "../../../../lib/dto/response.dto";
 import { errorLog } from "../../../../lib/utils/error/error.log";
 import NeonNotificationRepo from "../../data/neon.notification.repo";
+import { RESPONSE_MESSAGES } from "../../../../lib/utils/constants/messages";
+import { RESPONSE_HTTP } from "../../../../lib/utils/constants/http-status";
+import { sendResponse } from "../../../../lib/utils/response/helper/response.helper";
 
 const neonNotificationRepo = new NeonNotificationRepo();
 
@@ -13,23 +15,34 @@ export const fetchNotification = async (
 ): Promise<any> => {
   try {
     const user = (req as VerifiedUserRequest).user;
-    const user_id = user.id;
     if (!user) {
-      return res
-        .status(401)
-        .json({ success: false, message: "UnAuthorized Access" });
+      return sendResponse({
+        res: res,
+        status: RESPONSE_HTTP.UNAUTHORIZED,
+        success: false,
+        message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
+      });
     }
+    const user_id = user.id;
+
     const result = await neonNotificationRepo.fetchNotificationByUserId({
       user_id,
     });
-    return res
-      .status(200)
-      .json({ success: true, message: "Notifications fetched", data: result });
+    return sendResponse({
+      res: res,
+      status: RESPONSE_HTTP.OK,
+      success: true,
+      message: `${RESPONSE_MESSAGES.SUCCESS}`,
+      data: result,
+    });
   } catch (error) {
     errorLog({ location: "fetchNotification", error });
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal Error in fetchNotification" });
+    return sendResponse({
+      res: res,
+      status: RESPONSE_HTTP.INTERNAL,
+      success: false,
+      message: `${RESPONSE_MESSAGES.INTERNAL} - fetchNotification `,
+    });
   }
 };
 
@@ -40,28 +53,40 @@ export const readNotification = async (
   try {
     const notificationId = req.params.notificationId;
     if (!notificationId) {
-      return res
-        .status(401)
-        .json({ success: false, message: "NotificationID is required" });
+      return sendResponse({
+        res: res,
+        status: RESPONSE_HTTP.BAD_REQUEST,
+        success: false,
+        message: `${RESPONSE_MESSAGES.BAD_REQUEST} NotificationID is required `,
+      });
     }
     const result = await neonNotificationRepo.readNotification({
       notificationId: notificationId,
     });
     if (result == null) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Cannot find the notification" });
+      return sendResponse({
+        res: res,
+        status: RESPONSE_HTTP.NOT_FOUND,
+        success: false,
+        message: `${RESPONSE_MESSAGES.NOT_FOUND} failed to find notification `,
+      });
     }
-    return res.status(200).json({
+
+    return sendResponse({
+      res: res,
+      status: RESPONSE_HTTP.CREATED,
       success: true,
-      message: "Read the notification successfully",
-      data: result,
+      message: `${RESPONSE_MESSAGES.SUCCESS} read notification successfully `,
     });
   } catch (error) {
     errorLog({ location: "Read Notification", error });
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal Error in read Notification" });
+
+    return sendResponse({
+      res: res,
+      status: RESPONSE_HTTP.INTERNAL,
+      success: false,
+      message: `${RESPONSE_MESSAGES.INTERNAL} failed to read notification `,
+    });
   }
 };
 
@@ -73,27 +98,40 @@ export const deleteNotification = async (
   try {
     const notificationId = req.params.notificationId;
     if (!notificationId) {
-      return res
-        .status(401)
-        .json({ success: false, message: "NotificationID is required" });
+      return sendResponse({
+        res: res,
+        status: RESPONSE_HTTP.BAD_REQUEST,
+        success: false,
+        message: `${RESPONSE_MESSAGES.BAD_REQUEST} NotificationID is required`,
+      });
     }
     const result = await neonNotificationRepo.deleteNotification({
       notificationId: notificationId,
     });
     if (result == null) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Cannot find the notification" });
+      return sendResponse({
+        res: res,
+        status: RESPONSE_HTTP.NOT_FOUND,
+        success: false,
+        message: `${RESPONSE_MESSAGES.NOT_FOUND} failed to find the notification`,
+      });
     }
-    return res.status(204).json({
+
+    return sendResponse({
+      res: res,
+      status: RESPONSE_HTTP.OK,
       success: true,
-      message: "Delete the notification successfully",
+      message: `${RESPONSE_MESSAGES.DELETE} `,
       data: result,
     });
   } catch (error) {
-    errorLog({ location: "Read Notification", error });
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal Error in read Notification" });
+    errorLog({ location: "Delete Notification", error });
+
+    return sendResponse({
+      res: res,
+      status: RESPONSE_HTTP.INTERNAL,
+      success: false,
+      message: `${RESPONSE_MESSAGES.INTERNAL} delete notification `,
+    });
   }
 };
