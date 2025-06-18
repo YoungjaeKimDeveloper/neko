@@ -25,7 +25,7 @@ export const verifyToken = async (
   try {
     const token = req.cookies["authToken"];
     // Validation -1
-    if (!token || token == null) {
+    if (!token) {
       return sendResponse({
         res: res,
         status: RESPONSE_HTTP.UNAUTHORIZED,
