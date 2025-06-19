@@ -43,7 +43,7 @@ export const createUser = async (req: Request, res: Response): Promise<any> => {
     }
     // Validation - 2
     const existedEmail = await emailValidation(email);
-    console.log(existedEmail);
+    // console.log(existedEmail);
     if (existedEmail) {
       return sendResponse({
         res: res,

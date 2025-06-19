@@ -300,6 +300,7 @@ export const deletePost = async (
     }
     const userId = (req as VerifiedUserRequest).user.id;
     const postId = req.params.postId;
+    // console.log("postid", postId);
     // Validation - Check if there is postId
 
     if (!postId) {
@@ -311,8 +312,11 @@ export const deletePost = async (
         message: `${RESPONSE_MESSAGES.BAD_REQUEST}`,
       });
     }
+
     const result = await neonPostRepo.fetchSinglePost({ postId });
     // Validation - Check if there is a single post
+
+    // console.log("Fetched result", result);
     if (result == null) {
       return sendResponseV2({
         res: res,
@@ -333,17 +337,8 @@ export const deletePost = async (
       });
     }
     //
-    const deletedResult = await neonPostRepo.deletePost({ postId });
-    if (deletedResult == null) {
-      return sendResponseV2({
-        res: res,
-        status: RESPONSE_HTTP.NOT_FOUND,
-        success: false,
-        details: "Failed to delete the post",
-        message: `${RESPONSE_MESSAGES.NOT_FOUND}`,
-      });
-    }
-
+    // console.log("PASSED TILL HERE");
+    await neonPostRepo.deletePost({ postId });
     return sendResponseV2({
       res: res,
       status: RESPONSE_HTTP.OK,
@@ -353,7 +348,6 @@ export const deletePost = async (
     });
   } catch (error) {
     errorLog({ location: "delete", error: error });
-
     return sendResponseV2({
       res: res,
       status: RESPONSE_HTTP.INTERNAL,

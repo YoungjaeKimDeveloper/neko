@@ -8,7 +8,7 @@ export const passwordValidation = (password: string) => {
 };
 
 export const emailValidation = async (email: string) => {
-  console.log("Requested Email",email);
+  // console.log("Requested Email",email);
   const result = await sql`
     SELECT * 
     FROM users

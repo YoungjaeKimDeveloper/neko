@@ -7,7 +7,7 @@ import {
 export const sendResponse = (params: ResponseInterface) => {
   return params.res.status(params.status).json({
     success: params.success,
-    message: `${params.message} : ${params.details}`,
+    message: `${params.message} : ${params.details ?? ""}`,
     data: params.data ?? null,
   });
 };
