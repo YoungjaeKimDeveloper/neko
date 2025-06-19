@@ -29,7 +29,7 @@ authRouter.post("/users", createUser);
 // login
 authRouter.post("/auth-tokens", issueAuthToken);
 // logout
-authRouter.post("/auth-tokens", deleteToken);
+authRouter.delete("/auth-tokens", deleteToken);
 // getcurrenuUser
 authRouter.get("/me", verifyToken, getCurrentUser);
 export default authRouter;

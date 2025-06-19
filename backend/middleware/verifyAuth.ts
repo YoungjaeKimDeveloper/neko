@@ -68,6 +68,7 @@ export const verifyToken = async (
         message: `${RESPONSE_MESSAGES.NOT_FOUND} can't find the user`,
       });
     }
+    console.log("")
     req.user = user[0] as User;
     next();
   } catch (error) {

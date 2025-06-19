@@ -112,17 +112,22 @@ export const deleteComment = async (
   res: Response<ResponseDTO>
 ): Promise<any> => {
   try {
+    const commentId = req.params.commentId;
     const authenticatedUser = (req as VerifiedUserRequest).user;
+
+    // console.log("authenticatedUser", authenticatedUser);
     if (!authenticatedUser) {
       return sendResponse({
         res: res,
         status: RESPONSE_HTTP.UNAUTHORIZED,
         success: false,
-        message: `${RESPONSE_MESSAGES.UNAUTHORIZED} -create comment`,
+        message: `${RESPONSE_MESSAGES.UNAUTHORIZED} - delete comment`,
       });
     }
     // Validation - 1
+
     const userId = (req as VerifiedUserRequest).user.id;
+    console.log("USERID", userId);
     if (!userId) {
       return sendResponse({
         res: res,
@@ -142,7 +147,6 @@ export const deleteComment = async (
       });
     }
     // Validation - 3 check if the user is authorized
-
     const result = await neonPostRepo.fetchSinglePost({ postId: postId });
     if (!result) {
       return sendResponse({
@@ -160,8 +164,8 @@ export const deleteComment = async (
         message: `${RESPONSE_MESSAGES.UNAUTHORIZED} `,
       });
     }
-    const deletedComment = await neonCommentRepo.deleteComment({
-      comment_id: postId,
+    await neonCommentRepo.deleteComment({
+      comment_id: commentId,
     });
     return res.status(200).json({ success: true, message: "Comment Deleted" });
   } catch (error) {

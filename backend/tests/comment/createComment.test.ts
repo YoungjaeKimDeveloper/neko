@@ -31,7 +31,7 @@ describe("create comment test", () => {
     await createComment(request, response);
     const json = response._getJSONData();
     expect(response.statusCode).toBe(201);
-    console.log("JSON", json);
+    // console.log("JSON", json);
   });
   // Sad path(1) - missing content
   test("create comment test", async () => {
@@ -47,7 +47,7 @@ describe("create comment test", () => {
     await createComment(request, response);
     const json = response._getJSONData();
     expect(response.statusCode).toBe(400);
-    console.log("JSON", json);
+    // console.log("JSON", json);
   });
   // Sad path(1) - missing content
   test("create comment test", async () => {
@@ -63,7 +63,7 @@ describe("create comment test", () => {
     await createComment(request, response);
     const json = response._getJSONData();
     expect(response.statusCode).toBe(400);
-    console.log("JSON", json);
+    // console.log("JSON", json);
   });
   // Sad path(2) - Unauthorized
   test("create comment test", async () => {
@@ -80,6 +80,6 @@ describe("create comment test", () => {
     await createComment(request, response);
     const json = response._getJSONData();
     expect(response.statusCode).toBe(401);
-    console.log("JSON", json);
+    // console.log("JSON", json);
   });
 });
