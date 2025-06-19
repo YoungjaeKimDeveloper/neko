@@ -8,7 +8,7 @@ import { RESPONSE_HTTP } from "../../../../lib/utils/constants/http-status";
 import { sendResponse } from "../../../../lib/utils/response/helper/response.helper";
 
 const neonNotificationRepo = new NeonNotificationRepo();
-
+// fetch all notifications
 export const fetchNotification = async (
   req: Request,
   res: Response<ResponseDTO>
@@ -45,7 +45,7 @@ export const fetchNotification = async (
     });
   }
 };
-
+// read notification
 export const readNotification = async (
   req: Request,
   res: Response
@@ -89,7 +89,6 @@ export const readNotification = async (
     });
   }
 };
-
 // delete Notification
 export const deleteNotification = async (
   req: Request,

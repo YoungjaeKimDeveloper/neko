@@ -9,6 +9,6 @@
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
-  "include": ["backend/**/*.ts", "backend/tests/comment/createComment"],
+  "include": ["backend/**/*.ts", "backend/tests/comment/createComment", "backend/tests/notification/readNotification.test.ts", "backend/tests/like/llike", "backend/tests/like/unlike"],
   "exclude": ["node_modules"]
 }
