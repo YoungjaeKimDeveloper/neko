@@ -1,7 +1,13 @@
+import { Route, Routes } from "react-router-dom";
+import Landingpage from "./shared/pages/Landingpage";
+import Navbar from "./shared/components/Navbar";
 const App = () => {
   return (
-    <div className="bg-red-100">
-      <button className="btn"></button>
+    <div>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Landingpage />} />
+      </Routes>
     </div>
   );
 };

@@ -3,7 +3,19 @@ import daisyui from "daisyui";
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      // Colors
+      colors: {
+        primary: "#bdb2ff",
+      },
+      // Font family
+      fontFamily: {
+        title: ["Pacifico"],
+        content: ["Monomaniac One"],
+      },
+      // Border Radius
+      borderRadius: { card: "20px" },
+    },
   },
   plugins: [daisyui],
 };
