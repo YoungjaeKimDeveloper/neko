@@ -36,3 +36,10 @@ RESTFUL 하다 = REST한 규칙
 17/06/2025
 
 1. Update user,post,notification by following RESTful API
+
+20/06/2025
+
+1. Homepage
+2. Profile
+3. Notification
+4. Post(comment,like)
