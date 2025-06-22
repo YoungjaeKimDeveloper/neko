@@ -15,6 +15,9 @@ export default {
       },
       // Border Radius
       borderRadius: { card: "20px" },
+      margin: {
+        navBottom: "1rem",
+      },
     },
   },
   plugins: [daisyui],

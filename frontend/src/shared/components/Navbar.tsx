@@ -7,7 +7,7 @@ import { Home, LogIn } from "lucide-react";
 const Navbar = () => {
   return (
     // Size
-    <div className="w-screen shadow-lg h-[75px] mb-20 ">
+    <div className="w-screen shadow-lg h-[75px] mb-navBottom ">
       {/* Layout */}
       <div className="flex justify-between items-center ">
         {/* Left Logo + Neko */}
