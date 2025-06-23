@@ -5,9 +5,12 @@
 import { Eye, EyeClosed, Lock } from "lucide-react";
 import { useState } from "react";
 interface AuthInputText {
+  value: string;
   hintText: string;
+  // Void - > reutrn nothing
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const AuthInputPassword = ({ hintText }: AuthInputText) => {
+const AuthInputPassword = ({ hintText, value, onChange }: AuthInputText) => {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
   const togglePassword = () => setIsShowPassword((prev) => !prev);
   // BUILD UI
@@ -16,9 +19,11 @@ const AuthInputPassword = ({ hintText }: AuthInputText) => {
       <Lock className="absolute left-11 text-hintText size-5" />
       {/* Text filed */}
       <input
+        value={value}
         type={isShowPassword ? "text" : "password"}
         placeholder={hintText}
         className="input w-full [text-indent:1rem] shadow-md font-content placeholder:text-hintText placeholder:text-sm"
+        onChange={onChange}
       />
       {/* Show password */}
       {isShowPassword ? (

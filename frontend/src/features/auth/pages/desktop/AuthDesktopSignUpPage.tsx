@@ -15,14 +15,14 @@ const AuthDesktopSignUpPage = () => {
   // Build Ui
   return (
     <div className="px-10">
-      <div className="w-[100%] bg-gray-50-50 h-[700px] rounded-lg shadow-lg">
+      <div className="w-[100%] bg-gray-50-50 h-[700px] rounded-lg shadozodw-lg">
         <div className="grid grid-cols-1 lg:grid-cols-2 w-full h-full rounded-lg">
           {/* Left - Image + Description */}
           <div className="col-span-1 w-full h-full  hidden lg:block  lg:relative">
             <img
               src={bannerImg}
               alt="banner_img"
-              className="w-full h-full object-cover opacity-50 rounded-r-lg"
+              className="w-full h-full object-cover opacity-50 rounded-l-lg"
             />
             {/* Description */}
             <div className="flex flex-col gap-10 items-center absolute top-[25%] left-[25%] font-banner text-2xl">
@@ -30,7 +30,7 @@ const AuthDesktopSignUpPage = () => {
               <p>Today feels like spring.</p>
               <p>Your quiet attention makes</p>
               <p>the world a kinder place.</p>
-              <p>Kindness isn’t free — but it’s priceles123.</p>
+              <p>Kindness isn’t free — but it’s priceles.</p>
             </div>
           </div>
           {/* Right - Login Input */}

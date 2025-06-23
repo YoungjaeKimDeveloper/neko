@@ -1,14 +1,31 @@
+import { useState } from "react";
 import logo from "../../../../../public/neko_logo.png";
 import InputPassword from "../../components/AuthInputPassword";
 import InputText from "../../components/AuthInputText";
 import MainButton from "../../../../shared/components/MainButton";
 import AuthFooter from "../../components/AuthFooter";
+import { authLoginSchema } from "../../schema/auth.login.schema";
 /*
 
   Login page for new user
 
 */
 const AuthMobileLoginPage = () => {
+  // Track the values
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  // Submit login form
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("Button Clicked");
+    const result = authLoginSchema.safeParse({ email, password });
+    if (!result.success) {
+      console.error(result.error.format()); // foramt --> show error message
+      return;
+    }
+    console.log("form submitted");
+    // const validData = result.data;
+  };
   // BUILD UI
   return (
     // Outer Container
@@ -23,17 +40,24 @@ const AuthMobileLoginPage = () => {
             <p>We're glad you're here.</p>
           </div>
           <img src={logo} alt="logo_image" className="size-20" />
-          {/* Login input */}
-          <div className="w-full">
+          {/* Login form */}
+          <form className="w-full" onSubmit={handleLogin}>
             {/* email */}
-            <InputText />
+            <InputText
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
             {/* Password */}
-            <InputPassword hintText="Password" />
+            <InputPassword
+              hintText="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
             {/* Login button */}
             <div className="w-[80%] mx-auto mt-3">
-              <MainButton text="Login" />
+              <MainButton text="Login" type="submit" />
             </div>
-          </div>
+          </form>
           {/* Sigm up message */}
           <AuthFooter
             description="Already have an account with Neko?."
