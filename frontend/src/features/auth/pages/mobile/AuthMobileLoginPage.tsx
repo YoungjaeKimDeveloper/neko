@@ -14,9 +14,9 @@ const AuthMobileLoginPage = () => {
     // Outer Container
     <div className="px-10 mb-10 pt-10">
       {/* Inner Container */}
-      <div className="w-[300px] shadow-sm bg-amber-50 h-[500px] mx-auto rounded-xl">
+      <div className="w-[300px] shadow-lg  h-[500px] mx-auto rounded-xl">
         {/* Main Content */}
-        <div className=" flex flex-col items-center justify-center bg-red-50 h-full rounded-xl">
+        <div className=" flex flex-col items-center justify-center  h-full rounded-xl">
           {/* Welcome Message */}
           <div className="flex flex-col items-center">
             <p>Welcome to the Neko family</p>

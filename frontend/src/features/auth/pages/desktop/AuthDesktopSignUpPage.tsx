@@ -49,7 +49,7 @@ const AuthDesktopSignUpPage = () => {
               <AuthInputPassword hintText="Confirm Password" />
             </div>
             <div className="w-[30%] mx-auto mt-5">
-              <MainButton text="Login" />
+              <MainButton text="Sign up" />
             </div>
             <div className="mt-5">
               <AuthFooter

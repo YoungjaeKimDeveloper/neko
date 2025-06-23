@@ -9,9 +9,9 @@ const AuthMobileSignUpPage = () => {
     // Outer Container
     <div className="px-10 mb-10 pt-10">
       {/* Inner Container */}
-      <div className="w-[300px] shadow-sm bg-amber-50 h-[500px] mx-auto rounded-xl">
+      <div className="w-[300px]  bg-grayr-50 h-[500px] mx-auto rounded-xl shadow-lg">
         {/* Main Content */}
-        <div className=" flex flex-col items-center justify-center bg-red-50 h-full rounded-xl">
+        <div className=" flex flex-col items-center justify-center bg-grey-50 h-full rounded-xl">
           {/* Welcome Message */}
           <div className="flex flex-col items-center">
             <p>Welcome to the Neko family</p>
@@ -27,14 +27,14 @@ const AuthMobileSignUpPage = () => {
             <InputPassword hintText="Confirm Password" />
             {/* Login button */}
             <div className="w-[80%] mx-auto mt-3">
-              <MainButton text="Login" />
+              <MainButton text="Signup" />
             </div>
           </div>
           {/* Sigm up message */}
           <div>
             <AuthFooter
               description="Start helping and getting help."
-              text="Sign up"
+              text="Login"
               path="login"
             />
           </div>

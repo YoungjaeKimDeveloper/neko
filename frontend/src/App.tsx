@@ -5,12 +5,8 @@ import Navbar from "./shared/components/Navbar";
 import Landingpage from "./shared/pages/mobile/LandingPage";
 
 // Auth
-// Auth - mobile
-// import AuthLoginMobilePage from "./features/auth/pages/mobile/AuthMobileLoginPage"
-import AuthMobileSignUpPage from "./features/auth/pages/mobile/AuthMobileSignUpPage";
-// Auth - Desktop
-import AuthDesktopLoginPage from "./features/auth/pages/desktop/AuthDesktopLoginPage";
-import AuthDesktopSignUpPage from "./features/auth/pages/desktop/AuthDesktopSignUpPage";
+import AuthLoginPage from "./features/auth/pages/AuthLoginPage";
+import AuthSignUpPage from "./features/auth/pages/AuthSignUpPage";
 
 const App = () => {
   return (
@@ -18,8 +14,8 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Landingpage />} />
-        <Route path="/login" element={<AuthDesktopLoginPage />} />
-        <Route path="/signup" element={<AuthDesktopSignUpPage />} />
+        <Route path="/login" element={<AuthLoginPage />} />
+        <Route path="/signup" element={<AuthSignUpPage />} />
       </Routes>
     </div>
   );
