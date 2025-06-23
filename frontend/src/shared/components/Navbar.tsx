@@ -23,7 +23,7 @@ const Navbar = () => {
         </Link>
 
         {/* Right Home + Login */}
-        <div className="flex gap-2 pr-2">
+        <div className="flex gap-2 pr-4">
           <Link to={"/"}>
             <Home />
           </Link>

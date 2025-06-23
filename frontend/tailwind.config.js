@@ -13,6 +13,7 @@ export default {
       fontFamily: {
         title: ["Pacifico"],
         content: ["Monomaniac One"],
+        banner: ["Handlee"],
       },
       // Border Radius
       borderRadius: { card: "20px" },
