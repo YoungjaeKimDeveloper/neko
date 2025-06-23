@@ -9,7 +9,7 @@ const AuthInputText = () => {
   return (
     <div className="px-10 pt-5 max-w-[100%] min-h-[20px] lg:min-h-[40px]  flex items-center relative">
       {/* Icon */}
-      <User className="absolute left-11" />
+      <User className="absolute left-11 text-hintText size-5" />
       <input
         type="text"
         placeholder="WelcometoNeko@gmail.com"

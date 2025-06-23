@@ -3,8 +3,8 @@ import { Route, Routes } from "react-router-dom";
 import Navbar from "./shared/components/Navbar";
 // Pages
 import Landingpage from "./shared/pages/mobile/LandingPage";
-import AuthLoginMobilePage from "./features/auth/pages/mobile/AuthLoginMobilePage";
-import AuthSignUpMobilePage from "./features/auth/pages/mobile/AuthSignUpMobilePage";
+import AuthLoginMobilePage from "./features/auth/pages/mobile/AuthMobileLoginPage";
+import AuthSignUpMobilePage from "./features/auth/pages/mobile/AuthMobileSignUpPage";
 
 const App = () => {
   return (

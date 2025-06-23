@@ -3,11 +3,11 @@ import InputPassword from "../../components/AuthInputPassword";
 import InputText from "../../components/AuthInputText";
 import MainButton from "../../../../shared/components/MainButton";
 import AuthFooter from "../../components/AuthFooter";
-const AuthLoginMobilePage = () => {
+const AuthMobileSignUpPage = () => {
   // BUILD UI
   return (
     // Outer Container
-    <div className="px-10 mb-10 mt-10">
+    <div className="px-10 mb-10 pt-10">
       {/* Inner Container */}
       <div className="w-[300px] shadow-sm bg-amber-50 h-[500px] mx-auto rounded-xl">
         {/* Main Content */}
@@ -23,22 +23,25 @@ const AuthLoginMobilePage = () => {
             {/* email */}
             <InputText />
             {/* Password */}
-            <InputPassword />
+            <InputPassword hintText="Password" />
+            <InputPassword hintText="Confirm Password" />
             {/* Login button */}
-            <div className="w-[80%] mx-auto">
+            <div className="w-[80%] mx-auto mt-3">
               <MainButton text="Login" />
             </div>
           </div>
           {/* Sigm up message */}
-          <AuthFooter
-            description="Start helping and getting help."
-            text="Sign up"
-            path="signup"
-          />
+          <div>
+            <AuthFooter
+              description="Start helping and getting help."
+              text="Sign up"
+              path="login"
+            />
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default AuthLoginMobilePage;
+export default AuthMobileSignUpPage;
