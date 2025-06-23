@@ -36,7 +36,7 @@ const AuthMobileLoginPage = () => {
           </div>
           {/* Sigm up message */}
           <AuthFooter
-            description="Start helping and getting help."
+            description="Already have an account with Neko?."
             text="Sign up"
             path="signup"
           />

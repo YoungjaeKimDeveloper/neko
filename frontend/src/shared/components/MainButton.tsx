@@ -16,7 +16,7 @@ const MainButton = ({ text }: MainButton) => {
   // Build ui
   return (
     <div className="w-[100%] mx-auto text-sm">
-      <div className="flex justify-center bg-white px-20 py-2 rounded-xl shadow-sm hover:bg-gray-100 duration-200 cursor-pointer font-content w-full">
+      <div className="flex justify-center  px-20 py-2 rounded-xl shadow-sm hover:bg-gray-100 duration-200 cursor-pointer font-content w-full">
         <Link to={"/login"}>
           <button>{text}</button>
         </Link>

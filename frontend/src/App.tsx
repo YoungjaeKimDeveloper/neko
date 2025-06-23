@@ -10,6 +10,7 @@ import Landingpage from "./shared/pages/mobile/LandingPage";
 import AuthMobileSignUpPage from "./features/auth/pages/mobile/AuthMobileSignUpPage";
 // Auth - Desktop
 import AuthDesktopLoginPage from "./features/auth/pages/desktop/AuthDesktopLoginPage";
+import AuthDesktopSignUpPage from "./features/auth/pages/desktop/AuthDesktopSignUpPage";
 
 const App = () => {
   return (
@@ -18,7 +19,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Landingpage />} />
         <Route path="/login" element={<AuthDesktopLoginPage />} />
-        <Route path="/signup" element={<AuthMobileSignUpPage />} />
+        <Route path="/signup" element={<AuthDesktopSignUpPage />} />
       </Routes>
     </div>
   );
