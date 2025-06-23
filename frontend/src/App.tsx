@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 
-
+import "./index.css";
 // Components
 import Navbar from "./shared/components/Navbar";
 // Pages
@@ -10,7 +10,6 @@ import AuthLoginPage from "./features/auth/pages/AuthLoginPage";
 import AuthSignUpPage from "./features/auth/pages/AuthSignUpPage";
 
 const App = () => {
-  
   // Render
   return (
     <div>

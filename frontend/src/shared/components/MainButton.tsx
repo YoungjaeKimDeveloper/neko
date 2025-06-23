@@ -10,7 +10,7 @@
 */
 
 interface MainButton {
-  type: "submit" | "reset" | "button";
+  type?: "submit" | "reset" | "button";
   text: string;
 }
 const MainButton = ({ text, type = "button" }: MainButton) => {

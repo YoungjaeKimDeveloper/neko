@@ -2,13 +2,21 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "CommonJS",
-    "rootDir": "backend",
+    "rootDir": ".",
     "outDir": "./dist",
     "esModuleInterop": true,
     "strict": true,
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
-  "include": ["backend/**/*.ts", "backend/tests/comment/createComment", "backend/tests/notification/readNotification.test.ts", "backend/tests/like/llike", "backend/tests/like/unlike"],
+  "include": [
+    "*",
+    "backend/**/*.ts",
+    "backend/tests/comment/createComment",
+    "backend/tests/notification/readNotification.test.ts",
+    "backend/tests/like/llike",
+    "backend/tests/like/unlike",
+    "shared/dto/auth/auth.request.dto.ts"
+  ],
   "exclude": ["node_modules"]
 }

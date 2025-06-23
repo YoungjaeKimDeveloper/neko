@@ -20,7 +20,7 @@ const AuthMobileLoginPage = () => {
     console.log("Button Clicked");
     const result = authLoginSchema.safeParse({ email, password });
     if (!result.success) {
-      console.error(result.error.format()); // foramt --> show error message
+      console.error(result.error.format()); // foramt --> show details
       return;
     }
     console.log("form submitted");

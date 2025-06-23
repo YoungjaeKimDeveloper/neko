@@ -3,6 +3,7 @@
   Shared Landing page
 
 */
+import { Link } from "react-router-dom";
 import landingImage from "../../../../public/landing_page.jpg";
 import MainButton from "../../components/MainButton";
 const Landingpage = () => {
@@ -33,7 +34,9 @@ const Landingpage = () => {
           </div>
           {/* Find a cat button */}
           <div className="flex items-center justify-center mt-10 ">
-            <MainButton text="Find a cat" />
+            <Link to={"/login"}>
+              <MainButton text="Find a cat" />
+            </Link>
           </div>
         </div>
       </div>
