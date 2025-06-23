@@ -3,7 +3,8 @@
   Shared Landing page
 
 */
-import landingImage from "../../../public/landing_page.jpg";
+import landingImage from "../../../../public/landing_page.jpg";
+import MainButton from "../../components/MainButton";
 const Landingpage = () => {
   return (
     // Outer - Position
@@ -31,8 +32,8 @@ const Landingpage = () => {
             <p>A cat is part of the family.</p>
           </div>
           {/* Find a cat button */}
-          <div className="flex items-center justify-center mt-10">
-            <button className="btn">Find a lost cat</button>
+          <div className="flex items-center justify-center mt-10 ">
+            <MainButton text="Find a cat" />
           </div>
         </div>
       </div>

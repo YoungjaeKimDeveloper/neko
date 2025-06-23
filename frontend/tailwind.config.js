@@ -7,6 +7,7 @@ export default {
       // Colors
       colors: {
         primary: "#bdb2ff",
+        hintText: "#d1d5db",
       },
       // Font family
       fontFamily: {
