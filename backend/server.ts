@@ -21,7 +21,7 @@ import notificationRouter from "./features/notification/application/router/notif
 import likeRouter from "./features/like/application/routers/like.router";
 import commentRouter from "./features/comment/application/router/comment.router";
 dotenv.config();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8011;
 
 // SERVER SINGLETON
 const app = express();
