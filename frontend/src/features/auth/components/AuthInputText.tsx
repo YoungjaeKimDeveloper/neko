@@ -5,9 +5,9 @@
 import { User } from "lucide-react";
 
 interface AuthInputText {
-  value: string;
+  value?: string;
   // Set the type of parameters
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const AuthInputText = ({ value, onChange }: AuthInputText) => {
@@ -19,7 +19,7 @@ const AuthInputText = ({ value, onChange }: AuthInputText) => {
       <input
         value={value}
         type="text"
-        placeholder="WelcometoNeko@gmail.com"
+        placeholder="Email@gmail.com"
         className="input w-full [text-indent:1rem] shadow-md font-content placeholder:text-hintText placeholder:text-sm"
         onChange={onChange}
       />

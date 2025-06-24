@@ -22,6 +22,7 @@ const AuthMobileSignUpPage = () => {
           <div className="w-full">
             {/* email */}
             <InputText />
+            <InputText />
             {/* Password */}
             <InputPassword hintText="Password" />
             <InputPassword hintText="Confirm Password" />

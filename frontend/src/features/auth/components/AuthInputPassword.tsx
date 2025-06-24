@@ -5,10 +5,10 @@
 import { Eye, EyeClosed, Lock } from "lucide-react";
 import { useState } from "react";
 interface AuthInputText {
-  value: string;
+  value?: string;
   hintText: string;
   // Void - > reutrn nothing
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 const AuthInputPassword = ({ hintText, value, onChange }: AuthInputText) => {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);

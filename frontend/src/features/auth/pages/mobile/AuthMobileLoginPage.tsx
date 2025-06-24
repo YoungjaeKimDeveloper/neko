@@ -17,7 +17,7 @@ import toast from "react-hot-toast";
 const AuthMobileLoginPage = () => {
   const queryClient = useQueryClient();
   // Call Login API
-  const { mutate: loginMutation } = useMutation({
+  const { mutate: loginMutation, isLoading } = useMutation({
     mutationFn: (userData: LoginDTO) => loginAPI(userData),
     onSuccess: () => {
       toast.success("Hello user");
@@ -73,7 +73,7 @@ const AuthMobileLoginPage = () => {
             />
             {/* Login button */}
             <div className="w-[80%] mx-auto mt-3">
-              <MainButton text="Login" type="submit" />
+              <MainButton text="Login" type="submit" isLoading={isLoading} />
             </div>
           </form>
           {/* Sigm up message */}
