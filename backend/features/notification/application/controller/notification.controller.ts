@@ -4,7 +4,7 @@ import { ResponseDTO } from "../../../../lib/dto/response.dto";
 import { errorLog } from "../../../../lib/utils/error/error.log";
 import NeonNotificationRepo from "../../data/neon.notification.repo";
 import { RESPONSE_MESSAGES } from "../../../../lib/utils/constants/messages";
-import { RESPONSE_HTTP } from "../../../../lib/utils/constants/http-status";
+import { RESPONSE_HTTP } from "../../../../../shared/constants/http-status";
 import { sendResponse } from "../../../../lib/utils/response/helper/response.helper";
 
 const neonNotificationRepo = new NeonNotificationRepo();

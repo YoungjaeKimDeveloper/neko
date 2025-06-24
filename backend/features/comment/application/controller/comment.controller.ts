@@ -11,7 +11,7 @@ import NeonCommentRepo from "../../data/neon.comment.repo";
 import { errorLog } from "../../../../lib/utils/error/error.log";
 import NeonPostRepo from "../../../post/data/neon.post.repo";
 import { sendResponse } from "../../../../lib/utils/response/helper/response.helper";
-import { RESPONSE_HTTP } from "../../../../lib/utils/constants/http-status";
+import { RESPONSE_HTTP } from "../../../../../shared/constants/http-status";
 import { RESPONSE_MESSAGES } from "../../../../lib/utils/constants/messages";
 
 // Neon - data layer

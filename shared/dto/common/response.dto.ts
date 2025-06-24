@@ -4,7 +4,7 @@ COMMON RESPONSE DTO CROSS THE FILE
 
 */
 
-import User from "../../features/auth/domain/entities/user";
+import User from "../../../backend/features/auth/domain/entities/user";
 import { Response } from "express";
 export interface ResponseDTO {
   res?: Response;

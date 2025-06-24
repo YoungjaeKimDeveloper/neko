@@ -13,7 +13,7 @@ import NeonPostRepo from "../../../post/data/neon.post.repo";
 import NeonNotificationRepo from "../../../notification/data/neon.notification.repo";
 import { NotificationType } from "../../../notification/domain/entity/notification";
 import { sendResponse } from "../../../../lib/utils/response/helper/response.helper";
-import { RESPONSE_HTTP } from "../../../../lib/utils/constants/http-status";
+import { RESPONSE_HTTP } from "../../../../../shared/constants/http-status";
 import { RESPONSE_MESSAGES } from "../../../../lib/utils/constants/messages";
 
 // Neon Instance

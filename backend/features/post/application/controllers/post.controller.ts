@@ -9,7 +9,7 @@ import {
   sendResponse,
   sendResponseV2,
 } from "../../../../lib/utils/response/helper/response.helper";
-import { RESPONSE_HTTP } from "../../../../lib/utils/constants/http-status";
+import { RESPONSE_HTTP } from "../../../../../shared/constants/http-status";
 import { RESPONSE_MESSAGES } from "../../../../lib/utils/constants/messages";
 /*
     POST API(Hanlder)

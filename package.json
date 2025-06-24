@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only backend/server.ts",
-    "test": "jest --watchAll"
+    "test": "jest "
   },
   "repository": {
     "type": "git",

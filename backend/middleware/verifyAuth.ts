@@ -10,7 +10,7 @@ import { Request, Response, NextFunction } from "express";
 import { ResponseDTO } from "../lib/dto/response.dto";
 import User from "../features/auth/domain/entities/user";
 import { sendResponse } from "../lib/utils/response/helper/response.helper";
-import { RESPONSE_HTTP } from "../lib/utils/constants/http-status";
+import { RESPONSE_HTTP } from "../../shared/constants/http-status";
 import { RESPONSE_MESSAGES } from "../lib/utils/constants/messages";
 import { errorLog } from "../lib/utils/error/error.log";
 
@@ -68,7 +68,7 @@ export const verifyToken = async (
         message: `${RESPONSE_MESSAGES.NOT_FOUND} can't find the user`,
       });
     }
-    console.log("")
+    console.log("");
     req.user = user[0] as User;
     next();
   } catch (error) {

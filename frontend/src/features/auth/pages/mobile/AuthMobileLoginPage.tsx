@@ -5,12 +5,30 @@ import InputText from "../../components/AuthInputText";
 import MainButton from "../../../../shared/components/MainButton";
 import AuthFooter from "../../components/AuthFooter";
 import { authLoginSchema } from "../../schema/auth.login.schema";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import loginAPI from "../../services/auth/auth.login.service";
+import type { LoginDTO } from "../../../../../../shared/dto/auth/auth.request.dto";
+import toast from "react-hot-toast";
 /*
 
   Login page for new user
 
 */
 const AuthMobileLoginPage = () => {
+  const queryClient = useQueryClient();
+  // Call Login API
+  const { mutate: loginMutation } = useMutation({
+    mutationFn: (userData: LoginDTO) => loginAPI(userData),
+    onSuccess: () => {
+      toast.success("Hello user");
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+    },
+    onError: (error: unknown) => {
+      if (error instanceof Error) {
+        toast.error("Something went wrong");
+      }
+    },
+  });
   // Track the values
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -23,7 +41,7 @@ const AuthMobileLoginPage = () => {
       console.error(result.error.format()); // foramt --> show details
       return;
     }
-    console.log("form submitted");
+    loginMutation({ email, password });
     // const validData = result.data;
   };
   // BUILD UI

@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import "./index.css";
 // Components
 import Navbar from "./shared/components/Navbar";
+import { Toaster } from "react-hot-toast";
 // Pages
 import Landingpage from "./shared/pages/mobile/LandingPage";
 // Auth
@@ -13,6 +14,7 @@ const App = () => {
   // Render
   return (
     <div>
+      <Toaster />
       <Navbar />
       <Routes>
         <Route path="/" element={<Landingpage />} />
