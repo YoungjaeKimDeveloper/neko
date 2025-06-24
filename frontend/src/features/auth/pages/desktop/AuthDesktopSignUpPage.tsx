@@ -11,7 +11,9 @@ import AuthInputText from "../../components/AuthInputText";
 // Assets
 import logoImg from "../../../../../public/neko_logo.png";
 import bannerImg from "../../../../../public/authSideBanner.jpg";
+
 const AuthDesktopSignUpPage = () => {
+  // useMutation
   // Build Ui
   return (
     <div className="px-10">

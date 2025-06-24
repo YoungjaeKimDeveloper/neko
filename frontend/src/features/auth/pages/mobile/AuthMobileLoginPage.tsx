@@ -74,6 +74,7 @@ const AuthMobileLoginPage = () => {
             {/* Login button */}
             <div className="w-[80%] mx-auto mt-3">
               <MainButton text="Login" type="submit" isLoading={isLoading} />
+            
             </div>
           </form>
           {/* Sigm up message */}

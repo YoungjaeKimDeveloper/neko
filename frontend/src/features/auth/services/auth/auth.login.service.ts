@@ -13,15 +13,12 @@ import toast from "react-hot-toast";
 const loginAPI = async (loginDto: LoginDTO) => {
   try {
     // Send Request <--> Send Response
-    const loginUser = await axiosInstance.post<ResponseDTO>(
+    const result = await axiosInstance.post<ResponseDTO>(
       "/auth/auth-tokens",
       loginDto
     );
     // Failed to login
-    if (
-      loginUser.status !== RESPONSE_HTTP.OK ||
-      loginUser.data.success !== true
-    ) {
+    if (result.status !== RESPONSE_HTTP.OK || result.data.success !== true) {
       return null;
     }
     // Succeed in login
@@ -32,7 +29,7 @@ const loginAPI = async (loginDto: LoginDTO) => {
       toast.error(`Failed to login : ${error.message}`);
     }
   }
-  return false;
+  return null;
 };
 
 export default loginAPI;
