@@ -2,21 +2,27 @@
   Common Input Bar
 */
 
-import { Eye, EyeClosed, Lock } from "lucide-react";
+import { Eye, EyeClosed, type LucideIcon } from "lucide-react";
 import { useState } from "react";
 interface AuthInputText {
   value?: string;
   hintText: string;
+  Icon: LucideIcon;
   // Void - > reutrn nothing
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const AuthInputPassword = ({ hintText, value, onChange }: AuthInputText) => {
+const AuthInputPassword = ({
+  hintText,
+  value,
+  onChange,
+  Icon,
+}: AuthInputText) => {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
   const togglePassword = () => setIsShowPassword((prev) => !prev);
   // BUILD UI
   return (
     <div className="px-10 pt-5 min-h-[20px] lg:min-h-[40px] flex items-center relative">
-      <Lock className="absolute left-11 text-hintText size-5" />
+      {Icon && <Icon className="absolute left-11 text-hintText size-5" />}
       {/* Text filed */}
       <input
         value={value}

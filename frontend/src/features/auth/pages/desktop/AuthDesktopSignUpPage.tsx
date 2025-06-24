@@ -11,9 +11,11 @@ import AuthInputText from "../../components/AuthInputText";
 // Assets
 import logoImg from "../../../../../public/neko_logo.png";
 import bannerImg from "../../../../../public/authSideBanner.jpg";
+import { User, UserRoundPen, Lock, LockKeyhole } from "lucide-react";
 
 const AuthDesktopSignUpPage = () => {
   // useMutation
+
   // Build Ui
   return (
     <div className="px-10">
@@ -39,16 +41,20 @@ const AuthDesktopSignUpPage = () => {
           <div className="col-span-1 w-full h-full flex flex-col items-center pt-20 rounded-l-lg">
             {/* Left - Welcome Message */}
             <div className="flex flex-col items-center">
-              <p>Welcome back!</p>
-              <p>We've missed you.</p>
+              <p>Welcome to the Neko family</p>
+              <p>we're glad you're here</p>
             </div>
             {/* Left- Logo */}
             <img src={logoImg} alt="neko_logo" className="size-40" />
             {/* Input */}
             <div className="w-[75%]">
-              <AuthInputText />
-              <AuthInputPassword hintText="Password" />
-              <AuthInputPassword hintText="Confirm Password" />
+              <AuthInputText Icon={User} />
+              <AuthInputText Icon={UserRoundPen} hintText="Username" />
+              <AuthInputPassword hintText="Password" Icon={Lock} />
+              <AuthInputPassword
+                hintText="Confirm Password"
+                Icon={LockKeyhole}
+              />
             </div>
             <div className="w-[30%] mx-auto mt-5">
               <MainButton text="Sign up" />

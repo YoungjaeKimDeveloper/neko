@@ -11,6 +11,8 @@ import AuthInputText from "../../components/AuthInputText";
 // Assets
 import logoImg from "../../../../../public/neko_logo.png";
 import bannerImg from "../../../../../public/authSideBanner.jpg";
+// Icons
+import { Lock, User } from "lucide-react";
 const AuthDesktopLoginPage = () => {
   // Build Ui
   return (
@@ -28,8 +30,8 @@ const AuthDesktopLoginPage = () => {
             <img src={logoImg} alt="neko_logo" className="size-40" />
             {/* Input */}
             <div className="w-[75%]">
-              <AuthInputText />
-              <AuthInputPassword hintText="Password" />
+              <AuthInputText Icon={User} />
+              <AuthInputPassword hintText="Password" Icon={Lock} />
             </div>
             <div className="w-[30%] mx-auto mt-5">
               <MainButton text="Login" />

@@ -3,6 +3,8 @@ import InputPassword from "../../components/AuthInputPassword";
 import InputText from "../../components/AuthInputText";
 import MainButton from "../../../../shared/components/MainButton";
 import AuthFooter from "../../components/AuthFooter";
+import { User, Lock, LockKeyhole } from "lucide-react";
+import { UserRoundPen } from "lucide-react";
 const AuthMobileSignUpPage = () => {
   // BUILD UI
   return (
@@ -15,17 +17,17 @@ const AuthMobileSignUpPage = () => {
           {/* Welcome Message */}
           <div className="flex flex-col items-center">
             <p>Welcome to the Neko family</p>
-            <p>We're glad you're here.</p>
+            <p>we're glad you're here</p>
           </div>
           <img src={logo} alt="logo_image" className="size-20" />
           {/* Login input */}
           <div className="w-full">
             {/* email */}
-            <InputText />
-            <InputText />
+            <InputText Icon={User} />
+            <InputText Icon={UserRoundPen} hintText="Username" />
             {/* Password */}
-            <InputPassword hintText="Password" />
-            <InputPassword hintText="Confirm Password" />
+            <InputPassword hintText="Password" Icon={Lock} />
+            <InputPassword hintText="Confirm Password" Icon={LockKeyhole} />
             {/* Login button */}
             <div className="w-[80%] mx-auto mt-3">
               <MainButton text="Signup" />

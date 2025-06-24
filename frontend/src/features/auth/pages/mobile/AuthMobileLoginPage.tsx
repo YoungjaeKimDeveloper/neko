@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import loginAPI from "../../services/auth/auth.login.service";
 import type { LoginDTO } from "../../../../../../shared/dto/auth/auth.request.dto";
 import toast from "react-hot-toast";
+import { Lock, User } from "lucide-react";
 /*
 
   Login page for new user
@@ -54,19 +55,21 @@ const AuthMobileLoginPage = () => {
         <div className=" flex flex-col items-center justify-center  h-full rounded-xl">
           {/* Welcome Message */}
           <div className="flex flex-col items-center">
-            <p>Welcome to the Neko family</p>
-            <p>We're glad you're here.</p>
+            <p>Welcome back!</p>
+            <p>We've missed you.</p>
           </div>
           <img src={logo} alt="logo_image" className="size-20" />
           {/* Login form */}
           <form className="w-full" onSubmit={handleLogin}>
             {/* email */}
             <InputText
+              Icon={User}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             {/* Password */}
             <InputPassword
+              Icon={Lock}
               hintText="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -74,7 +77,6 @@ const AuthMobileLoginPage = () => {
             {/* Login button */}
             <div className="w-[80%] mx-auto mt-3">
               <MainButton text="Login" type="submit" isLoading={isLoading} />
-            
             </div>
           </form>
           {/* Sigm up message */}
