@@ -8,6 +8,7 @@ export default {
       colors: {
         primary: "#bdb2ff",
         hintText: "#d1d5db",
+        warning: "#ef4444",
       },
       // Font family
       fontFamily: {

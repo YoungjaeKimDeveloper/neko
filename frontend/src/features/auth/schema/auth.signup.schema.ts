@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const SignupSchema = z
+export const authSignupSchema = z
   .object({
     email: z
       .string()
@@ -12,7 +12,7 @@ export const SignupSchema = z
     password: z
       .string()
       .min(6, { message: "Password should be at least 6 letters" }),
-    confirmPassword: z.string(),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
   })
   // Refine - add extra logic
   .refine((data) => data.password == data.confirmPassword, {
@@ -21,4 +21,4 @@ export const SignupSchema = z
     path: ["confirmPassword"],
   });
 
-export type AuthSignup = z.infer<typeof SignupSchema>;
+export type AuthSignup = z.infer<typeof authSignupSchema>;

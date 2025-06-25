@@ -19,6 +19,7 @@ const loginAPI = async (loginDto: LoginDTO) => {
     );
     // Failed to login
     if (result.status !== RESPONSE_HTTP.OK || result.data.success !== true) {
+      console.log("Error in 'login API' ", result?.data?.message);
       return null;
     }
     // Succeed in login
