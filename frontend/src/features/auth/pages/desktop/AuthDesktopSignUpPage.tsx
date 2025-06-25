@@ -19,6 +19,7 @@ import signupAPI from "../../services/auth/auth.signup.service";
 import type { SignUpDTO } from "../../../../../../shared/dto/auth/auth.request.dto";
 import { authSignupSchema } from "../../schema/auth.signup.schema";
 import type { AuthSignup } from "../../schema/auth.signup.schema";
+import { useNavigate } from "react-router-dom";
 
 const AuthDesktopSignUpPage = () => {
   // useMutation
@@ -34,12 +35,15 @@ const AuthDesktopSignUpPage = () => {
   const [formattedErros, setFormattedErros] = useState<
     Partial<Record<keyof AuthSignup, string>>
   >({});
+  const naviagte = useNavigate();
   // Send to  API
   const { mutate: signupMutation, isLoading } = useMutation({
     mutationFn: (userData: SignUpDTO) => signupAPI(userData),
     onSuccess: () => {
       toast.success("User signup");
+      naviagte("/home");
     },
+
     onError: (error: unknown) => {
       if (error instanceof Error) {
         console.log("Failed to signup", error?.message);
@@ -135,7 +139,7 @@ const AuthDesktopSignUpPage = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 errorMessage={formattedErros?.confirmPassword}
               />
-              <div className="w-[50%] mx-auto mt-5">
+              <div className="w-[70%] max-w-[200px] mx-auto mt-5">
                 <MainButton
                   text="Sign up"
                   type="submit"

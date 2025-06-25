@@ -4,7 +4,7 @@
 
 */
 import { Link } from "react-router-dom";
-import landingImage from "../../../../public/landing_page.jpg";
+
 import MainButton from "../../components/MainButton";
 const Landingpage = () => {
   return (
@@ -14,7 +14,7 @@ const Landingpage = () => {
       <div className="w-full h-[100%] lg:h-[700px] rounded-card bg-red-50 flex flex-col items-center lg:justify-center py-4 lg:flex-row lg:gap-10 shadow-xl">
         {/* Loayout */}
         <img
-          src={landingImage}
+          src={"/landing_page.jpg"}
           alt="landing_image"
           className="rounded-card w-[90%] max-h-[80%] mt-5 shadow-lg lg:w-[33%] lg:h-[66%]"
         />

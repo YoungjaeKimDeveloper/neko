@@ -10,6 +10,8 @@ import loginAPI from "../../services/auth/auth.login.service";
 import type { LoginDTO } from "../../../../../../shared/dto/auth/auth.request.dto";
 import toast from "react-hot-toast";
 import { Lock, User } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 /*
 
   Login page for new user
@@ -17,12 +19,14 @@ import { Lock, User } from "lucide-react";
 */
 const AuthMobileLoginPage = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   // Call Login API
   const { mutate: loginMutation, isLoading } = useMutation({
     mutationFn: (userData: LoginDTO) => loginAPI(userData),
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      await navigate("/home");
       toast.success("Hello user");
-      queryClient.invalidateQueries({ queryKey: ["authUser"] });
     },
     onError: (error: unknown) => {
       if (error instanceof Error) {
@@ -45,6 +49,7 @@ const AuthMobileLoginPage = () => {
     loginMutation({ email, password });
     // const validData = result.data;
   };
+
   // BUILD UI
   return (
     // Outer Container
@@ -58,11 +63,7 @@ const AuthMobileLoginPage = () => {
             <p>Welcome back!</p>
             <p>We've missed you.</p>
           </div>
-          <img
-            src="/neko_logo.png"
-            alt="logo_image"
-            className="size-20"
-          />
+          <img src="/neko_logo.png" alt="logo_image" className="size-20" />
           {/* Login form */}
           <form className="w-full" onSubmit={handleLogin}>
             {/* email */}
@@ -79,7 +80,11 @@ const AuthMobileLoginPage = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             {/* Login button */}
-            <div className="w-[80%] mx-auto mt-3">
+            <div
+              className={`w-[80%] mx-auto mt-3 ${
+                isLoading && "cursor-not-allowed"
+              }`}
+            >
               <MainButton text="Login" type="submit" isLoading={isLoading} />
             </div>
           </form>
