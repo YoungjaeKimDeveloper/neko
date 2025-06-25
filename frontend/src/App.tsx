@@ -14,7 +14,7 @@ import HomePage from "./features/home/pages/HomePage";
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "./shared/api/axios";
 import { Loader } from "lucide-react";
-import AuthNavbar from "./shared/components/AuthNavbar";
+import AuthNavbar from "./features/auth/components/Desktop/AuthDesktopNavbar";
 
 const App = () => {
   // fetch current User

@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-import InputPassword from "../../components/AuthInputPassword";
-import InputText from "../../components/AuthInputText";
+import InputPassword from "../../components/common/AuthInputPassword";
+import InputText from "../../components/common/AuthInputText";
 import MainButton from "../../../../shared/components/MainButton";
-import AuthFooter from "../../components/AuthFooter";
+import AuthFooter from "../../components/common/AuthFooter";
 import { authLoginSchema } from "../../schema/auth.login.schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import loginAPI from "../../services/auth/auth.login.service";
@@ -24,6 +24,7 @@ const AuthMobileLoginPage = () => {
   const { mutate: loginMutation, isLoading } = useMutation({
     mutationFn: (userData: LoginDTO) => loginAPI(userData),
     onSuccess: async () => {
+      console.log("Tried to login");
       await queryClient.invalidateQueries({ queryKey: ["authUser"] });
       await navigate("/home");
       toast.success("Hello user");

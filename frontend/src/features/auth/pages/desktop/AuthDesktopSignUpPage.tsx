@@ -8,9 +8,9 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 // Components
 import MainButton from "../../../../shared/components/MainButton";
-import AuthFooter from "../../components/AuthFooter";
-import AuthInputPassword from "../../components/AuthInputPassword";
-import AuthInputText from "../../components/AuthInputText";
+import AuthFooter from "../../components/common/AuthFooter";
+import AuthInputPassword from "../../components/common/AuthInputPassword";
+import AuthInputText from "../../components/common/AuthInputText";
 // Assets
 
 import { User, UserRoundPen, Lock, LockKeyhole } from "lucide-react";

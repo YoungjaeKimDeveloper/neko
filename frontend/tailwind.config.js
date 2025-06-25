@@ -9,6 +9,8 @@ export default {
         primary: "#bdb2ff",
         hintText: "#d1d5db",
         warning: "#ef4444",
+        icon: "#9CA3AF",
+        hovered_icon: "#4B5563",
       },
       // Font family
       fontFamily: {
@@ -20,6 +22,10 @@ export default {
       borderRadius: { card: "20px" },
       margin: {
         navBottom: "1rem",
+      },
+      boxShadow: {
+        sidebar:
+          "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)",
       },
     },
   },
