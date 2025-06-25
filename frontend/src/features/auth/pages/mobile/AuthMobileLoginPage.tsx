@@ -1,5 +1,5 @@
 import { useState } from "react";
-import logo from "../../../../../public/neko_logo.png";
+
 import InputPassword from "../../components/AuthInputPassword";
 import InputText from "../../components/AuthInputText";
 import MainButton from "../../../../shared/components/MainButton";
@@ -58,7 +58,11 @@ const AuthMobileLoginPage = () => {
             <p>Welcome back!</p>
             <p>We've missed you.</p>
           </div>
-          <img src={logo} alt="logo_image" className="size-20" />
+          <img
+            src="/neko_logo.png"
+            alt="logo_image"
+            className="size-20"
+          />
           {/* Login form */}
           <form className="w-full" onSubmit={handleLogin}>
             {/* email */}

@@ -12,8 +12,7 @@ import AuthFooter from "../../components/AuthFooter";
 import AuthInputPassword from "../../components/AuthInputPassword";
 import AuthInputText from "../../components/AuthInputText";
 // Assets
-import logoImg from "../../../../../public/neko_logo.png";
-import bannerImg from "../../../../../public/authSideBanner.jpg";
+
 import { User, UserRoundPen, Lock, LockKeyhole } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import signupAPI from "../../services/auth/auth.signup.service";
@@ -85,7 +84,7 @@ const AuthDesktopSignUpPage = () => {
           {/* Left - Image + Description */}
           <div className="col-span-1 w-full h-full  hidden lg:block  lg:relative">
             <img
-              src={bannerImg}
+              src="/authSideBanner.jpg"
               alt="banner_img"
               className="w-full h-full object-cover opacity-50 rounded-l-lg"
             />
@@ -106,7 +105,7 @@ const AuthDesktopSignUpPage = () => {
               <p>we're glad you're here</p>
             </div>
             {/* Right- Logo */}
-            <img src={logoImg} alt="neko_logo" className="size-20" />
+            <img src="/neko_logo.png" alt="neko_logo" className="size-20" />
             {/* Input */}
             <form className="w-[75%]" onSubmit={handleSignup}>
               <AuthInputText

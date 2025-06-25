@@ -1,4 +1,3 @@
-import logo from "../../../../../public/neko_logo.png";
 import InputPassword from "../../components/AuthInputPassword";
 import InputText from "../../components/AuthInputText";
 import MainButton from "../../../../shared/components/MainButton";
@@ -19,7 +18,7 @@ const AuthMobileSignUpPage = () => {
             <p>Welcome to the Neko family</p>
             <p>we're glad you're here</p>
           </div>
-          <img src={logo} alt="logo_image" className="size-20" />
+          <img src="/neko_logo.png" alt="logo_image" className="size-20" />
           {/* Login input */}
           <div className="w-full">
             {/* email */}

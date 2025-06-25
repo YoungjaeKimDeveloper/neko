@@ -9,8 +9,7 @@ import AuthFooter from "../../components/AuthFooter";
 import AuthInputPassword from "../../components/AuthInputPassword";
 import AuthInputText from "../../components/AuthInputText";
 // Assets
-import logoImg from "../../../../../public/neko_logo.png";
-import bannerImg from "../../../../../public/authSideBanner.jpg";
+
 // Icons
 import { Lock, User } from "lucide-react";
 const AuthDesktopLoginPage = () => {
@@ -27,7 +26,7 @@ const AuthDesktopLoginPage = () => {
               <p>We've missed you.</p>
             </div>
             {/* Left- Logo */}
-            <img src={logoImg} alt="neko_logo" className="size-40" />
+            <img src="/neko_logo.png" alt="neko_logo" className="size-40" />
             {/* Input */}
             <div className="w-[75%]">
               <AuthInputText Icon={User} />
@@ -47,7 +46,7 @@ const AuthDesktopLoginPage = () => {
           {/* Right - Image + Description */}
           <div className="col-span-1 w-full h-full  hidden lg:block  lg:relative">
             <img
-              src={bannerImg}
+              src="/authSideBanner.jpg"
               alt="banner_img"
               className="w-full h-full object-cover opacity-50 rounded-r-lg"
             />

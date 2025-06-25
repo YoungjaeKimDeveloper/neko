@@ -43,3 +43,13 @@ RESTFUL 하다 = REST한 규칙
 2. Profile
 3. Notification
 4. Post(comment,like)
+
+---Todo
+
+1. Show error message Auth(mobile Login,mobile signup,Desktop login)
+
+2. check veirfy user and manage Router
+
+3. Stop styling hardcoing create the first component and resue it
+
+4. Create @layer @component in Card component
