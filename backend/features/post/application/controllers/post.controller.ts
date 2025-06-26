@@ -13,7 +13,7 @@ import { RESPONSE_HTTP } from "../../../../../shared/constants/http-status";
 import { RESPONSE_MESSAGES } from "../../../../lib/utils/constants/messages";
 /*
     POST API(Hanlder)
-    POST DB <----> POST API <----> Frontend
+    Neon <----> POST API <----> Frontend
     1.CreatePost 
     2.fetchPostByUserId
     3.update 
@@ -33,6 +33,7 @@ export const createPost = async (
   res: Response<ResponseDTO>
 ): Promise<any> => {
   try {
+    // 1. Verify User
     if (!(req as VerifiedUserRequest).user) {
       return sendResponse({
         res: res,
@@ -43,10 +44,17 @@ export const createPost = async (
     }
     const userId = (req as VerifiedUserRequest).user.id;
     let uploadedImageUrl = "";
-
-    const { title, content, image_url, reward_amount, location } = req.body;
+    // 2. Extract the data from user
+    const { title, content, image_urls, reward_amount, location } = req.body;
+    // 3. Validation
     // Validation - 0
-    if (!title || !content || !location) {
+    if (
+      !title ||
+      !content ||
+      !location ||
+      !image_urls ||
+      image_urls.length == 0
+    ) {
       return sendResponse({
         res: res,
         status: RESPONSE_HTTP.BAD_REQUEST,
@@ -54,10 +62,10 @@ export const createPost = async (
         message: `${RESPONSE_MESSAGES.BAD_REQUEST} `,
       });
     }
-    // + image
-    if (image_url) {
+    // ✅ ---Add Image to Cloudinary
+    if (image_urls) {
       try {
-        const url = (await cloudinary.uploader.upload(image_url)).secure_url;
+        const url = (await cloudinary.uploader.upload(image_urls)).secure_url;
         uploadedImageUrl = url;
       } catch (error) {
         errorLogV2({
@@ -78,7 +86,7 @@ export const createPost = async (
     const postDTO: CreatePostDTO = {
       title: title,
       content: content,
-      image_url: uploadedImageUrl,
+      image_urls: uploadedImageUrl,
       user_id: userId,
       reward_amount: reward_amount,
       location: location,

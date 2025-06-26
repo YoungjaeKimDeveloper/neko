@@ -21,7 +21,7 @@ class NeonPostRepo implements PostRepo {
           VALUES (
             ${post.title},
             ${post.content},
-            ${post.image_urls ?? null},
+            ${post.image_urls},
             ${post.reward_amount ?? 0},
             ${post.location}, 
             ${post.user_id})

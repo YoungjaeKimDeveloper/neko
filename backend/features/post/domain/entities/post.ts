@@ -10,7 +10,7 @@ export default interface Post {
   id?: string;
   title: string;
   content: string;
-  image_urls?: string[];
+  image_urls: string[];
   user_id: string;
   is_found?: boolean;
   reward_amount?: number;
