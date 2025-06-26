@@ -55,7 +55,7 @@ const CreatePostPage = () => {
     // images[key] : value[imageList.map((img)=>img.file)]
     setValue(
       "images",
-      imageList.map((img) => img.file)
+      imageList.map((img) => img.data_url) // base64
     );
   };
   // BUILD UI

@@ -63,10 +63,13 @@ export const createPost = async (
       });
     }
     // ✅ ---Add Image to Cloudinary
-    if (image_urls) {
+    // Variable for saving uploaded url
+    const uploadedImageUrls: string[] = [];
+    // Save image_urls to uploadedImageUrl array
+    for (const base64 of image_urls) {
       try {
-        const url = (await cloudinary.uploader.upload(image_urls)).secure_url;
-        uploadedImageUrl = url;
+        const result = await cloudinary.uploader.upload(base64);
+        uploadedImageUrls.push(result.secure_url);
       } catch (error) {
         errorLogV2({
           file: "post.controller.ts",
@@ -82,16 +85,16 @@ export const createPost = async (
         });
       }
     }
-    // Follow the interface
+    // Check DTO
     const postDTO: CreatePostDTO = {
       title: title,
       content: content,
-      image_urls: uploadedImageUrl,
+      image_urls: uploadedImageUrls,
       user_id: userId,
       reward_amount: reward_amount,
       location: location,
     };
-
+    // Send the data to Neon
     const result = await neonPostRepo.createPost(postDTO);
     if (result == null) {
       return sendResponseV2({
@@ -197,7 +200,7 @@ export const updatePost = async (
     const {
       updated_title,
       updated_content,
-      updated_imageUrl,
+      updated_image_urls,
       updated_reward_amount,
       updated_location,
       updated_is_found,
@@ -238,13 +241,13 @@ export const updatePost = async (
       });
     }
     // New Values
-    const { title, content, image_url, reward_amount, location, is_found } =
+    const { title, content, image_urls, reward_amount, location, is_found } =
       result;
     const newTitle = updated_title ?? title;
     const newContent = updated_content ?? content;
-    const newImageUrl = updated_imageUrl
-      ? (await cloudinary.uploader.upload(updated_imageUrl)).secure_url
-      : image_url;
+    const newImageUrl = updated_image_urls
+      ? (await cloudinary.uploader.upload(updated_image_urls)).secure_url
+      : image_urls;
     const newRewardAmount = updated_reward_amount ?? reward_amount;
     const newlLcation = updated_location ?? location;
     const newIsFound = updated_is_found ?? is_found;
@@ -253,7 +256,7 @@ export const updatePost = async (
       postId,
       updated_title: newTitle,
       updated_content: newContent,
-      updated_imageUrl: newImageUrl,
+      updated_image_urls: newImageUrl,
       updated_reward_amount: newRewardAmount,
       updated_location: newlLcation,
       updated_is_found: newIsFound,

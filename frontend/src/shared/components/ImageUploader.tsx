@@ -19,7 +19,7 @@ const ImageUploader = ({ images, onChange }: ImageUploder) => {
       value={images}
       onChange={onChange}
       maxNumber={5}
-      dataURLKey="data_url"
+      dataURLKey="data_url" //base64
     >
       {/* Render Props */}
       {({ imageList, onImageUpload }) => (
