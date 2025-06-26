@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import User from "../../../auth/domain/entities/user";
 import cloudinary from "../../../../lib/cloudinary/cloudinary.config";
 import { CreatePostDTO, UpdatePostDTO } from "../../domain/dto/post.dto";
-import { ResponseDTO } from "../../../../lib/dto/response.dto";
+import { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
 import NeonPostRepo from "../../data/neon.post.repo";
 import { errorLog, errorLogV2 } from "../../../../lib/utils/error/error.log";
 import {

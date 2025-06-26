@@ -14,39 +14,40 @@ import MainButton from "../../../../shared/components/MainButton";
 import ImageUpLoading from "react-images-uploading";
 import type { ImageListType } from "react-images-uploading";
 import { useState } from "react";
-import { Plus, Trash, X } from "lucide-react";
+import { Plus } from "lucide-react";
+import PostSchema from "../../schema/postSchema";
 // Schema - Runtime
-const PostSchema = z.object({
-  title: z.string().min(5, { message: "Title should be at least 5 letters" }),
-  description: z
-    .string()
-    .min(10, { message: "Description should be at least 10 letters" }),
-  rewardAmount: z.coerce.number(),
-  location: z
-    .string()
-    .min(3, { message: "Location should be at least 3 letters" })
-    .max(10, { message: "Location is too long (max:15 letters" }),
-});
+
 // Inferred Type - Complie
 type Post = z.infer<typeof PostSchema>;
+// Component
 const CreatePostPage = () => {
   // React hook-form
   const {
     register,
     handleSubmit,
     setError,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<Post>({
     // Runtime Resolver
     resolver: zodResolver(PostSchema),
   });
-
+  //   Track "images"
+  register("images");
   const [images, setImages] = useState<ImageListType>([]);
+  // onChange method
   const onChange = (imageList: ImageListType) => {
+    // UI for user
     setImages(imageList);
+    setValue(
+      "images",
+      imageList.map((img) => img.file)
+    );
   };
+
   const maxNumber: number = 5;
-  const [isHovered, setisHovered] = useState(false);
+
   // BUILD UI
   return (
     <div className="flex">
