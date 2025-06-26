@@ -11,18 +11,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import PostInput from "../../components/common/PostInput";
 import { AuthDesktopSidebar } from "../../../auth/components/desktop/AuthDesktopSidebar";
 import MainButton from "../../../../shared/components/MainButton";
-import ImageUpLoading from "react-images-uploading";
 import type { ImageListType } from "react-images-uploading";
-import { useState } from "react";
-import { Plus } from "lucide-react";
-import PostSchema from "../../schema/postSchema";
+import { useEffect, useState } from "react";
+import { PostSchema } from "../../schema/postSchema";
+import ImageUploader from "../../../../shared/components/ImageUploader";
 // Schema - Runtime
 
 // Inferred Type - Complie
 type Post = z.infer<typeof PostSchema>;
 // Component
 const CreatePostPage = () => {
-  // React hook-form
+  useEffect(() => {}, ["images"]);
+  // React hook-form (RHF)
   const {
     register,
     handleSubmit,
@@ -45,51 +45,20 @@ const CreatePostPage = () => {
       imageList.map((img) => img.file)
     );
   };
-
-  const maxNumber: number = 5;
-
   // BUILD UI
   return (
     <div className="flex">
       {/* Left Sidebar */}
       <AuthDesktopSidebar />
-      {/* Main */}
+      {/* Right - main */}
       <div className="flex flex-col items-start w-screen  gap-y-4">
         {/* Image Preview */}
         <div
           className={`w-[100%] mx-auto h-20 mt-10 max-w-[600px]  flex flex-col justify-between`}
         >
           <p>Create post</p>
-          <ImageUpLoading
-            multiple
-            value={images}
-            onChange={onChange}
-            maxNumber={maxNumber}
-            dataURLKey="data_url"
-          >
-            {/* Render Props */}
-            {({ imageList, onImageUpload }) => (
-              <div className="flex gap-x-2">
-                {/* Add Icon */}
-                {imageList.map((image) => (
-                  <div className="size-10 relative">
-                    <img
-                      src={image.data_url}
-                      alt="image"
-                      className="size-10 rounded-sm"
-                    />
-                  </div>
-                ))}
-                {imageList.length < 5 && (
-                  <div className="size-10 border border-dashed">
-                    <div className="flex justify-center items-center w-full h-full">
-                      <Plus onClick={onImageUpload} />
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-          </ImageUpLoading>
+          {/* Image Uploader */}
+          <ImageUploader images={images} onChange={onChange} />
         </div>
         {/* Title */}
         <PostInput
