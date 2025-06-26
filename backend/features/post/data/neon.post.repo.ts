@@ -1,7 +1,9 @@
 /*
 
     Implement core functionality with Neon
-
+    
+    27/06/2025
+    Neon <---> API <---> Front-end
 */
 
 import sql from "../../../db/config/db";
@@ -19,7 +21,7 @@ class NeonPostRepo implements PostRepo {
           VALUES (
             ${post.title},
             ${post.content},
-            ${post.image_url ?? null},
+            ${post.image_urls ?? null},
             ${post.reward_amount ?? 0},
             ${post.location}, 
             ${post.user_id})
@@ -63,7 +65,7 @@ class NeonPostRepo implements PostRepo {
         SET 
         title = ${params.updated_title},
         content = ${params.updated_content},
-        image_url = ${params.updated_imageUrl},
+        image_url = ${params.updated_image_urls},
         location = ${params.updated_location},
         reward_amount= ${params.updated_reward_amount},
         is_found = ${params.updated_is_found},
