@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// Check - runtime
 export const authSignupSchema = z
   .object({
     email: z
@@ -20,5 +21,5 @@ export const authSignupSchema = z
     // nominate the root of error
     path: ["confirmPassword"],
   });
-
-export type AuthSignup = z.infer<typeof authSignupSchema>;
+// check - compile
+export type AuthSignupFormValues = z.infer<typeof authSignupSchema>;

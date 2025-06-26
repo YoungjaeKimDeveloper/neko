@@ -5,7 +5,6 @@
 
 */
 
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PostInput from "../../components/common/PostInput";
@@ -13,33 +12,47 @@ import { AuthDesktopSidebar } from "../../../auth/components/desktop/AuthDesktop
 import MainButton from "../../../../shared/components/MainButton";
 import type { ImageListType } from "react-images-uploading";
 import { useEffect, useState } from "react";
-import { PostSchema } from "../../schema/postSchema";
+import { PostSchema, type PostFormValues } from "../../schema/postSchema";
 import ImageUploader from "../../../../shared/components/ImageUploader";
+
 // Schema - Runtime
 
 // Inferred Type - Complie
-type Post = z.infer<typeof PostSchema>;
 // Component
 const CreatePostPage = () => {
-  useEffect(() => {}, ["images"]);
   // React hook-form (RHF)
   const {
     register,
     handleSubmit,
+    // Catch the check the error manually
     setError,
+    // Set the value manually
     setValue,
+    // Show erros || isSubmitting
     formState: { errors, isSubmitting },
-  } = useForm<Post>({
-    // Runtime Resolver
+    // Accpet the Filed mathcing schema
+    // Check the type based on Shcema
+  } = useForm<PostFormValues>({
+    // Runtime Checker(Resolver)
     resolver: zodResolver(PostSchema),
   });
-  //   Track "images"
+  // Todo - Double check
+  // As image uploder is external libary,it is impossible to track using input,
+  // So, track the value, manually.
+  useEffect(() => {
+    register("images");
+  }, [register]);
+
+  // Add "images" to register
   register("images");
+  //   Save images in array
   const [images, setImages] = useState<ImageListType>([]);
   // onChange method
   const onChange = (imageList: ImageListType) => {
     // UI for user
     setImages(imageList);
+    // Track the image value manually
+    // images[key] : value[imageList.map((img)=>img.file)]
     setValue(
       "images",
       imageList.map((img) => img.file)
@@ -65,6 +78,7 @@ const CreatePostPage = () => {
           title="Title"
           hintText="Please help me find the cat"
           numberOfLetters={10}
+          register={register("title")}
         />
         {/* Text area - Description */}
         <div className="w-[100%] mx-auto h-[200px] mt-5 max-w-[600px]">
@@ -74,6 +88,7 @@ const CreatePostPage = () => {
               <div className="flex flex-col w-full h-full">
                 <p>Description</p>
                 <textarea
+                  {...register("description")}
                   maxLength={100}
                   placeholder="I lost my cute cat near Townhall station"
                   className={
@@ -90,11 +105,17 @@ const CreatePostPage = () => {
             </div>
           </div>
         </div>
-        <PostInput title="Reward amount" hintText="$0" numberOfLetters={10} />
+        <PostInput
+          title="Reward amount"
+          hintText="$0"
+          numberOfLetters={10}
+          register={register("rewardAmount")}
+        />
         <PostInput
           title="Location"
           hintText="Townhall station"
           numberOfLetters={20}
+          register={register("location")}
         />
         <MainButton text="Post" style="w-[40%] mt-5 " />
       </div>

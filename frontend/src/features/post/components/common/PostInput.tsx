@@ -1,19 +1,36 @@
 /*
 
     Common Post Input
+    Always think
+    Input + React Hook Form<PostFormValues>
 
 */
-
+import { useState } from "react";
+// Q - Need to deep study
+import type { UseFormRegisterReturn } from "react-hook-form";
 // Inteface
-interface PostInput {
+// Name Convention - inter
+// Name Convetion - Props
+interface PostInputProps {
   title: string;
   hintText: string;
   numberOfLetters: number;
   height?: string;
+  register: UseFormRegisterReturn; // from register Q - Need to deep study Track the value
+  errorMessage?: string;
 }
 
 // Component
-const PostInput = ({ title, hintText, numberOfLetters, height }: PostInput) => {
+const PostInput = ({
+  title,
+  hintText,
+  numberOfLetters,
+  height,
+  register, // Q - register return type
+  errorMessage,
+}: PostInputProps) => {
+  // Track number of letters
+  const [inputLength, setInputLength] = useState<number>(0);
   // BUILD UI
   return (
     // Container
@@ -24,16 +41,28 @@ const PostInput = ({ title, hintText, numberOfLetters, height }: PostInput) => {
           <div className="flex flex-col itmes-start w-full h-full">
             <p>{title}</p>
             <input
+              {...register} // Q - connect RHF
               placeholder={hintText}
               type="text"
               className={`input shadow-postInput w-full  mt-3 font-content pl-[10px] h-full py-2 `}
               maxLength={numberOfLetters}
+              // Track number and values
+              onChange={(e) => {
+                register.onChange(e);
+                setInputLength(e.target.value.length);
+              }}
             />
+            {/* error message */}
+            {errorMessage && (
+              <p className="text-warning text-sm">{errorMessage}</p>
+            )}
           </div>
           {/* World counter */}
           <div className="flex justify-end   w-full ">
             <div className="flex items-end">
-              <p className="text-hintText">0/{numberOfLetters}</p>
+              <p className="text-hintText">
+                {inputLength}/{numberOfLetters}
+              </p>
             </div>
           </div>
         </div>

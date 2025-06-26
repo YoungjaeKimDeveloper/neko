@@ -18,7 +18,7 @@ import { useMutation } from "@tanstack/react-query";
 import signupAPI from "../../services/auth/auth.signup.service";
 import type { SignUpDTO } from "../../../../../../shared/dto/auth/auth.request.dto";
 import { authSignupSchema } from "../../schema/auth.signup.schema";
-import type { AuthSignup } from "../../schema/auth.signup.schema";
+import type { AuthSignupFormValues } from "../../schema/auth.signup.schema";
 import { useNavigate } from "react-router-dom";
 
 const AuthDesktopSignUpPage = () => {
@@ -33,7 +33,7 @@ const AuthDesktopSignUpPage = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   // show error message if user failes to pass schema - Object
   const [formattedErros, setFormattedErros] = useState<
-    Partial<Record<keyof AuthSignup, string>>
+    Partial<Record<keyof AuthSignupFormValues, string>>
   >({});
   const naviagte = useNavigate();
   // Send to  API

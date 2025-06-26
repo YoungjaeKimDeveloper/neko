@@ -12,4 +12,4 @@ export const authLoginSchema = z.object({
     .min(6, { message: "Password shoud be at least 6 letters" }),
 });
 // DTO
-export type AuthLogin = z.infer<typeof authLoginSchema>;
+export type AuthLoginFormValues = z.infer<typeof authLoginSchema>;

@@ -1,3 +1,8 @@
+/*
+
+  Show error message based on PostSchema
+
+*/
 import { z } from "zod";
 
 // Post Schema - Runtime
@@ -18,4 +23,5 @@ export const PostSchema = z.object({
 });
 
 // Inferred type for Post - Compile
-export type Post = z.infer<typeof PostSchema>;
+// Name Convention - --formValues
+export type PostFormValues = z.infer<typeof PostSchema>;

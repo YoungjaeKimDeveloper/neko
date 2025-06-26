@@ -53,3 +53,12 @@ RESTFUL 하다 = REST한 규칙
 3. Stop styling hardcoing create the first component and resue it
 
 4. Create @layer @component in Card component
+
+26/06/2025
+1. Zod + RHF(React-Hook-Form) 연결해서 정보 모으기
+2. cloudinary - multiple images어떻게 업로드 하는지 받아오기
+3. Neon확인하기
+4. HomePage useQuery로 불러주기
+4. 확인하고 댓글 기능추가하기
+5. 좋아요기능 추가해주기
+6. notification 기능확인해주기 
