@@ -14,7 +14,8 @@ import HomePage from "./features/home/pages/HomePage";
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "./shared/api/axios";
 import { Loader } from "lucide-react";
-import AuthNavbar from "./features/auth/components/Desktop/AuthDesktopNavbar";
+import AuthNavbar from "./features/auth/components/desktop/AuthDesktopNavbar";
+import CreatePostPage from "./features/post/pages/common/CreatePostPage";
 
 const App = () => {
   // fetch current User
@@ -51,6 +52,7 @@ const App = () => {
           path="/"
           element={!currentUser ? <Landingpage /> : <Navigate to="/home" />}
         />
+        {/* Auth */}
         <Route
           path="/home"
           element={currentUser ? <HomePage /> : <Navigate to="/" />}
@@ -62,6 +64,11 @@ const App = () => {
         <Route
           path="/signup"
           element={!currentUser ? <AuthSignUpPage /> : <Navigate to="/" />}
+        />
+        {/* Post */}
+        <Route
+          path="/create-post"
+          element={currentUser ? <CreatePostPage /> : <Navigate to="/" />}
         />
       </Routes>
     </div>

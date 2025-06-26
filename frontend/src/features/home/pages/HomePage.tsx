@@ -4,7 +4,7 @@
 
 */
 
-import { AuthDesktopSidebar } from "../../auth/components/Desktop/AuthDesktopSidebar";
+import { AuthDesktopSidebar } from "../../auth/components/desktop/AuthDesktopSidebar";
 
 const HomePage = () => {
   return (

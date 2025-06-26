@@ -7,29 +7,40 @@
  */
 
 import { CirclePlus, CircleQuestionMark, Home, Newspaper } from "lucide-react";
-import CommonLinkIcon from "../../../../shared/components/CommonLinkIcon";
+import AuthDesktopSidebarListTitle from "./AuthDesktopSidebarListTitle";
 
 export const AuthDesktopSidebar = () => {
   return (
-    <div className="h-screen w-[100px] shadow-sidebar">
+    <div className="h-screen w-[150px] shadow-sidebar bg-gray-500">
       {/* Sidebar Icon */}
-      <div className="fixed left-9 top-[100px] h-screen] flex flex-col gap-10 bg-white z-50">
-        <div className="flex flex-col items-center">
-          <CommonLinkIcon icon={Home} link="home" size={35} />
-          <p>Home</p>
-        </div>
-        <div className="flex flex-col items-center">
-          <CommonLinkIcon icon={CirclePlus} link="create-post" size={35} />
-          <p>Create</p>
-        </div>
-
-        <div className="flex flex-col items-center">
-          <CommonLinkIcon icon={Newspaper} link="home" size={35} />
-          <p>News</p>
-        </div>
-        <div className="flex flex-col items-center">
-          <CommonLinkIcon icon={CircleQuestionMark} link="home" size={35} />
-          <p>Help</p>
+      <div className=" left-9 top-[100px] h-screen  flex flex-col gap-4 bg-white z-50">
+        <div className=" h-full w-full ">
+          <div className="flex justify-between items-start flex-col h-[250px] py-4 mt-4  pl-4 ">
+            <AuthDesktopSidebarListTitle
+              icon={Home}
+              link="home"
+              size={25}
+              label="Home"
+            />
+            <AuthDesktopSidebarListTitle
+              icon={CirclePlus}
+              link="create-post"
+              size={25}
+              label="create"
+            />
+            <AuthDesktopSidebarListTitle
+              icon={Newspaper}
+              link="news-api"
+              size={25}
+              label="news"
+            />
+            <AuthDesktopSidebarListTitle
+              icon={CircleQuestionMark}
+              link="help"
+              size={25}
+              label="help"
+            />
+          </div>
         </div>
       </div>
     </div>
