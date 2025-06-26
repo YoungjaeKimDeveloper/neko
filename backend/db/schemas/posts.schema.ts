@@ -1,5 +1,9 @@
 /*
     POST SCHEMA     
+    UPDATE
+    - 27/06/2025 - update image_url fields
+    - PostgreSQL '{}' means [] default array in JS
+
 */
 import { errorLog } from "../../lib/utils/error/error.log";
 import sql from "../config/db";
@@ -12,7 +16,7 @@ async function createPostTable() {
                 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
                 title TEXT NOT NULL,
                 content TEXT NOT NULL,
-                image_url TEXT,
+                image_url TEXT[] DEFAULT '{}',
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
                 updated_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
                 user_id UUID REFERENCES users(id) ON DELETE CASCADE
