@@ -2,6 +2,7 @@ import express from "express";
 import {
   createPost,
   deletePost,
+  fetchAllPosts,
   fetchPostsByUserId,
   updatePost,
 } from "../controllers/post.controller";
@@ -25,8 +26,9 @@ postRouter.post("/", createPost);
 postRouter.get("/", fetchPostsByUserId);
 // updatePost
 postRouter.put("/:postId", updatePost);
-// updatePost
-postRouter.delete("/:postId", deletePost);
 // deletePost
+postRouter.delete("/:postId", deletePost);
+// fetch Allposts
+postRouter.get("/all", fetchAllPosts);
 
 export default postRouter;

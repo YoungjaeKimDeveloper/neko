@@ -16,7 +16,7 @@ export const sendResponse = (params: ResponseInterface) => {
 export const sendResponseV2 = (params: ResponseInterfaceV2) => {
   return params.res.status(params.status).json({
     success: params.success,
-    message: `${params.message} : ${params.details}`,
+    message: `${params.message}`,
     details: `${params.details}`,
     data: params.data ?? null,
   });

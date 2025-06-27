@@ -24,4 +24,6 @@ export default interface PostRepo {
   updatePost(params: UpdatePostDTO): Promise<Post | null>;
   // DELETE
   deletePost(params: { postId: string }): Promise<void>;
+  // Fetch All Posts
+  fetchAllPosts(): Promise<Post[] | null>;
 }

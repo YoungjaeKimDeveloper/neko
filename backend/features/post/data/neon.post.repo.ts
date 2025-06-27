@@ -7,7 +7,7 @@
 */
 
 import sql from "../../../db/config/db";
-import { errorLog } from "../../../../shared/error/error.log";
+import { errorLog, errorLogV2 } from "../../../../shared/error/error.log";
 import {
   CreatePostDTO,
   UpdatePostDTO,
@@ -47,7 +47,7 @@ class NeonPostRepo implements PostRepo {
       const posts = await sql`
         SELECT * 
         FROM posts
-        WHERE id= ${params.userId}
+        WHERE user_id= ${params.userId}
       `;
       if (posts == null) {
         return [];
@@ -114,6 +114,22 @@ class NeonPostRepo implements PostRepo {
     } catch (error: any) {
       errorLog({ location: "FetchSingle Post - neon repo", error });
       return null;
+    }
+  };
+  fetchAllPosts = async (): Promise<Post[] | []> => {
+    try {
+      const result = await sql`
+        SELECT * 
+        FROM posts 
+      `;
+      return result as Post[];
+    } catch (error) {
+      errorLogV2({
+        error,
+        function: "Fetch All Posts",
+        file: "Neon.post.repo.ts",
+      });
+      return [];
     }
   };
 }
