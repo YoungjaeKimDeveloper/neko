@@ -1,4 +1,7 @@
-import { CreatePostDTO, UpdatePostDTO } from "../dto/post.dto";
+import {
+  CreatePostDTO,
+  UpdatePostDTO,
+} from "../../../../../shared/dto/post/post.dto";
 import Post from "../entities/post";
 
 /*

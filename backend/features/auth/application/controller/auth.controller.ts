@@ -14,7 +14,7 @@ import {
 import { sendResponse } from "../../../../lib/utils/response/helper/response.helper";
 import { RESPONSE_HTTP } from "../../../../../shared/constants/http-status";
 import { RESPONSE_MESSAGES } from "./../../../../lib/utils/constants/messages";
-import { errorLog } from "../../../../lib/utils/error/error.log";
+import { errorLog } from "../../../../../shared/error/error.log";
 
 const authNeonRepo = new AuthNeonRepo();
 // <params,res,request,query>

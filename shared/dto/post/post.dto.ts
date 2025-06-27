@@ -9,10 +9,10 @@
 
 export interface CreatePostDTO {
   title: string;
+  image_urls: string[];
   content: string;
   location: string;
   user_id: string;
-  image_urls: string[];
   reward_amount?: number;
 }
 // UPDATE POST DTO INTERFACE

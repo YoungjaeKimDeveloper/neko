@@ -14,7 +14,7 @@ import {
 } from "../domain/dto/notification.dto";
 import NotificationRepo from "../domain/repo/notification.repo";
 import Notification from "../domain/entity/notification";
-import { errorLog } from "../../../lib/utils/error/error.log";
+import { errorLog } from "../../../../shared/error/error.log";
 
 class NeonNotificationRepo implements NotificationRepo {
   createNotification = async (

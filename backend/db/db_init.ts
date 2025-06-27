@@ -1,4 +1,4 @@
-import { errorLog } from "../lib/utils/error/error.log";
+import { errorLog } from "../../shared/error/error.log";
 import createCommentTable from "./schemas/comments.chema";
 import createLikeTable from "./schemas/likes.schema";
 import createNotificationTable from "./schemas/notification.schema";

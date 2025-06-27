@@ -2,7 +2,7 @@
     USER SCHEMA     
 */
 
-import { errorLog } from "../../lib/utils/error/error.log";
+import { errorLog } from "../../../shared/error/error.log";
 import sql from "../config/db";
 
 async function createUserTable() {

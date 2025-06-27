@@ -20,7 +20,7 @@ import { verifyToken } from "../../../../middleware/verifyAuth";
 const postRouter = express.Router();
 postRouter.use(verifyToken);
 // create
-postRouter.post("/posts", createPost);
+postRouter.post("/", createPost);
 // fetchPostByUserId
 postRouter.get("/", fetchPostsByUserId);
 // updatePost

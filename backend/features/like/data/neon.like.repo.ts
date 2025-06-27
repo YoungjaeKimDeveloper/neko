@@ -6,7 +6,7 @@
 */
 
 import sql from "../../../db/config/db";
-import { errorLog } from "../../../lib/utils/error/error.log";
+import { errorLog } from "../../../../shared/error/error.log";
 import { LikeDto, UnLikeDTO } from "../domain/dto/like.dto";
 import Like from "../domain/entity/like";
 import LikeRepo from "../domain/repo/like.repo";

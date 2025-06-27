@@ -10,7 +10,7 @@ export const PostSchema = z.object({
   title: z
     .string()
     .min(5, { message: "Description is too short (min: 3 letters)" })
-    .max(10, { message: "Location is too long (max: 10 letters)" }),
+    .max(20, { message: "Location is too long (max: 10 letters)" }),
   image_urls: z
     .array(z.any())
     .min(1, { message: "At least 1 image is required" })

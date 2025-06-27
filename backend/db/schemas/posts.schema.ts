@@ -5,7 +5,7 @@
     - PostgreSQL '{}' means [] default array in JS
 
 */
-import { errorLog } from "../../lib/utils/error/error.log";
+import { errorLog } from "../../../shared/error/error.log";
 import sql from "../config/db";
 import dotenv from "dotenv";
 dotenv.config({});

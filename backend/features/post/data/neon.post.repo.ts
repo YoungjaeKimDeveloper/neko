@@ -7,8 +7,11 @@
 */
 
 import sql from "../../../db/config/db";
-import { errorLog } from "../../../lib/utils/error/error.log";
-import { CreatePostDTO, UpdatePostDTO } from "../domain/dto/post.dto";
+import { errorLog } from "../../../../shared/error/error.log";
+import {
+  CreatePostDTO,
+  UpdatePostDTO,
+} from "../../../../shared/dto/post/post.dto";
 import Post from "../domain/entities/post";
 import PostRepo from "../domain/repo/post.repo";
 

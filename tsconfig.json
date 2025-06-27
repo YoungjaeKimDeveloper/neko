@@ -17,7 +17,9 @@
     "backend/tests/like/llike",
     "backend/tests/like/unlike",
     "shared/dto/auth/auth.request.dto.ts",
-    "shared/constants/http-status.ts"
-, "shared/dto/common/error.response.dto.ts"  ],
+    "shared/constants/http-status.ts",
+    "shared/dto/common/error.response.dto.ts",
+    "shared/dto/post/post.dto.ts"
+  ],
   "exclude": ["node_modules"]
 }

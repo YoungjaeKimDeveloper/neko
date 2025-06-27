@@ -20,6 +20,7 @@ import postRouter from "./features/post/application/router/post.router";
 import notificationRouter from "./features/notification/application/router/notification.router";
 import likeRouter from "./features/like/application/routers/like.router";
 import commentRouter from "./features/comment/application/router/comment.router";
+
 dotenv.config();
 const PORT = process.env.PORT || 8011;
 
@@ -35,7 +36,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(express.json());
+
+app.use(express.json({ limit: "50mb" }));
 app.use(morgan("dev"));
 app.use(cookieParser());
 

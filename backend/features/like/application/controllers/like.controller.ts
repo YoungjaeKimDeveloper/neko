@@ -8,7 +8,7 @@ import { Request, Response } from "express";
 import { ResponseDTO } from "../../../../lib/dto/response.dto";
 import { VerifiedUserRequest } from "../../../post/application/controllers/post.controller";
 import NeonLikeRepo from "../../data/neon.like.repo";
-import { errorLog } from "../../../../lib/utils/error/error.log";
+import { errorLog } from "../../../../../shared/error/error.log";
 import NeonPostRepo from "../../../post/data/neon.post.repo";
 import NeonNotificationRepo from "../../../notification/data/neon.notification.repo";
 import { NotificationType } from "../../../notification/domain/entity/notification";

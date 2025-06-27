@@ -12,7 +12,7 @@ import User from "../features/auth/domain/entities/user";
 import { sendResponse } from "../lib/utils/response/helper/response.helper";
 import { RESPONSE_HTTP } from "../../shared/constants/http-status";
 import { RESPONSE_MESSAGES } from "../lib/utils/constants/messages";
-import { errorLog } from "../lib/utils/error/error.log";
+import { errorLog } from "../../shared/error/error.log";
 
 interface VerifiedRequest extends Request {
   user?: any;

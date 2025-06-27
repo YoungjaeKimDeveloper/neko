@@ -66,7 +66,8 @@ const CreatePostPage = () => {
     // images[key] : value[imageList.map((img)=>img.file)]
     setValue(
       "image_urls",
-      imageList.map((img) => img.data_url) // base64
+      imageList.map((img) => img.data_url),
+      { shouldValidate: true } // base64
     );
   };
   // Image Tracker[E] ------------------
@@ -114,7 +115,7 @@ const CreatePostPage = () => {
         <PostInput
           title="Title"
           hintText="Please help me find the cat"
-          numberOfLetters={10}
+          numberOfLetters={20}
           register={register("title")}
           errorMessage={errors.title?.message}
         />
@@ -137,8 +138,8 @@ const CreatePostPage = () => {
               </div>
               {/* World counter */}
               <div className="flex justify-end w-full ">
-                <div className="flex items-end">
-                  <p>{errors.content?.message} </p>
+                <div className="flex justify-between w-full">
+                  <p className="text-warning">{errors.content?.message} </p>
                   <p className="text-hintText">
                     {description}/{300}
                   </p>
@@ -164,7 +165,7 @@ const CreatePostPage = () => {
         {isSubmitting ? (
           <p>Loading...</p>
         ) : (
-          <MainButton text="Post" style="w-[40%] mt-5 " />
+          <MainButton text="Post" type="submit" style="w-[40%] mt-5 " />
         )}
       </form>
     </div>

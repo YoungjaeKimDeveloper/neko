@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
 import User from "../../../auth/domain/entities/user";
 import cloudinary from "../../../../lib/cloudinary/cloudinary.config";
-import { CreatePostDTO, UpdatePostDTO } from "../../domain/dto/post.dto";
+import {
+  CreatePostDTO,
+  UpdatePostDTO,
+} from "../../../../../shared/dto/post/post.dto";
 import { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
 import NeonPostRepo from "../../data/neon.post.repo";
-import { errorLog, errorLogV2 } from "../../../../lib/utils/error/error.log";
+import { errorLog, errorLogV2 } from "../../../../../shared/error/error.log";
 import {
   sendResponse,
   sendResponseV2,
@@ -43,7 +46,6 @@ export const createPost = async (
       });
     }
     const userId = (req as VerifiedUserRequest).user.id;
-    let uploadedImageUrl = "";
     // 2. Extract the data from user
     const { title, content, image_urls, reward_amount, location } = req.body;
     // 3. Validation
@@ -52,7 +54,7 @@ export const createPost = async (
       !title ||
       !content ||
       !location ||
-      !image_urls ||
+      !Array.isArray(image_urls) ||
       image_urls.length == 0
     ) {
       return sendResponse({
@@ -64,27 +66,31 @@ export const createPost = async (
     }
     // ✅ ---Add Image to Cloudinary
     // Variable for saving uploaded url
-    const uploadedImageUrls: string[] = [];
+    let uploadedImageUrls: string[] = [];
     // Save image_urls to uploadedImageUrl array
-    for (const base64 of image_urls) {
-      try {
-        const result = await cloudinary.uploader.upload(base64);
-        uploadedImageUrls.push(result.secure_url);
-      } catch (error) {
-        errorLogV2({
-          file: "post.controller.ts",
-          function: "createPost",
-          error: error,
-        });
-        return sendResponseV2({
-          res,
-          status: RESPONSE_HTTP.INTERNAL,
-          success: false,
-          details: "Failed to update image",
-          message: RESPONSE_MESSAGES.INTERNAL,
-        });
-      }
+    try {
+      // Images are uploaded in parallel for better..
+      uploadedImageUrls = await Promise.all(
+        image_urls.map(async (base64: string) => {
+          const result = await cloudinary.uploader.upload(base64);
+          return result.secure_url;
+        })
+      );
+    } catch (error) {
+      errorLogV2({
+        file: "post.controller.ts",
+        function: "createPost",
+        error: error,
+      });
+      return sendResponseV2({
+        res,
+        status: RESPONSE_HTTP.INTERNAL,
+        success: false,
+        details: "Failed to update image",
+        message: RESPONSE_MESSAGES.INTERNAL,
+      });
     }
+
     // Check DTO
     const postDTO: CreatePostDTO = {
       title: title,
@@ -108,7 +114,7 @@ export const createPost = async (
 
     return sendResponseV2({
       res: res,
-      status: RESPONSE_HTTP.OK,
+      status: RESPONSE_HTTP.CREATED,
       success: true,
       details: "Post created",
       message: RESPONSE_MESSAGES.CREATE,
@@ -169,6 +175,7 @@ export const updatePost = async (
   res: Response<ResponseDTO>
 ): Promise<any> => {
   try {
+    // 1. Validation - AuthUser
     if (!(req as VerifiedUserRequest).user) {
       return sendResponse({
         res: res,
@@ -177,6 +184,7 @@ export const updatePost = async (
         message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
       });
     }
+    // 2. Validation - User
     const userId = (req as VerifiedUserRequest).user.id;
     if (!userId) {
       return sendResponseV2({
@@ -187,6 +195,7 @@ export const updatePost = async (
         message: `${RESPONSE_MESSAGES.BAD_REQUEST}`,
       });
     }
+    // 3. Validation - Post
     const postId = req.params.postId;
     if (!postId) {
       return sendResponseV2({
@@ -197,6 +206,7 @@ export const updatePost = async (
         message: `${RESPONSE_MESSAGES.BAD_REQUEST}`,
       });
     }
+    // Extract the data from user Request
     const {
       updated_title,
       updated_content,
@@ -205,23 +215,51 @@ export const updatePost = async (
       updated_location,
       updated_is_found,
     }: UpdatePostDTO = req.body;
-    // Validation - 0 nothing to update
-    const atLeastOneUpdateField = Object.values(req.body).some(
-      (val) => val != undefined && val !== null && val !== ""
-    );
-    if (!atLeastOneUpdateField) {
-      return sendResponseV2({
-        res: res,
-        status: 400,
-        success: false,
-        details:
-          "user requested to update the post,but nothing to update - no need to call DB",
-        message: `${RESPONSE_HTTP.BAD_REQUEST}`,
-      });
+
+    // ✅ ---Add Image to Cloudinary
+    // Variable for saving uploaded url
+    const updatedImage: string[] = [];
+    // Save image_urls to uploadedImageUrl array
+    if (updated_image_urls !== undefined) {
+      for (const base64 of updated_image_urls) {
+        try {
+          const result = await cloudinary.uploader.upload(base64);
+          updatedImage.push(result.secure_url);
+        } catch (error) {
+          errorLogV2({
+            file: "post.controller.ts",
+            function: "createPost",
+            error: error,
+          });
+          return sendResponseV2({
+            res,
+            status: RESPONSE_HTTP.INTERNAL,
+            success: false,
+            details: "Failed to update image",
+            message: RESPONSE_MESSAGES.INTERNAL,
+          });
+        }
+      }
     }
-    // post
+
+    // 4. Validation - Nothing to update
+    // Todo: Rethink about this code. Why I need it?
+    // const atLeastOneUpdateField = Object.values(req.body).some(
+    //   (val) => val != undefined && val !== null && val !== ""
+    // );
+    // if (!atLeastOneUpdateField) {
+    //   return sendResponseV2({
+    //     res: res,
+    //     status: 400,
+    //     success: false,
+    //     details:
+    //       "user requested to update the post,but nothing to update - no need to call DB",
+    //     message: `${RESPONSE_HTTP.BAD_REQUEST}`,
+    //   });
+    // }
+    // Fetch post using sent postId
     const result = await neonPostRepo.fetchSinglePost({ postId });
-    // Validation - 1
+    // 5.Validation - find post
     if (result == null) {
       return sendResponseV2({
         res: res,
@@ -231,6 +269,7 @@ export const updatePost = async (
         message: `${RESPONSE_MESSAGES.BAD_REQUEST}`,
       });
     }
+    // 5.Validation - User is not authorized to edit post
     if (result.user_id !== userId) {
       return sendResponseV2({
         res: res,
@@ -240,18 +279,17 @@ export const updatePost = async (
         message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
       });
     }
-    // New Values
+
+    // previous values
     const { title, content, image_urls, reward_amount, location, is_found } =
       result;
     const newTitle = updated_title ?? title;
     const newContent = updated_content ?? content;
-    const newImageUrl = updated_image_urls
-      ? (await cloudinary.uploader.upload(updated_image_urls)).secure_url
-      : image_urls;
+    const newImageUrl = updated_image_urls ? updatedImage : image_urls;
     const newRewardAmount = updated_reward_amount ?? reward_amount;
     const newlLcation = updated_location ?? location;
     const newIsFound = updated_is_found ?? is_found;
-    // update result
+    // Update the values to NEon
     const updatedResult = await neonPostRepo.updatePost({
       postId,
       updated_title: newTitle,
