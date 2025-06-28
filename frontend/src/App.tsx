@@ -16,6 +16,7 @@ import { axiosInstance } from "./shared/api/axios";
 import { Loader } from "lucide-react";
 import AuthNavbar from "./features/auth/components/desktop/AuthDesktopNavbar";
 import CreatePostPage from "./features/post/pages/common/CreatePostPage";
+import SinglePostPage from "./features/post/pages/common/SinglePostPage";
 
 const App = () => {
   // fetch current User
@@ -69,6 +70,10 @@ const App = () => {
         <Route
           path="/create-post"
           element={currentUser ? <CreatePostPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/posts/:id"
+          element={currentUser ? <SinglePostPage /> : <Navigate to="/" />}
         />
       </Routes>
     </div>

@@ -22,12 +22,14 @@ import { errorLogV2 } from "../../../../../../shared/error/error.log";
 import toast from "react-hot-toast";
 import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 // Schema - Runtime
 
 // Inferred Type - Complie
 // Component
 const CreatePostPage = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   // React hook-form (RHF)
   const {
     register,
@@ -79,6 +81,7 @@ const CreatePostPage = () => {
       if (result.status !== RESPONSE_HTTP.CREATED) {
         toast.error(`Failed to create new post ${result.data?.message}`);
       }
+      await queryClient.invalidateQueries({ queryKey: ["posts"] });
       await navigate("/home");
       // Tood -Invalidate queirs
       toast.success("Post created✅");

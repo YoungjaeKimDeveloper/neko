@@ -11,9 +11,10 @@ import PostCard from "../components/PostCard";
 import toast from "react-hot-toast";
 import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
 import type { PostWithWriter } from "../../../../../backend/features/post/domain/entities/post";
+import LoadingPage from "../../../shared/pages/common/LoadingPage";
 // Component
 const HomePage = () => {
-  const { data: posts } = useQuery({
+  const { data: posts, isLoading } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
       try {
@@ -39,12 +40,16 @@ const HomePage = () => {
       {/* MainPage - Right */}
       {/* Cards layout */}
       <div className="h-screen w-screen mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-4 w-fit lg:w-full mx-auto  gap-y-4 mt-4 lg:mx-4">
-          {/* Mapping posts */}
-          {posts?.map((post: PostWithWriter) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
+        {isLoading ? (
+          <LoadingPage />
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-4 w-fit lg:w-full mx-auto  gap-y-4 mt-4 lg:mx-4">
+            {/* Mapping posts */}
+            {posts?.map((post: PostWithWriter) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
