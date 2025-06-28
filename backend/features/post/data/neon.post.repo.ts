@@ -12,7 +12,7 @@ import {
   CreatePostDTO,
   UpdatePostDTO,
 } from "../../../../shared/dto/post/post.dto";
-import Post from "../domain/entities/post";
+import { Post, PostWithWriter } from "../domain/entities/post";
 import PostRepo from "../domain/repo/post.repo";
 
 class NeonPostRepo implements PostRepo {
@@ -20,7 +20,7 @@ class NeonPostRepo implements PostRepo {
   createPost = async (post: CreatePostDTO): Promise<Post | null> => {
     try {
       const newPost = await sql`
-          INSERT INTO posts(title,content,image_url,reward_amount,location, user_id)
+          INSERT INTO posts(title,content,image_urls,reward_amount,location, user_id)
           VALUES (
             ${post.title},
             ${post.content},
@@ -116,13 +116,16 @@ class NeonPostRepo implements PostRepo {
       return null;
     }
   };
-  fetchAllPosts = async (): Promise<Post[] | []> => {
+  // Use alias to prevent confliction
+  fetchAllPosts = async (): Promise<PostWithWriter[] | []> => {
     try {
       const result = await sql`
-        SELECT * 
+        SELECT posts.*,users.id AS user_id, users.user_name,users.user_profile_image
         FROM posts 
+        INNER JOIN users
+        ON posts.user_id = users.id
       `;
-      return result as Post[];
+      return result as PostWithWriter[];
     } catch (error) {
       errorLogV2({
         error,

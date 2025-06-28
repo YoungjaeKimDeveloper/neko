@@ -6,7 +6,7 @@
       - image_url:string -> images_urls:string[]
 
  */
-export default interface Post {
+export type Post = {
   id?: string;
   title: string;
   content: string;
@@ -17,4 +17,9 @@ export default interface Post {
   location?: string;
   created_at?: Date;
   updated_at?: Date;
-}
+};
+
+export type PostWithWriter = Post & {
+  user_name: string;
+  user_profile_image: string;
+};

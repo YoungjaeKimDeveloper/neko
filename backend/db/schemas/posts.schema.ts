@@ -31,6 +31,12 @@ async function createPostTable() {
     //  ADD is_found BOOLEAN DEFAULT false
     //  `;
 
+    // 28/06/2025. change posts column name image_url -> image_urls
+    // await sql`
+    // ALTER TABLE posts
+    // RENAME COLUMN image_url TO image_urls
+    // `;
+
     console.log("POST TABLE CREATED✅");
     // Alert Table
   } catch (error: any) {
