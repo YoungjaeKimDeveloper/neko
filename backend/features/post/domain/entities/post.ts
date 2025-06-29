@@ -23,3 +23,8 @@ export type PostWithWriter = Post & {
   user_name: string;
   user_profile_image: string;
 };
+
+export type PostWithWriterWithComment = Post & {
+  user_name: string;
+  user_profile_image: string;
+};
