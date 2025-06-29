@@ -56,10 +56,13 @@ export type SinglePostWithComments = {
 
   like_user_id: string;
   like_post_id: string;
+
+  message?: any;
 };
 
 // Denormalised Post
 export type DenormalisedPost = {
+  message?: string;
   post: PostWithWriter;
   comments: Comment[];
   likes: Like[];

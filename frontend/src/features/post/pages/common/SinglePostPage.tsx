@@ -14,21 +14,22 @@ import toast from "react-hot-toast";
 
 import { errorLogV2 } from "../../../../../../shared/error/error.log";
 import LoadingPage from "../../../../shared/pages/common/LoadingPage";
-import type { SinglePostWithComments } from "../../../../../../backend/features/post/domain/entities/post";
+import type { DenormalisedPost } from "../../../../../../backend/features/post/domain/entities/post";
+import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 // Component
 const SinglePostPage = () => {
   const { postId } = useParams();
   // fetch single post
-  const { data: post, isLoading } = useQuery({
+  const { data: res, isLoading } = useQuery({
     // (caching key
     queryKey: ["post", postId],
     queryFn: async () => {
       try {
         console.log(postId);
-        const result = await axiosInstance.get<{
-          data: SinglePostWithComments;
-        }>(`/posts/${postId}`);
-        toast.success("Single post fetched successfully ✅");
+        const result = await axiosInstance.get<{ data: DenormalisedPost }>(
+          `/posts/${postId}`
+        );
+        toast.success("Data fetched successfully");
         return result.data;
       } catch (error) {
         errorLogV2({
@@ -42,7 +43,7 @@ const SinglePostPage = () => {
   if (isLoading) {
     return <LoadingPage />;
   }
-  console.log(post);
+  console.log(res);
   // BUILD UI
   return (
     <div className="flex">
@@ -56,7 +57,7 @@ const SinglePostPage = () => {
           <div className="w-full rounded-sm">
             {/* Main page */}
             <img
-              src="https://cdn.pixabay.com/photo/2022/03/27/11/23/cat-7094808_1280.jpg"
+              src={res?.data.post.image_urls[0]}
               alt="hero_image"
               className="w-full h-[250px] rounded-t-lg"
             />
@@ -87,14 +88,22 @@ const SinglePostPage = () => {
             {/* User-info */}
             <div className="flex items-center gap-x-2">
               <img
-                src="https://cdn.pixabay.com/photo/2018/10/29/21/46/human-3782189_1280.jpg"
+                src={
+                  res?.data.post.user_profile_image ??
+                  "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"
+                }
                 alt="writer_user"
-                className="size-16 rounded-full"
+                className="size-10 rounded-full"
               />
               {/* Details */}
               <div>
-                <p>jeki.season4.9</p>
-                <p>Date:03/05/2025</p>
+                <p>{res?.data.post.user_name}</p>
+                <p>
+                  {res?.data.post.created_at &&
+                    formatDistanceToNow(res?.data?.post?.created_at, {
+                      addSuffix: true,
+                    })}
+                </p>
               </div>
             </div>
             {/* Price + Location */}
@@ -102,18 +111,18 @@ const SinglePostPage = () => {
               {/* Price +Icon */}
               <div className="flex items-center gap-x-2">
                 <Gift />
-                <p>$200</p>
+                <p>${res?.data.post.reward_amount}</p>
               </div>
               {/* Icon + Location */}
               <div className="flex items-center justify-center">
                 <MapPin className="text-warning" />
-                <p>Townhall</p>
+                <p>{res?.data.post.location}</p>
               </div>
             </div>
           </div>
           {/* Bottom - Description */}
           <div>
-            <p className="px-2">{}</p>
+            <p className="px-2">{res?.data.post.content}</p>
           </div>
         </div>
         {/* Comments bar */}
