@@ -2,7 +2,7 @@ import {
   CommentDeletetDTO,
   CommentRequestDTO,
 } from "../dto/comment.request.dto";
-import Comment from "../entity/comment";
+import { Comment } from "../entity/comment";
 /*
     DDD(Domain-Driven Development)
     CORE LOGIC FOR COMMENT

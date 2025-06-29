@@ -13,11 +13,14 @@ import {
   UpdatePostDTO,
 } from "../../../../shared/dto/post/post.dto";
 import {
+  DenormalisedPost,
   Post,
   PostWithWriter,
   SinglePostWithComments,
 } from "../domain/entities/post";
 import PostRepo from "../domain/repo/post.repo";
+import Like from "../../like/domain/entity/like";
+import { Comment } from "../../comment/domain/entity/comment";
 
 class NeonPostRepo implements PostRepo {
   // CREATE POST
@@ -143,7 +146,7 @@ class NeonPostRepo implements PostRepo {
   // Single - Row
   fetchSinglePostWithComments = async (params: {
     postId: string;
-  }): Promise<SinglePostWithComments | null> => {
+  }): Promise<DenormalisedPost | null> => {
     try {
       const result = await sql`
       SELECT
@@ -176,8 +179,42 @@ class NeonPostRepo implements PostRepo {
         LEFT JOIN likes on likes.post_id = posts.id
         WHERE posts.id = ${params.postId}
         `;
-      console.log("RESULT", result);
-      return result[0] as SinglePostWithComments;
+      // Denormalisation - Validation - 0
+      if (result.length === 0) return null;
+      // Denormalisation - Extract postInfo and user info
+      const firstRow = result[0] as SinglePostWithComments;
+      // POST + USER is always same for one poster
+      // 정적인 정보기준에서는 result[0] 하나만 뽑아서 가도됌
+      const post: PostWithWriter = {
+        id: firstRow.post_id ?? null,
+        user_id: firstRow.user_id ?? null,
+        title: firstRow.post_title,
+        content: firstRow.post_content,
+        image_urls: firstRow.post_image_urls,
+        created_at: firstRow.post_created_at ?? null,
+        reward_amount: firstRow.post_reward_amount ?? null,
+        location: firstRow.post_location ?? null,
+        user_name: firstRow.user_name,
+        user_profile_image: firstRow.user_profile_image,
+      };
+      // Comments denormalisation - Follow alias
+      const comments: Comment[] = result
+        .filter((row) => row.comment_id != null)
+        .map((row) => ({
+          id: row.comment_id ?? undefined,
+          content: row.comment_content,
+          created_at: row.comment_created_at ?? undefined,
+          user_id: row.comment_user_id,
+          post_id: row.comment_post_id,
+        }));
+      // Likes denormalisation - Follow alias
+      const likes: Like[] = result
+        .filter((row) => row?.likes?.user_id != null)
+        .map((row) => ({
+          user_id: row.like_user_id,
+          post_id: row.like_post_id,
+        }));
+      return { post, comments, likes };
     } catch (error) {
       errorLogV2({
         file: "neon.post.repo.ts",

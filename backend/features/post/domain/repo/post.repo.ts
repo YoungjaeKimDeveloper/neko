@@ -2,7 +2,11 @@ import {
   CreatePostDTO,
   UpdatePostDTO,
 } from "../../../../../shared/dto/post/post.dto";
-import { Post, SinglePostWithComments } from "../entities/post";
+import {
+  DenormalisedPost,
+  Post,
+  SinglePostWithComments,
+} from "../entities/post";
 
 /*
     PROMISE!
@@ -31,5 +35,5 @@ export default interface PostRepo {
   // FETCH SINGLE POST WITH COMMENTS
   fetchSinglePostWithComments(params: {
     postId: string;
-  }): Promise<SinglePostWithComments | null>;
+  }): Promise<DenormalisedPost | null>;
 }

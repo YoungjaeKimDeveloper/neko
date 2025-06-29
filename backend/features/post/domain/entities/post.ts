@@ -1,3 +1,6 @@
+import { Comment } from "../../../comment/domain/entity/comment";
+import Like from "../../../like/domain/entity/like";
+
 /*
 
     post entity interface
@@ -53,4 +56,11 @@ export type SinglePostWithComments = {
 
   like_user_id: string;
   like_post_id: string;
+};
+
+// Denormalised Post
+export type DenormalisedPost = {
+  post: PostWithWriter;
+  comments: Comment[];
+  likes: Like[];
 };
