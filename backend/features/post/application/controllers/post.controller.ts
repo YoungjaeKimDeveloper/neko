@@ -488,3 +488,46 @@ export const fetchAllPosts = async (
     });
   }
 };
+// fetch SinglePostWithComments
+export const fetchSinglePostWithComments = async (
+  req: Request,
+  res: Response<ResponseDTO>
+): Promise<any> => {
+  try {
+    const postId = req.params.postId;
+    // Validation - Verify User
+    if (!(req as VerifiedUserRequest).user) {
+      return sendResponse({
+        res: res,
+        status: RESPONSE_HTTP.UNAUTHORIZED,
+        success: false,
+        message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
+      });
+    }
+    if (!postId) {
+      return sendResponseV2({
+        res: res,
+        status: RESPONSE_HTTP.BAD_REQUEST,
+        message: "POST ID IS REQUIRED TO FETCH 'singlePostWithComments'",
+        success: false,
+        data: null,
+      });
+    }
+    console.log("여기까지 통과");
+    console.log("postId", postId);
+    const result = await neonPostRepo.fetchSinglePostWithComments({ postId });
+    return sendResponseV2({
+      res: res,
+      status: RESPONSE_HTTP.OK,
+      message: "FetchSinglePostWithComments successfully",
+      success: true,
+      data: result,
+    });
+  } catch (error: any) {
+    errorLogV2({
+      error: error,
+      function: "singlePostWithComments",
+      file: "post.controller.ts",
+    });
+  }
+};

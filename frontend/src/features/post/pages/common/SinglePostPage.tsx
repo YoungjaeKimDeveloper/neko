@@ -14,17 +14,20 @@ import toast from "react-hot-toast";
 
 import { errorLogV2 } from "../../../../../../shared/error/error.log";
 import LoadingPage from "../../../../shared/pages/common/LoadingPage";
+import type { SinglePostWithComments } from "../../../../../../backend/features/post/domain/entities/post";
 // Component
 const SinglePostPage = () => {
   const { postId } = useParams();
-  console.log(postId);
   // fetch single post
-  const { data: singlePost, isLoading } = useQuery({
+  const { data: post, isLoading } = useQuery({
     // (caching key
     queryKey: ["post", postId],
     queryFn: async () => {
       try {
-        const result = await axiosInstance.get(`/posts/${postId}`);
+        console.log(postId);
+        const result = await axiosInstance.get<{
+          data: SinglePostWithComments;
+        }>(`/posts/${postId}`);
         toast.success("Single post fetched successfully ✅");
         return result.data;
       } catch (error) {
@@ -39,7 +42,7 @@ const SinglePostPage = () => {
   if (isLoading) {
     return <LoadingPage />;
   }
-  console.log("SinglePost: ", singlePost);
+  console.log(post);
   // BUILD UI
   return (
     <div className="flex">
@@ -110,13 +113,7 @@ const SinglePostPage = () => {
           </div>
           {/* Bottom - Description */}
           <div>
-            <p className="px-2">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Cupiditate, placeat blanditiis ut eius dolores sed omnis,
-              doloremque, voluptates sequi totam distinctio consectetur
-              exercitationem quasi laborum. Obcaecati inventore officiis earum
-              non. 12321l
-            </p>
+            <p className="px-2">{}</p>
           </div>
         </div>
         {/* Comments bar */}

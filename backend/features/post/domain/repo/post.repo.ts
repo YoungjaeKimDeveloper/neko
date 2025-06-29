@@ -2,7 +2,7 @@ import {
   CreatePostDTO,
   UpdatePostDTO,
 } from "../../../../../shared/dto/post/post.dto";
-import { Post } from "../entities/post";
+import { Post, SinglePostWithComments } from "../entities/post";
 
 /*
     PROMISE!
@@ -28,5 +28,8 @@ export default interface PostRepo {
   fetchAllPosts(): Promise<Post[] | null>;
   // FETCH SINGLE POST
   fetchSinglePost(params: { postId: string }): Promise<Post | null>;
-  
+  // FETCH SINGLE POST WITH COMMENTS
+  fetchSinglePostWithComments(params: {
+    postId: string;
+  }): Promise<SinglePostWithComments | null>;
 }

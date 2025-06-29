@@ -12,7 +12,11 @@ import {
   CreatePostDTO,
   UpdatePostDTO,
 } from "../../../../shared/dto/post/post.dto";
-import { Post, PostWithWriter } from "../domain/entities/post";
+import {
+  Post,
+  PostWithWriter,
+  SinglePostWithComments,
+} from "../domain/entities/post";
 import PostRepo from "../domain/repo/post.repo";
 
 class NeonPostRepo implements PostRepo {
@@ -137,13 +141,15 @@ class NeonPostRepo implements PostRepo {
   };
   // Alias Singular
   // Single - Row
-  fetchSinglePostWithComments = async (params: { postId: string }) => {
+  fetchSinglePostWithComments = async (params: {
+    postId: string;
+  }): Promise<SinglePostWithComments | null> => {
     try {
-      const result = sql`
+      const result = await sql`
       SELECT
         posts.id as post_id,
         posts.user_id as post_user_id,
-
+        
         posts.title as post_title,
         posts.content as post_content,
         posts.image_urls as post_image_urls,
@@ -165,13 +171,21 @@ class NeonPostRepo implements PostRepo {
         likes.post_id as like_post_id
   
         FROM posts
-        JOIN users on users.id = posts.user_id
-        JOIN comments on comments.post_id = posts.id
-        JOIN likes on likes.post_id = posts.id
+        LEFT JOIN users on users.id = posts.user_id
+        LEFT JOIN comments on comments.post_id = posts.id
+        LEFT JOIN likes on likes.post_id = posts.id
         WHERE posts.id = ${params.postId}
         `;
-      return result;
-    } catch (error) {}
+      console.log("RESULT", result);
+      return result[0] as SinglePostWithComments;
+    } catch (error) {
+      errorLogV2({
+        file: "neon.post.repo.ts",
+        function: "fetchSinglePostWithComments",
+        error: error,
+      });
+      return null;
+    }
   };
 }
 

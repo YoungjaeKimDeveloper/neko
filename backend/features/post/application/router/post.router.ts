@@ -5,6 +5,7 @@ import {
   fetchAllPosts,
   fetchPostsByUserId,
   fetchSinglePost,
+  fetchSinglePostWithComments,
   updatePost,
 } from "../controllers/post.controller";
 /*
@@ -33,6 +34,6 @@ postRouter.delete("/:postId", deletePost);
 // fetch Allposts
 postRouter.get("/all", fetchAllPosts);
 // fetch single post
-postRouter.get("/:postId", fetchSinglePost);
+postRouter.get("/:postId", fetchSinglePostWithComments);
 
 export default postRouter;
