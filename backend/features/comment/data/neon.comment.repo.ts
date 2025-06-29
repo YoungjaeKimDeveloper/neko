@@ -10,9 +10,9 @@ import {
   CommentDeletetDTO,
   CommentRequestDTO,
 } from "../domain/dto/comment.request.dto";
-import Comment from "../domain/entity/comment";
-import { CommentRepo } from "../domain/repo/comment.repo";
 
+import { CommentRepo } from "../domain/repo/comment.repo";
+import { Comment } from "./../domain/entity/comment";
 class NeonCommentRepo implements CommentRepo {
   createComment = async (
     comment: CommentRequestDTO
