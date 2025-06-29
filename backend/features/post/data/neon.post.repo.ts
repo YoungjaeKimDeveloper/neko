@@ -135,6 +135,44 @@ class NeonPostRepo implements PostRepo {
       return [];
     }
   };
+  // Alias Singular
+  // Single - Row
+  fetchSinglePostWithComments = async (params: { postId: string }) => {
+    try {
+      const result = sql`
+      SELECT
+        posts.id as post_id,
+        posts.user_id as post_user_id,
+
+        posts.title as post_title,
+        posts.content as post_content,
+        posts.image_urls as post_image_urls,
+        posts.created_at as post_created_at,
+        posts.reward_amount as post_reward_amount,
+        posts.location as post_location,
+
+        users.id as user_id,
+        users.user_name as user_name,
+        users.user_profile_image as user_profile_image,
+
+        comments.id as comment_id,
+        comments.user_id as comment_user_id,
+        comments.post_id as comment_post_id,
+        comments.content as comment_content,
+        comments.created_at as comment_created_at,
+
+        likes.user_id as like_user_id,
+        likes.post_id as like_post_id
+  
+        FROM posts
+        JOIN users on users.id = posts.user_id
+        JOIN comments on comments.post_id = posts.id
+        JOIN likes on likes.post_id = posts.id
+        WHERE posts.id = ${params.postId}
+        `;
+      return result;
+    } catch (error) {}
+  };
 }
 
 export default NeonPostRepo;

@@ -28,4 +28,5 @@ export default interface PostRepo {
   fetchAllPosts(): Promise<Post[] | null>;
   // FETCH SINGLE POST
   fetchSinglePost(params: { postId: string }): Promise<Post | null>;
+  
 }

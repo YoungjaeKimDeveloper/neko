@@ -28,3 +28,29 @@ export type PostWithWriterWithComment = Post & {
   user_name: string;
   user_profile_image: string;
 };
+
+// Name matching with alias
+export type SinglePostWithComments = {
+  post_id: string;
+  post_user_id: string;
+
+  post_title: string;
+  post_content: string;
+  post_image_urls: string[];
+  post_created_at: Date;
+  post_reward_amount: number;
+  post_location: string;
+
+  user_id: string;
+  user_name: string;
+  user_profile_image: string;
+
+  comment_id: string;
+  comment_user_id: string;
+  comment_post_id: string;
+  comment_content: string;
+  comment_created_at: Date;
+
+  like_user_id: string;
+  like_post_id: string;
+};
