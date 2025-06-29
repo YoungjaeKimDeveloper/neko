@@ -2,7 +2,7 @@ import {
   CreatePostDTO,
   UpdatePostDTO,
 } from "../../../../../shared/dto/post/post.dto";
-import Post from "../entities/post";
+import { Post } from "../entities/post";
 
 /*
     PROMISE!
@@ -24,6 +24,8 @@ export default interface PostRepo {
   updatePost(params: UpdatePostDTO): Promise<Post | null>;
   // DELETE
   deletePost(params: { postId: string }): Promise<void>;
-  // Fetch All Posts
+  // FETCH ALL POSTS
   fetchAllPosts(): Promise<Post[] | null>;
+  // FETCH SINGLE POST
+  fetchSinglePost(params: { postId: string }): Promise<Post | null>;
 }

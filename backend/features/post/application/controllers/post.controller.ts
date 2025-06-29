@@ -406,6 +406,51 @@ export const deletePost = async (
     });
   }
 };
+// fetch single post
+export const fetchSinglePost = async (
+  req: Request,
+  res: Response<ResponseDTO>
+): Promise<any> => {
+  const postId = req.params.postId;
+  console.debug("PostID", postId);
+  try {
+    // Validation - Authuser
+    if (!(req as VerifiedUserRequest).user) {
+      return sendResponseV2({
+        res: res,
+        status: RESPONSE_HTTP.UNAUTHORIZED,
+        success: false,
+        details: "Invalid user",
+        message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
+      });
+    }
+    const result = await neonPostRepo.fetchSinglePost({ postId });
+    // 5.Validation - find post
+    if (result == null) {
+      return sendResponseV2({
+        res: res,
+        status: RESPONSE_HTTP.NOT_FOUND,
+        success: false,
+        details: "Failed to find the post",
+        message: `${RESPONSE_MESSAGES.BAD_REQUEST}`,
+      });
+    }
+    // 5.Validation - User is not authorized to edit post
+    return sendResponseV2({
+      res: res,
+      success: true,
+      status: RESPONSE_HTTP.OK,
+      message: "Single post fetched successfully",
+      data: result,
+    });
+  } catch (error) {
+    return errorLogV2({
+      file: "post.controller.ts",
+      function: "fetch single post",
+      error: error,
+    });
+  }
+};
 // fetch All posts
 export const fetchAllPosts = async (
   req: Request,

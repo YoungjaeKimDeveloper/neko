@@ -72,7 +72,7 @@ const App = () => {
           element={currentUser ? <CreatePostPage /> : <Navigate to="/" />}
         />
         <Route
-          path="/posts/:id"
+          path="/posts/:postId"
           element={currentUser ? <SinglePostPage /> : <Navigate to="/" />}
         />
       </Routes>

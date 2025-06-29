@@ -81,7 +81,7 @@ const PostCard = ({ post }: PostCardProps) => {
               </span>
             </p>
           </div>
-          <Link to={`/posts/:${post.id}`}>
+          <Link to={`/posts/${post.id}`}>
             <button className="px-2 text-sm bg-white font-content h-[30px] rounded-md">
               View
             </button>

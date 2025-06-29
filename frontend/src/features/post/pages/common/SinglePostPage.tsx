@@ -2,13 +2,44 @@
 
 
     Single Post + Comments
-
+    1.fetch Single page  
 */
 
 import { Cat, Clover, Gift, MapPin, MessageCircle } from "lucide-react";
 import { AuthDesktopSidebar } from "../../../auth/components/desktop/AuthDesktopSidebar";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { axiosInstance } from "../../../../shared/api/axios";
+import toast from "react-hot-toast";
 
+import { errorLogV2 } from "../../../../../../shared/error/error.log";
+import LoadingPage from "../../../../shared/pages/common/LoadingPage";
+// Component
 const SinglePostPage = () => {
+  const { postId } = useParams();
+  console.log(postId);
+  // fetch single post
+  const { data: singlePost, isLoading } = useQuery({
+    // (caching key
+    queryKey: ["post", postId],
+    queryFn: async () => {
+      try {
+        const result = await axiosInstance.get(`/posts/${postId}`);
+        toast.success("Single post fetched successfully ✅");
+        return result.data;
+      } catch (error) {
+        errorLogV2({
+          file: "SinglePostPage.tsx",
+          function: "fetch single post useQuery",
+          error: error,
+        });
+      }
+    },
+  });
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+  console.log("SinglePost: ", singlePost);
   // BUILD UI
   return (
     <div className="flex">
