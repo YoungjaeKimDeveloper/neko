@@ -88,6 +88,7 @@ const SinglePostPage = () => {
     setIsShowComment((prev) => !prev);
   };
   console.log(res);
+  console.log(res);
   // BUILD UI
   return (
     <div className="flex">
