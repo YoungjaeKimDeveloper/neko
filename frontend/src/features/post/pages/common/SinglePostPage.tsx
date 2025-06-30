@@ -17,6 +17,7 @@ import LoadingPage from "../../../../shared/pages/common/LoadingPage";
 import type { DenormalisedPost } from "../../../../../../backend/features/post/domain/entities/post";
 import { formatDistanceToNow } from "date-fns";
 import Comment from "../../components/common/Comment";
+import { useState } from "react";
 
 // Component
 const SinglePostPage = () => {
@@ -24,6 +25,7 @@ const SinglePostPage = () => {
   const commentRef = useRef<HTMLInputElement>(null);
   const { postId } = useParams();
   const queryClient = useQueryClient();
+  const [isShowComment, setIsShowComment] = useState<boolean>(true);
   // fetch single post
 
   // Todo - Refactoring to wrtie clean code - Divide the file
@@ -61,6 +63,9 @@ const SinglePostPage = () => {
     },
 
     onSuccess: () => {
+      if (commentRef.current) {
+        commentRef.current.value = "";
+      }
       toast.success("Comment created");
       queryClient.invalidateQueries({ queryKey: ["post", postId] });
     },
@@ -78,6 +83,10 @@ const SinglePostPage = () => {
   if (isLoading) {
     return <LoadingPage />;
   }
+
+  const toggleShowComment = () => {
+    setIsShowComment((prev) => !prev);
+  };
   console.log(res);
   // BUILD UI
   return (
@@ -86,7 +95,7 @@ const SinglePostPage = () => {
       <AuthDesktopSidebar />
       {/* Right main */}
       {/* Container */}
-      <div className="w-[40%] flex flex-col gap-y-10 mx-auto shadow-lg h-fit gap-x-4 bg-gray-100">
+      <div className="w-[40%] flex flex-col gap-y-10 mx-auto shadow-lg h-fit gap-x-4">
         <div className="mx-auto mt-5  w-full">
           {/* Main Picture + Status bar */}
           <div className="w-full rounded-sm">
@@ -104,9 +113,9 @@ const SinglePostPage = () => {
                 <span>(0)</span>
               </div>
               {/* Comments */}
-              <div className="flex">
-                <MessageCircle />
-                <p>(0)</p>
+              <div className="flex hover:cursor-pointer">
+                <MessageCircle onClick={() => toggleShowComment()} />
+                <p>({res?.data.comments.length ?? 0})</p>
               </div>
               {/* Share */}
               <div className="flex">
@@ -132,8 +141,8 @@ const SinglePostPage = () => {
               />
               {/* Details */}
               <div>
-                <p>{res?.data.post.user_name}</p>
-                <p>
+                <p className="text-base">{res?.data.post.user_name}</p>
+                <p className="text-sm text-gray-400">
                   {res?.data.post.created_at &&
                     formatDistanceToNow(new Date(res?.data?.post?.created_at), {
                       addSuffix: true,
@@ -144,7 +153,7 @@ const SinglePostPage = () => {
             {/* Price + Location */}
             <div className="flex flex-col justify-between h-[50px]">
               {/* Price +Icon */}
-              <div className="flex items-center gap-x-2">
+              <div className="flex items-center gap-x-1">
                 <Gift />
                 <p>${res?.data.post.reward_amount}</p>
               </div>
@@ -185,9 +194,8 @@ const SinglePostPage = () => {
           </div>
         </form>
         {/* Comments */}
-        {res?.data.comments.map((comment) => (
-          <Comment comment={comment} />
-        ))}
+        {isShowComment &&
+          res?.data.comments.map((comment) => <Comment comment={comment} />)}
       </div>
     </div>
   );
