@@ -4,22 +4,29 @@
     Single Post + Comments
     1.fetch Single page  
 */
-
+import { useRef } from "react";
 import { Cat, Clover, Gift, MapPin, MessageCircle } from "lucide-react";
 import { AuthDesktopSidebar } from "../../../auth/components/desktop/AuthDesktopSidebar";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../../../../shared/api/axios";
 import toast from "react-hot-toast";
 
 import { errorLogV2 } from "../../../../../../shared/error/error.log";
 import LoadingPage from "../../../../shared/pages/common/LoadingPage";
 import type { DenormalisedPost } from "../../../../../../backend/features/post/domain/entities/post";
-import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
+import { formatDistanceToNow } from "date-fns";
+import Comment from "../../components/common/Comment";
+
 // Component
 const SinglePostPage = () => {
+  // Refetence Comment
+  const commentRef = useRef<HTMLInputElement>(null);
   const { postId } = useParams();
+  const queryClient = useQueryClient();
   // fetch single post
+
+  // Todo - Refactoring to wrtie clean code - Divide the file
   const { data: res, isLoading } = useQuery({
     // (caching key
     queryKey: ["post", postId],
@@ -40,6 +47,33 @@ const SinglePostPage = () => {
       }
     },
   });
+  // Create Comment
+  const { mutate: createComment } = useMutation({
+    mutationFn: async () => {
+      // Create Comment
+      const content = commentRef.current?.value;
+      if (content?.trim().length === 0 || content == null) {
+        throw new Error("Please write the comment");
+      }
+      await axiosInstance.post(`/comments/posts/${postId}`, {
+        content: content,
+      });
+    },
+    onSuccess: () => {
+      toast.success("Comment created");
+      queryClient.invalidateQueries({ queryKey: ["post", postId] });
+    },
+    onError: (error) => {
+      if (error instanceof Error) {
+        toast.error(error?.message);
+      }
+    },
+  });
+  // HandleComment
+  const handleComment = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    createComment();
+  };
   if (isLoading) {
     return <LoadingPage />;
   }
@@ -100,7 +134,7 @@ const SinglePostPage = () => {
                 <p>{res?.data.post.user_name}</p>
                 <p>
                   {res?.data.post.created_at &&
-                    formatDistanceToNow(res?.data?.post?.created_at, {
+                    formatDistanceToNow(new Date(res?.data?.post?.created_at), {
                       addSuffix: true,
                     })}
                 </p>
@@ -126,33 +160,25 @@ const SinglePostPage = () => {
           </div>
         </div>
         {/* Comments bar */}
-        <div className=" flex items-center rounded-tr-lg rounded-lg  bg-gray-50">
-          <input type="text" className="input w-full shadow-sm" />
+        <form
+          className=" flex items-center rounded-tr-lg rounded-lg  bg-gray-50"
+          onSubmit={(e) => handleComment(e)}
+        >
+          <input
+            ref={commentRef}
+            type="text"
+            className="input w-full shadow-sm"
+          />
           <div className="font-content ">
             <button type="submit" className="rounded-lg px-4">
               Comment
             </button>
           </div>
-        </div>
+        </form>
         {/* Comments */}
-        <div className="flex flex-col rounded-xl bg-gray-50 shadow-sm">
-          {/* Comment */}
-          <div className="p-2 rounded-xl ">
-            <div className="flex w-full gap-x-2">
-              <img
-                src="https://cdn.pixabay.com/photo/2018/10/29/21/46/human-3782189_1280.jpg"
-                alt="writer_user"
-                className="size-12 rounded-full"
-              />
-              <div className="w-full rounded-xl ">
-                <p>
-                  James <span>1 day ago</span>
-                </p>
-                <p>I saw this cat near Townhall station 4 days ago </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        {res?.data.comments.map((comment) => (
+          <Comment comment={comment} />
+        ))}
       </div>
     </div>
   );

@@ -513,8 +513,6 @@ export const fetchSinglePostWithComments = async (
         data: null,
       });
     }
-    console.log("여기까지 통과");
-    console.log("postId", postId);
     const result = await neonPostRepo.fetchSinglePostWithComments({ postId });
     return sendResponseV2({
       res: res,

@@ -3,7 +3,7 @@
 */
 import { EllipsisVertical, Gift, MapPin } from "lucide-react";
 import type { PostWithWriter } from "../../../../../backend/features/post/domain/entities/post";
-import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
+import { formatDistanceToNow } from "date-fns";
 import { useQueryClient } from "@tanstack/react-query";
 import type User from "../../../../../backend/features/auth/domain/entities/user";
 import { Link } from "react-router-dom";
@@ -59,9 +59,11 @@ const PostCard = ({ post }: PostCardProps) => {
         </div>
         {/* Date */}
         <p className="text-sm ">
-          <span className=" text-[12px] text-gray-500">
+          <span className="text-[12px] text-gray-500">
             {post.created_at
-              ? formatDistanceToNow(post.created_at, { addSuffix: true })
+              ? formatDistanceToNow(new Date(post.created_at!), {
+                  addSuffix: true,
+                })
               : ""}
           </span>
         </p>
