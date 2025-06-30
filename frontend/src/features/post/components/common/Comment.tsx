@@ -18,8 +18,8 @@ const Comment = ({ comment }: CommentProps) => {
             className="size-12 rounded-full"
           />
           <div className="w-full rounded-xl ">
+            <p>James</p>
             <p>
-              James
               {comment.created_at && (
                 <span>
                   {formatDistanceToNow(new Date(comment.created_at), {

@@ -15,10 +15,15 @@ async function createCommentTable() {
         post_id uuid REFERENCES posts(id)
     )
     `;
+    // Table Update 30/06/2025
+    // await sql`
+    // ALTER TABLE comments
+    // ALTER COLUMN created_at SET DEFAULT now()
+    // `;
     console.log("Comment TABLE CREATED✅");
   } catch (error: any) {
     errorLog({ location: "create Comment Table", error });
-    throw new error("Failed to create Comment Table");
+    throw new Error("Failed to create Comment Table");
   }
 }
 
