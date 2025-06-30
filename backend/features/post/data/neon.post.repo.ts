@@ -178,6 +178,7 @@ class NeonPostRepo implements PostRepo {
         LEFT JOIN comments on comments.post_id = posts.id
         LEFT JOIN likes on likes.post_id = posts.id
         WHERE posts.id = ${params.postId}
+        ORDER BY comments.created_at DESC
         `;
       // Denormalisation - Validation - 0
       if (result.length === 0) return null;

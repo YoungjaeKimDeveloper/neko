@@ -5,7 +5,7 @@
     1.fetch Single page  
 */
 import { useRef } from "react";
-import { Cat, Clover, Gift, MapPin, MessageCircle } from "lucide-react";
+import { Cat, Clover, Gift, Loader, MapPin, MessageCircle } from "lucide-react";
 import { AuthDesktopSidebar } from "../../../auth/components/desktop/AuthDesktopSidebar";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -48,7 +48,7 @@ const SinglePostPage = () => {
     },
   });
   // Create Comment
-  const { mutate: createComment } = useMutation({
+  const { mutate: createComment, isLoading: isCommenting } = useMutation({
     mutationFn: async () => {
       // Create Comment
       const content = commentRef.current?.value;
@@ -59,6 +59,7 @@ const SinglePostPage = () => {
         content: content,
       });
     },
+
     onSuccess: () => {
       toast.success("Comment created");
       queryClient.invalidateQueries({ queryKey: ["post", postId] });
@@ -170,8 +171,16 @@ const SinglePostPage = () => {
             className="input w-full shadow-sm"
           />
           <div className="font-content ">
-            <button type="submit" className="rounded-lg px-4">
-              Comment
+            <button
+              type="submit"
+              className="rounded-lg px-4"
+              disabled={isLoading}
+            >
+              {isCommenting ? (
+                <Loader className="animate-spin" />
+              ) : (
+                <span>Comment</span>
+              )}
             </button>
           </div>
         </form>
