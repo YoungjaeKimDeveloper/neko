@@ -19,7 +19,7 @@ const PostCard = ({ post }: PostCardProps) => {
   const queryClient = useQueryClient();
   const currentUser = queryClient.getQueryData(["authUser"]);
   const currentUserId = (currentUser as CurrentUser).id;
-  
+  console.log("POST", post);
   // BUILD UI
   return (
     <div className="card w-[300px] h-[300px] shadow-xl bg-gray-100 ">
@@ -28,7 +28,7 @@ const PostCard = ({ post }: PostCardProps) => {
         <div className="flex items-center justify-between gap-x-1 py-2 px-1">
           <img
             className="size-8 rounded-full"
-            src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"
+            src={post.user_profile_image ?? "/userProfile.png"}
             alt="user-profile"
           />
           {/* username */}
