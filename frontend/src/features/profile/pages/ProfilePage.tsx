@@ -9,12 +9,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import UserProfilePicture from "../../../shared/components/UserProfilePicture";
 import { AuthDesktopSidebar } from "../../auth/components/desktop/AuthDesktopSidebar";
 import ProfileInput from "../components/ProfileInput";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { format } from "date-fns";
 import MainButton from "../../../shared/components/MainButton";
-import type { ImageType } from "react-images-uploading";
 
 type ProfilePage = {
   user_profile: string;
@@ -23,21 +21,16 @@ type ProfilePage = {
   location: string;
   created_at: Date;
 };
-
 // Components
 const ProfilePage = () => {
-  // Navigate
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
-
-  // Using Cached Data
   const currentUser = queryClient.getQueryData<ProfilePage>(["authUser"]);
-  // Side Effect
-  useEffect(() => {
-    if (!currentUser) {
-      navigate("/");
-    }
-  }, [currentUser, navigate]);
+  // Profile Image Url
+  const [uploadImageFile, setUploadImageFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [updatedLocation, setUpdatedLocation] = useState<string>(
+    currentUser!.location
+  );
   if (!currentUser) {
     return null;
   }
@@ -49,11 +42,23 @@ const ProfilePage = () => {
     user_name: userName,
     user_profile: userProfile,
   } = currentUser;
+
+  // Side Effect
+
   console.log(email, created_at, location, userName, userProfile);
+
   // formatted Date
   const joinedDate = format(new Date(created_at), "dd/MM/yyyy");
-  const [imagePreview, setImagePreview] = useState<string>(userProfile);
-  
+  // preview
+  // image file for uploading to cloudinary
+
+  const handleImageChange = (previewUrl: string, file: File) => {
+    setPreviewUrl(previewUrl);
+    setUploadImageFile(file);
+  };
+  console.log("UploadedFile", uploadImageFile);
+  console.log("New Location", updatedLocation);
+  console.log("New Preview Image Url", previewUrl);
   // BUILD UI
   return (
     <div className="flex">
@@ -73,9 +78,10 @@ const ProfilePage = () => {
                 <h3 className="text-2xl font-bold tracking-wider">Profile</h3>
 
                 <UserProfilePicture
-                  imageSrc="https://cdn.pixabay.com/photo/2023/07/30/09/12/red-hair-girl-8158373_1280.jpg"
+                  imageSrc={previewUrl ?? userProfile}
                   imageSize="size-20"
                   isEditable={true}
+                  onImageChange={handleImageChange}
                 />
               </div>
               {/* Input Components*/}
@@ -97,6 +103,8 @@ const ProfilePage = () => {
                   placeholder={location}
                   inputValue={location}
                   isEditable={true}
+                  onChangeValue={(e) => setUpdatedLocation(e.target.value)}
+                  updatedValue={updatedLocation}
                 />
                 <ProfileInput
                   htmlForLabel="since"

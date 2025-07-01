@@ -11,7 +11,7 @@ interface ProfilePicture {
   imageSrc: string;
   imageSize: string;
   isEditable?: boolean;
-  onImageChange?: (fileUrl: string, file: File) => void; // transfer the data to the parent
+  onImageChange?: (previewUrl: string, file: File) => void; // transfer the data to the parent
 }
 const UserProfilePicture = ({
   imageSrc,

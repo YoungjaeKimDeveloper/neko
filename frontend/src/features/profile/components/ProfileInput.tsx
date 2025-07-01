@@ -3,18 +3,25 @@
     Profile Input Component
 
 */
+
+import type React from "react";
+
 // Component
 interface ProfileInputProps {
   htmlForLabel: string;
   placeholder: string;
   inputValue: string;
   isEditable?: boolean;
+  updatedValue?: string;
+  onChangeValue?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 const ProfileInput = ({
   htmlForLabel,
   placeholder,
   inputValue,
   isEditable = false,
+  updatedValue,
+  onChangeValue,
 }: ProfileInputProps) => {
   // BUILD UI
   return (
@@ -25,7 +32,7 @@ const ProfileInput = ({
         {htmlForLabel}
       </label>
       <input
-        value={inputValue ?? "Earth"}
+        value={updatedValue ?? inputValue ?? "Earth"}
         id={htmlForLabel}
         type="text"
         className={`input w-[400px] h-[40px] font-content px-[10px] ${
@@ -33,6 +40,8 @@ const ProfileInput = ({
         }`}
         placeholder={placeholder}
         disabled={!isEditable}
+        readOnly={!isEditable}
+        onChange={onChangeValue}
       />
     </div>
   );
