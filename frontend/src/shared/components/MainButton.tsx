@@ -29,7 +29,7 @@ const MainButton = ({
   return (
     <div className={`w-[ ${width ?? 100}% mx-auto text-sm`}>
       <div
-        className={`flex justify-center  px-20 py-1 rounded-xl shadow-sm hover:bg-gray-100 duration-200 cursor-pointer font-content w-full ${style}`}
+        className={`flex justify-center px-20 py-1 rounded-xl shadow-sm hover:bg-gray-100 duration-200 cursor-pointer font-content w-full ${style}`}
       >
         <button disabled={isLoading} type={type}>
           {isLoading ? <Loader className="animate-spin" /> : text}
