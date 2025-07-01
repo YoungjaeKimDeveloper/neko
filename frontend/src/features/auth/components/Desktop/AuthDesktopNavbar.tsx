@@ -42,8 +42,8 @@ const AuthNavbar = () => {
 
         {/* Right Home + Login */}
         <div className="flex gap-2 pr-5  items-center">
-          <CommonLinkIcon link="/home" size={30} icon={User} />
-          <CommonLinkIcon link="/notification" size={30} icon={Bell} />
+          <CommonLinkIcon link="profile" size={30} icon={User} />
+          <CommonLinkIcon link="notification" size={30} icon={Bell} />
           <button onClick={() => logout()}>
             <LogOut
               size={30}
