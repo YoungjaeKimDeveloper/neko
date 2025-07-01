@@ -5,7 +5,16 @@
     1.fetch Single page  
 */
 import { useRef } from "react";
-import { Cat, Clover, Gift, Loader, MapPin, MessageCircle } from "lucide-react";
+import {
+  Cat,
+  CircleChevronLeftIcon,
+  CircleChevronRight,
+  Clover,
+  Gift,
+  Loader,
+  MapPin,
+  MessageCircle,
+} from "lucide-react";
 import { AuthDesktopSidebar } from "../../../auth/components/desktop/AuthDesktopSidebar";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -23,6 +32,7 @@ import { useState } from "react";
 const SinglePostPage = () => {
   // Refetence Comment
   const commentRef = useRef<HTMLInputElement>(null);
+  const [immageNumber, setImmageNumber] = useState<number>(0);
   const { postId } = useParams();
   const queryClient = useQueryClient();
   const [isShowComment, setIsShowComment] = useState<boolean>(true);
@@ -87,8 +97,28 @@ const SinglePostPage = () => {
   const toggleShowComment = () => {
     setIsShowComment((prev) => !prev);
   };
+  // previous - right
+  const handleNextImage = () => {
+    if (immageNumber == res!.data.post.image_urls.length - 1) {
+      if (res?.data.post.image_urls.length) {
+        setImmageNumber(0);
+      }
+    } else {
+      setImmageNumber((prev) => prev + 1);
+    }
+  };
+  // previous - left
+  const handlePreviousImage = () => {
+    if (immageNumber == 0) {
+      if (res?.data.post.image_urls.length) {
+        setImmageNumber(res?.data.post.image_urls.length - 1);
+      }
+    } else {
+      setImmageNumber((prev) => prev - 1);
+    }
+  };
   console.log(res);
-  console.log(res);
+  // next
   // BUILD UI
   return (
     <div className="flex">
@@ -99,12 +129,22 @@ const SinglePostPage = () => {
       <div className="w-[40%] flex flex-col gap-y-10 mx-auto shadow-lg h-fit gap-x-4">
         <div className="mx-auto mt-5  w-full">
           {/* Main Picture + Status bar */}
-          <div className="w-full rounded-sm">
+          <div className="w-full rounded-sm relative">
             {/* Main page */}
             <img
-              src={res?.data.post.image_urls[0]}
+              src={res?.data.post.image_urls[immageNumber]}
               alt="hero_image"
               className="w-full h-[250px] rounded-t-lg"
+            />
+            {/* Left btn */}
+            <CircleChevronLeftIcon
+              className="absolute top-[40%] size-10"
+              onClick={handlePreviousImage}
+            />
+            {/* Right btn */}
+            <CircleChevronRight
+              className="absolute right-0 top-[40%] size-10"
+              onClick={handleNextImage}
             />
             {/* Status bar */}
             <div className="flex justify-between p-2 rounded-b-xl bg-gray-100">
@@ -196,7 +236,9 @@ const SinglePostPage = () => {
         </form>
         {/* Comments */}
         {isShowComment &&
-          res?.data.comments.map((comment) => <Comment comment={comment} />)}
+          res?.data.comments.map((comment) => (
+            <Comment key={comment.id} comment={comment} />
+          ))}
       </div>
     </div>
   );

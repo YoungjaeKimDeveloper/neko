@@ -19,7 +19,7 @@ const PostCard = ({ post }: PostCardProps) => {
   const queryClient = useQueryClient();
   const currentUser = queryClient.getQueryData(["authUser"]);
   const currentUserId = (currentUser as CurrentUser).id;
-
+  
   // BUILD UI
   return (
     <div className="card w-[300px] h-[300px] shadow-xl bg-gray-100 ">

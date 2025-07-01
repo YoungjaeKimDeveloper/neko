@@ -1,5 +1,5 @@
 import { errorLog } from "../../shared/error/error.log";
-import createCommentTable from "./schemas/comments.chema";
+import createCommentTable from "./schemas/comments.schema";
 import createLikeTable from "./schemas/likes.schema";
 import createNotificationTable from "./schemas/notification.schema";
 import createPostTable from "./schemas/posts.schema";
