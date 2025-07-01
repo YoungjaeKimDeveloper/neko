@@ -2,14 +2,13 @@
     Profile Controller
 */
 import { Response, Request } from "express";
-import NeonProfile from "../data/neon.profile.repo";
-import { ResponseDTO } from "../../../../shared/dto/common/response.dto";
-import { ProfileUpdateDto } from "../domain/dto/profile.dto";
-import { VerifiedUserRequest } from "../../post/application/controllers/post.controller";
-import { sendResponseV2 } from "../../../lib/utils/response/helper/response.helper";
-import { RESPONSE_HTTP } from "../../../../shared/constants/http-status";
-import { errorLogV2 } from "../../../../shared/error/error.log";
-import cloudinary from "../../../lib/cloudinary/cloudinary.config";
+import NeonProfile from "../../data/neon.profile.repo";
+import { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
+import { VerifiedUserRequest } from "../../../post/application/controllers/post.controller";
+import { sendResponseV2 } from "../../../../lib/utils/response/helper/response.helper";
+import { RESPONSE_HTTP } from "../../../../../shared/constants/http-status";
+import { errorLogV2 } from "../../../../../shared/error/error.log";
+import cloudinary from "../../../../lib/cloudinary/cloudinary.config";
 
 const neonProfile = new NeonProfile();
 export const updateUserProfile = async (

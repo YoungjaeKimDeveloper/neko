@@ -20,6 +20,7 @@ import postRouter from "./features/post/application/router/post.router";
 import notificationRouter from "./features/notification/application/router/notification.router";
 import likeRouter from "./features/like/application/routers/like.router";
 import commentRouter from "./features/comment/application/router/comment.router";
+import profileRouter from "./features/profile/application/router/profile.router";
 
 dotenv.config();
 const PORT = process.env.PORT || 8011;
@@ -37,6 +38,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// Todo - fix it later
 app.use(express.json({ limit: "50mb" }));
 app.use(morgan("dev"));
 app.use(cookieParser());
@@ -52,6 +54,8 @@ app.use("/api/notifications", notificationRouter);
 app.use("/api/likes", likeRouter);
 // comment
 app.use("/api/comments", commentRouter);
+// comment
+app.use("/api/profile", profileRouter);
 // Server
 app.listen(PORT, async () => {
   try {
