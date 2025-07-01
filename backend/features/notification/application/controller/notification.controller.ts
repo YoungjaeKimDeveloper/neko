@@ -1,6 +1,6 @@
 import { Response, Request } from "express";
 import { VerifiedUserRequest } from "../../../post/application/controllers/post.controller";
-import { ResponseDTO } from "../../../../lib/dto/response.dto";
+import { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
 import { errorLog } from "../../../../../shared/error/error.log";
 import NeonNotificationRepo from "../../data/neon.notification.repo";
 import { RESPONSE_MESSAGES } from "../../../../lib/utils/constants/messages";
