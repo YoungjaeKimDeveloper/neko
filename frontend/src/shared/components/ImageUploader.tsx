@@ -9,6 +9,7 @@ import { Plus } from "lucide-react";
 interface ImageUploder {
   images: ImageListType;
   onChange: (imageList: ImageListType) => void;
+  numberOfImage?: number;
 }
 
 // Component

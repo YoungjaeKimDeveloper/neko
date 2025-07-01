@@ -10,10 +10,11 @@ import UserProfilePicture from "../../../shared/components/UserProfilePicture";
 import { AuthDesktopSidebar } from "../../auth/components/desktop/AuthDesktopSidebar";
 import ProfileInput from "../components/ProfileInput";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { format } from "date-fns";
 import MainButton from "../../../shared/components/MainButton";
+import type { ImageType } from "react-images-uploading";
 
 type ProfilePage = {
   user_profile: string;
@@ -40,6 +41,7 @@ const ProfilePage = () => {
   if (!currentUser) {
     return null;
   }
+  // Extract the values
   const {
     email,
     created_at,
@@ -48,8 +50,10 @@ const ProfilePage = () => {
     user_profile: userProfile,
   } = currentUser;
   console.log(email, created_at, location, userName, userProfile);
+  // formatted Date
   const joinedDate = format(new Date(created_at), "dd/MM/yyyy");
-  console.log("JOINED DATE", joinedDate);
+  const [imagePreview, setImagePreview] = useState<string>(userProfile);
+  
   // BUILD UI
   return (
     <div className="flex">
@@ -61,12 +65,13 @@ const ProfilePage = () => {
           {/* Component Container */}
           <div className="flex flex-col items-center h-full bg-gray-400 max-w-[800px] mx-auto">
             {/* Heading + Image */}
-            <div className="mt-5 flex flex-col items-center justify-between w-full h-fit">
+            <form className="mt-5 flex flex-col items-center justify-between w-full h-fit">
               {/* Profile */}
 
               {/* Profile image */}
               <div className="py-4">
                 <h3 className="text-2xl font-bold tracking-wider">Profile</h3>
+
                 <UserProfilePicture
                   imageSrc="https://cdn.pixabay.com/photo/2023/07/30/09/12/red-hair-girl-8158373_1280.jpg"
                   imageSize="size-20"
@@ -102,7 +107,7 @@ const ProfilePage = () => {
               <div className="mt-10">
                 <MainButton text="Save" type="submit" />
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
