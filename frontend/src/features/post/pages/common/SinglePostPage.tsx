@@ -258,7 +258,7 @@ const SinglePostPage = () => {
                   className={`${
                     isIncludeUserId && "fill-red-200 stroke-white"
                   }`}
-                  onClick={() => LikePost()}
+                  // onClick={() => LikePost()}
                 />
                 <span>({res?.data.likes.length})</span>
               </div>
