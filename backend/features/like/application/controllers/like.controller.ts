@@ -12,7 +12,10 @@ import { errorLog } from "../../../../../shared/error/error.log";
 import NeonPostRepo from "../../../post/data/neon.post.repo";
 import NeonNotificationRepo from "../../../notification/data/neon.notification.repo";
 import { NotificationType } from "../../../notification/domain/entity/notification";
-import { sendResponse } from "../../../../lib/utils/response/helper/response.helper";
+import {
+  sendResponse,
+  sendResponseV2,
+} from "../../../../lib/utils/response/helper/response.helper";
 import { RESPONSE_HTTP } from "../../../../../shared/constants/http-status";
 import { RESPONSE_MESSAGES } from "../../../../lib/utils/constants/messages";
 
@@ -25,6 +28,7 @@ export const likePost = async (
   req: Request,
   res: Response<ResponseDTO>
 ): Promise<any> => {
+  console.log("Did you Call me?");
   try {
     const authenticatedUser = (req as VerifiedUserRequest).user;
     if (!authenticatedUser) {
@@ -44,6 +48,7 @@ export const likePost = async (
         message: `${RESPONSE_MESSAGES.BAD_REQUEST} - userid is required`,
       });
     }
+    // Extract PostId
     const postId = req.params.postId;
     if (!postId) {
       return sendResponse({
@@ -67,7 +72,7 @@ export const likePost = async (
         message: `${RESPONSE_MESSAGES.INTERNAL}`,
       });
     }
-
+    // fetch Single post and check if the post writer and user are same
     const post = await neonPostRepo.fetchSinglePost({ postId });
     if (!post) {
       return sendResponse({
@@ -94,7 +99,12 @@ export const likePost = async (
           });
         }
       }
-      console.log("Notification created - like post");
+      return sendResponseV2({
+        res: res,
+        status: RESPONSE_HTTP.CREATED,
+        success: true,
+        message: "Like post and notification has been created successfully",
+      });
     } catch (error) {
       errorLog({ location: "Like Post", error: error });
     }

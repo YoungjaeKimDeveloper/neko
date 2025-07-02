@@ -7,7 +7,7 @@ import sql from "../db/config/db";
 
 */
 import { Request, Response, NextFunction } from "express";
-import { ResponseDTO } from "../lib/dto/response.dto";
+import { ResponseDTO } from "../../shared/dto/common/response.dto";
 import User from "../features/auth/domain/entities/user";
 import { sendResponse } from "../lib/utils/response/helper/response.helper";
 import { RESPONSE_HTTP } from "../../shared/constants/http-status";

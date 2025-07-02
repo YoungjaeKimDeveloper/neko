@@ -27,6 +27,8 @@ import type { DenormalisedPost } from "../../../../../../backend/features/post/d
 import { formatDistanceToNow } from "date-fns";
 import Comment from "../../components/common/Comment";
 import { useState } from "react";
+import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto";
+import type User from "../../../../../../backend/features/auth/domain/entities/user";
 
 // Component
 const SinglePostPage = () => {
@@ -36,6 +38,7 @@ const SinglePostPage = () => {
   const { postId } = useParams();
   const queryClient = useQueryClient();
   const [isShowComment, setIsShowComment] = useState<boolean>(true);
+  const [isCopied, setIsCopied] = useState<boolean>(false);
   // fetch single post
 
   // Todo - Refactoring to wrtie clean code - Divide the file
@@ -59,7 +62,9 @@ const SinglePostPage = () => {
       }
     },
   });
-
+  // Verified User
+  const currentUser = queryClient.getQueryData(["authUser"]);
+  const currentUserId = (currentUser as User).id;
   // Create Comment
   const { mutate: createComment, isLoading: isCommenting } = useMutation({
     mutationFn: async () => {
@@ -83,6 +88,29 @@ const SinglePostPage = () => {
     onError: (error) => {
       if (error instanceof Error) {
         toast.error(error?.message);
+      }
+    },
+  });
+  // Like Post
+  const { mutate: LikePost } = useMutation({
+    mutationFn: async () => {
+      try {
+        const result = await axiosInstance.post<ResponseDTO>(
+          `/likes/post/${postId}`
+        );
+        if (result.data.success != true) {
+          throw new Error("Failed to like the post");
+        }
+        toast.success("Like the post Successfully");
+      } catch (error) {
+        if (error instanceof Error) {
+          errorLogV2({
+            file: "SinglePost.tsx",
+            function: "LikePost TanStack Query",
+            error: error,
+          });
+          toast.error("Failed to like the post");
+        }
       }
     },
   });
@@ -118,8 +146,29 @@ const SinglePostPage = () => {
       setImmageNumber((prev) => prev - 1);
     }
   };
+  // Copy current URL
+  const handleShare = async () => {
+    try {
+      const currentUrl = window.location.href;
+      await navigator.clipboard.writeText(currentUrl);
+      toast.success("Link copied🍀");
+      setIsCopied(true);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error("Failed to copy address");
+        errorLogV2({
+          file: "SinglePostPage.tsx",
+          function: "HandleShare",
+          error: error,
+        });
+      }
+    }
+  };
+  const isIncludeUserId = res?.data.likes.some(
+    (like) => like.user_id == currentUserId
+  );
   console.log(res);
-  // next
+
   // BUILD UI
   return (
     <div className="flex">
@@ -151,17 +200,34 @@ const SinglePostPage = () => {
             <div className="flex justify-between p-2 rounded-b-xl bg-gray-100">
               {/* Cat + like */}
               <div className="flex">
-                <Cat />
-                <span>(0)</span>
+                <Cat
+                  className={`${
+                    isIncludeUserId && "fill-red-200 stroke-white"
+                  }`}
+                  onClick={() => LikePost()}
+                />
+                <span>({res?.data.likes.length})</span>
               </div>
               {/* Comments */}
               <div className="flex hover:cursor-pointer">
-                <MessageCircle onClick={() => toggleShowComment()} />
+                <MessageCircle
+                  className={`${
+                    isShowComment && "fill-green-300 stroke-white"
+                  }`}
+                  onClick={() => toggleShowComment()}
+                />
                 <p>({res?.data?.comments.length ?? 0})</p>
               </div>
               {/* Share */}
-              <div className="flex">
-                <Clover />
+              <div
+                className="flex hover:cursor-pointer"
+                onClick={() => handleShare()}
+              >
+                <Clover
+                  className={`${
+                    isCopied && "stroke-green-500 fill-green-500"
+                  }}`}
+                />
                 <p>Share</p>
               </div>
             </div>

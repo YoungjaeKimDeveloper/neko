@@ -1,3 +1,4 @@
+import { FetchNotificationByUserIdDTO } from "./../../features/notification/domain/dto/notification.dto";
 /*
 
     Notification Schema
@@ -21,10 +22,15 @@ const createNotificationTable = async () => {
             )
             
         `;
+    // 02/07/2025 Alter table to generate random UUID
+    // await sql`
+    //   ALTER TABLE notifications
+    //   ALTER COLUMN id SET DEFAULT gen_random_uuid()
+    // `;
     console.log("NOTIFICATION TABLE CREATED✅");
   } catch (error: any) {
     errorLog({ location: "create notification Table", error });
-    throw new error("Failed to notification table");
+    throw new Error("Failed to notification table");
   }
 };
 
