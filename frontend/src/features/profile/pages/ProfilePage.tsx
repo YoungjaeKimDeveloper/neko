@@ -103,14 +103,14 @@ const ProfilePage = () => {
   console.log(currentUser);
   // BUILD UI
   return (
-    <div className="flex">
+    <div className="flex pl-[150px]">
       {/* Left */}
       <AuthDesktopSidebar />
       {/* Right */}
-      <div className="bg-gray-300 w-full h-screen">
-        <div className="bg-red-50 size-[80%] mt-10 rounded-card shadow-xl mx-auto">
+      <div className=" w-full h-screen shadow-xl bg-gray-50 pt-10 rounded-sm">
+        <div className="size-[80%]  rounded-card shadow-xl mx-auto">
           {/* Component Container */}
-          <div className="flex flex-col items-center h-full bg-gray-400 max-w-[800px] mx-auto">
+          <div className="flex flex-col items-center h-fullmax-w-[800px] mx-auto bg-gray-200 h-full rounded-xl">
             {/* Heading + Image */}
             <form
               className="mt-5 flex flex-col items-center justify-between w-full h-fit"
@@ -133,26 +133,27 @@ const ProfilePage = () => {
               <div className="w-fit mx-auto flex flex-col  items-start justify-between gap-10 mt-10">
                 {/* Input Component*/}
                 <ProfileInput
-                  htmlForLabel="email"
+                  htmlForLabel="Email"
                   placeholder="Email"
                   inputValue={email}
                 />
                 <ProfileInput
-                  htmlForLabel="name"
+                  htmlForLabel="Name"
                   placeholder="name"
                   inputValue={userName}
                   isEditable={false}
                 />
                 <ProfileInput
-                  htmlForLabel="location"
+                  htmlForLabel="Location"
                   placeholder={location}
                   inputValue={location}
                   isEditable={true}
                   onChangeValue={(e) => setUpdatedLocation(e.target.value)}
                   updatedValue={updatedLocation}
+                  maxNumberOfWord={15}
                 />
                 <ProfileInput
-                  htmlForLabel="since"
+                  htmlForLabel="Since"
                   placeholder="Email"
                   inputValue={joinedDate}
                 />

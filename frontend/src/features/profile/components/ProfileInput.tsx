@@ -13,6 +13,7 @@ interface ProfileInputProps {
   inputValue: string;
   isEditable?: boolean;
   updatedValue?: string;
+  maxNumberOfWord?: number;
   onChangeValue?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 const ProfileInput = ({
@@ -22,6 +23,7 @@ const ProfileInput = ({
   isEditable = false,
   updatedValue,
   onChangeValue,
+  maxNumberOfWord,
 }: ProfileInputProps) => {
   // BUILD UI
   return (
@@ -32,6 +34,7 @@ const ProfileInput = ({
         {htmlForLabel}
       </label>
       <input
+        maxLength={maxNumberOfWord}
         value={updatedValue ?? inputValue ?? "Earth"}
         id={htmlForLabel}
         type="text"

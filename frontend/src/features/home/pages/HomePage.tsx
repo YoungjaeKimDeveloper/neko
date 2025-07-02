@@ -43,7 +43,7 @@ const HomePage = () => {
         {isLoading ? (
           <LoadingPage />
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-4 w-fit lg:w-full mx-auto  gap-y-4 mt-4 lg:mx-4">
+          <div className="grid grid-cols-1 lg:grid-cols-4 w-fit lg:w-full mx-auto  gap-y-4 mt-4 lg:mx-4 pl-[150px]">
             {/* Mapping posts */}
             {posts?.map((post: PostWithWriter) => (
               <PostCard key={post.id} post={post} />

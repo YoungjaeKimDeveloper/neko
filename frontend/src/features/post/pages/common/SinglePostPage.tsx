@@ -127,13 +127,13 @@ const SinglePostPage = () => {
       <AuthDesktopSidebar />
       {/* Right main */}
       {/* Container */}
-      <div className="w-[40%] flex flex-col gap-y-10 mx-auto shadow-lg h-fit gap-x-4">
+      <div className="w-[40%] flex flex-col gap-y-10 mx-auto  h-fit gap-x-4">
         <div className="mx-auto mt-5  w-full">
           {/* Main Picture + Status bar */}
           <div className="w-full rounded-sm relative">
             {/* Main page */}
             <img
-              src={res?.data.post.image_urls[immageNumber]}
+              src={res?.data?.post?.image_urls[immageNumber]}
               alt="hero_image"
               className="w-full h-[250px] rounded-t-lg"
             />
@@ -157,7 +157,7 @@ const SinglePostPage = () => {
               {/* Comments */}
               <div className="flex hover:cursor-pointer">
                 <MessageCircle onClick={() => toggleShowComment()} />
-                <p>({res?.data.comments.length ?? 0})</p>
+                <p>({res?.data?.comments.length ?? 0})</p>
               </div>
               {/* Share */}
               <div className="flex">
@@ -175,7 +175,7 @@ const SinglePostPage = () => {
             <div className="flex items-center gap-x-2">
               <img
                 src={
-                  res?.data.post.user_profile_image ??
+                  res?.data?.post?.user_profile_image ??
                   "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"
                 }
                 alt="writer_user"
@@ -183,9 +183,9 @@ const SinglePostPage = () => {
               />
               {/* Details */}
               <div>
-                <p className="text-base">{res?.data.post.user_name}</p>
+                <p className="text-base">{res?.data?.post?.user_name}</p>
                 <p className="text-sm text-gray-400">
-                  {res?.data.post.created_at &&
+                  {res?.data?.post?.created_at &&
                     formatDistanceToNow(new Date(res?.data?.post?.created_at), {
                       addSuffix: true,
                     })}
@@ -197,18 +197,18 @@ const SinglePostPage = () => {
               {/* Price +Icon */}
               <div className="flex items-center gap-x-1">
                 <Gift />
-                <p>${res?.data.post.reward_amount}</p>
+                <p>${res?.data?.post?.reward_amount}</p>
               </div>
               {/* Icon + Location */}
               <div className="flex items-center justify-center">
                 <MapPin className="text-warning" />
-                <p>{res?.data.post.location}</p>
+                <p>{res?.data?.post?.location}</p>
               </div>
             </div>
           </div>
           {/* Bottom - Description */}
           <div>
-            <p className="px-2">{res?.data.post.content}</p>
+            <p className="px-2">{res?.data?.post?.content}</p>
           </div>
         </div>
         {/* Comments bar */}
@@ -219,7 +219,7 @@ const SinglePostPage = () => {
           <input
             ref={commentRef}
             type="text"
-            className="input w-full shadow-sm"
+            className="input w-full bg-gray-200"
           />
           <div className="font-content ">
             <button
@@ -237,7 +237,7 @@ const SinglePostPage = () => {
         </form>
         {/* Comments */}
         {isShowComment &&
-          res?.data.comments.map((comment) => (
+          res?.data?.comments?.map((comment) => (
             <Comment key={comment.id} comment={comment} />
           ))}
       </div>

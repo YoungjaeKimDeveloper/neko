@@ -1,3 +1,4 @@
+import { unLikePost } from "./../../like/application/controllers/like.controller";
 /*
 
     Implement core functionality with Neon
@@ -172,13 +173,18 @@ class NeonPostRepo implements PostRepo {
         comments.created_at as comment_created_at,
 
         likes.user_id as like_user_id,
-        likes.post_id as like_post_id
-  
+        likes.post_id as like_post_id,
+        -- Comment Writer - from users table
+        comment_user.id as comment_user_id,
+        comment_user.user_name as comment_user_user_name,
+        comment_user.user_profile_image as comment_user_user_profile_image
+
         FROM posts
         LEFT JOIN users on users.id = posts.user_id
         LEFT JOIN comments on comments.post_id = posts.id
         LEFT JOIN likes on likes.post_id = posts.id
-        
+        LEFT JOIN users as comment_user on comment_user.id = comments.user_id
+
         WHERE posts.id = ${params.postId}
         ORDER BY comments.created_at DESC
         `;
@@ -209,10 +215,12 @@ class NeonPostRepo implements PostRepo {
           created_at: row.comment_created_at ?? undefined,
           user_id: row.comment_user_id,
           post_id: row.comment_post_id,
+          user_name: row.comment_user_user_name,
+          user_profile_image: row.comment_user_user_profile_image,
         }));
       // Likes denormalisation - Follow alias
       const likes: Like[] = result
-        .filter((row) => row?.likes?.user_id != null)
+        .filter((row) => row?.like_user_id != null)
         .map((row) => ({
           user_id: row.like_user_id,
           post_id: row.like_post_id,

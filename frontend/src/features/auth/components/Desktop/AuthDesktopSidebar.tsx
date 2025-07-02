@@ -11,10 +11,10 @@ import AuthDesktopSidebarListTitle from "./AuthDesktopSidebarListTitle";
 
 export const AuthDesktopSidebar = () => {
   return (
-    <div className="h-screen w-[150px] shadow-sidebar bg-gray-500 ">
+    <div className="fixed top-[75px] left-0  w-[150px] h-screen bg-red shadow-sidebar z-50">
       {/* Sidebar Icon */}
-      <div className=" left-9 top-[100px] h-screen flex flex-col gap-4 bg-white z-50 ">
-        <div className=" h-full w-full">
+      <div className="h-screen flex flex-col gap-4 bg-white z-50 ">
+        <div className="h-screen">
           <div className="flex justify-between items-start flex-col h-[250px] py-4 mt-4  pl-4 ">
             <AuthDesktopSidebarListTitle
               icon={Home}

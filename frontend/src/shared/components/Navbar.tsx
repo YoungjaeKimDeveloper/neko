@@ -9,7 +9,7 @@ const Navbar = () => {
   // BUILD UI
   return (
     // Size
-    <div className="w-screen shadow-lg h-[75px ">
+    <div className="w-screen shadow-lg h-[75px] ">
       {/* Layout */}
       <div className="flex justify-between items-center ">
         {/* Left Logo + Neko */}
