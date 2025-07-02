@@ -4,7 +4,7 @@
     Single Post + Comments
     1.fetch Single page  
 */
-import { useOptimistic, useRef } from "react";
+import { useEffect, useOptimistic, useRef } from "react";
 import {
   Cat,
   CircleChevronLeftIcon,
@@ -40,6 +40,7 @@ const SinglePostPage = () => {
   const queryClient = useQueryClient();
   const [isShowComment, setIsShowComment] = useState<boolean>(true);
   const [isCopied, setIsCopied] = useState<boolean>(false);
+  // Fetch Post
   const { data: res, isLoading } = useQuery({
     // (caching key
     queryKey: ["post", postId],
@@ -60,10 +61,16 @@ const SinglePostPage = () => {
       }
     },
   });
+  useEffect(() => {
+    if (res?.data.likes) {
+      setLikes(res?.data.likes);
+    }
+  }, [res?.data]);
   // Step1. Store Likes - real
   const [likes, setLikes] = useState<Like[]>(res?.data.likes ?? []);
   // Optimistic UI
   // Only for fake UI
+  // 값을 전달해주면 reducer로 되어있는 부분에서 로직을 처리하게됨
   const [optimisticLikes, addOptimisticLikes] = useOptimistic(
     likes,
     (state, newLike: Like) => {
@@ -108,7 +115,7 @@ const SinglePostPage = () => {
     },
   });
   // Like Post
-  const { mutate: LikePost } = useMutation({
+  const { mutate: LikePost, isPending: isLikePending } = useMutation({
     mutationFn: async (newLike: Like) => {
       // FAKE UI - OPTIMISTIC - 일단 페이크용으로 OPTIMISTIc(낙관적인 결과를 먼저보여줌)
       addOptimisticLikes(newLike);
@@ -128,7 +135,7 @@ const SinglePostPage = () => {
     },
     onError: (error, newLike) => {
       // ROLLBACK - Update OPTIMISTIC
-      // 낙관적인결과가 아니였음으로 되돌림..
+      // 낙관적인결과가 아니였음으로 되돌림
       setLikes((prev) =>
         prev.filter((like) => like.user_id !== newLike.user_id)
       );
@@ -141,10 +148,10 @@ const SinglePostPage = () => {
     },
   });
   // unLike Post
-  const { mutate: unLikePost } = useMutation({
+  const { mutate: unLikePost, isPending: isUnLikePending } = useMutation({
     mutationFn: async (newLike: Like) => {
       // OPTIMISTIC UI - 낙관적인 결과부터 보여주기
-      addOptimisticLikes(newLike);
+      addOptimisticLikes({ user_id: currentUserId, post_id: postId! });
       // 실제로 백엔드로 DATA 전송하기
       const result = await axiosInstance.delete<ResponseDTO>(
         `/likes/post/${postId}`
@@ -156,6 +163,7 @@ const SinglePostPage = () => {
     },
     // 실제로 백엔드에서 결과가 제대로진행됨 setLikes 업데이트해주기 -> useOptimistic이 의존하고있음으로 setLikes가 변경되면 자동으로 같이 변경됨
     onSuccess: (newLike: Like) => {
+      queryClient.invalidateQueries({ queryKey: ["post", postId] });
       setLikes((prev) =>
         prev.filter((like) => like.user_id !== newLike.user_id)
       );
@@ -171,6 +179,20 @@ const SinglePostPage = () => {
   const handleComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     createComment();
+  };
+  const handleLikePost = () => {
+    const isLiked = optimisticLikes.some(
+      (like) => like.user_id === currentUserId
+    );
+    const newLike: Like = {
+      post_id: postId!,
+      user_id: currentUserId,
+    };
+    if (isLiked) {
+      unLikePost(newLike);
+    } else {
+      LikePost(newLike);
+    }
   };
   if (isLoading) {
     return <LoadingPage />;
@@ -218,11 +240,12 @@ const SinglePostPage = () => {
       }
     }
   };
-  const isIncludeUserId = res?.data.likes.some(
+  const isIncludeUserId = optimisticLikes.some(
     (like) => like.user_id == currentUserId
   );
-  console.log(res);
-
+  console.log(res?.data.likes);
+  console.log("Likes", likes);
+  console.log("optimisticLikes", optimisticLikes);
   // BUILD UI
   return (
     <div className="flex">
@@ -254,13 +277,16 @@ const SinglePostPage = () => {
             <div className="flex justify-between p-2 rounded-b-xl bg-gray-100">
               {/* Cat + like */}
               <div className="flex">
-                <Cat
-                  className={`${
-                    isIncludeUserId && "fill-red-200 stroke-white"
-                  }`}
-                  // onClick={() => LikePost()}
-                />
-                <span>({res?.data.likes.length})</span>
+                <button disabled={isLikePending || isUnLikePending}>
+                  <Cat
+                    className={`${
+                      isIncludeUserId && "fill-red-200 stroke-white"
+                    }`}
+                    onClick={() => handleLikePost()}
+                    // onClick={() => LikePost()}
+                  />
+                </button>
+                <span>({optimisticLikes.length})</span>
               </div>
               {/* Comments */}
               <div className="flex hover:cursor-pointer">

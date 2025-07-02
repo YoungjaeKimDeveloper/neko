@@ -17,6 +17,7 @@ class NeonLikeRepo implements LikeRepo {
       const result = await sql`
             INSERT INTO likes
             VALUES (${params.user_id},${params.post_id})
+            ON CONFLICT DO NOTHING
             RETURNING *
             `;
       return result.length > 0 ? (result[0] as Like) : null;
