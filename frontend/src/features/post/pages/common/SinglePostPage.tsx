@@ -4,7 +4,7 @@
     Single Post + Comments
     1.fetch Single page  
 */
-import { useRef } from "react";
+import { useOptimistic, useRef } from "react";
 import {
   Cat,
   CircleChevronLeftIcon,
@@ -29,6 +29,7 @@ import Comment from "../../components/common/Comment";
 import { useState } from "react";
 import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto";
 import type User from "../../../../../../backend/features/auth/domain/entities/user";
+import type Like from "../../../../../../backend/features/like/domain/entity/like";
 
 // Component
 const SinglePostPage = () => {
@@ -39,9 +40,6 @@ const SinglePostPage = () => {
   const queryClient = useQueryClient();
   const [isShowComment, setIsShowComment] = useState<boolean>(true);
   const [isCopied, setIsCopied] = useState<boolean>(false);
-  // fetch single post
-
-  // Todo - Refactoring to wrtie clean code - Divide the file
   const { data: res, isLoading } = useQuery({
     // (caching key
     queryKey: ["post", postId],
@@ -62,6 +60,24 @@ const SinglePostPage = () => {
       }
     },
   });
+  // Step1. Store Likes - real
+  const [likes, setLikes] = useState<Like[]>(res?.data.likes ?? []);
+  // Optimistic UI
+  // Only for fake UI
+  const [optimisticLikes, addOptimisticLikes] = useOptimistic(
+    likes,
+    (state, newLike: Like) => {
+      // It is already liked
+      const isExisted = state.find((like) => like.user_id === newLike.user_id);
+      // Unlike
+      if (isExisted) {
+        // Return value will be state of optimistic likes
+        return state.filter((like) => like.user_id !== newLike.user_id); //unLike Post
+      }
+      return [...state, newLike]; // like Post
+    }
+  );
+  // Todo - Refactoring to wrtie clean code - Divide the file
   // Verified User
   const currentUser = queryClient.getQueryData(["authUser"]);
   const currentUserId = (currentUser as User).id;
@@ -93,25 +109,62 @@ const SinglePostPage = () => {
   });
   // Like Post
   const { mutate: LikePost } = useMutation({
-    mutationFn: async () => {
-      try {
-        const result = await axiosInstance.post<ResponseDTO>(
-          `/likes/post/${postId}`
-        );
-        if (result.data.success != true) {
-          throw new Error("Failed to like the post");
-        }
-        toast.success("Like the post Successfully");
-      } catch (error) {
-        if (error instanceof Error) {
-          errorLogV2({
-            file: "SinglePost.tsx",
-            function: "LikePost TanStack Query",
-            error: error,
-          });
-          toast.error("Failed to like the post");
-        }
-      }
+    mutationFn: async (newLike: Like) => {
+      // FAKE UI - OPTIMISTIC - 일단 페이크용으로 OPTIMISTIc(낙관적인 결과를 먼저보여줌)
+      addOptimisticLikes(newLike);
+      // SEND ACTUCAL REQUEST TO BACKEND - 실제 백엔드로 보여주게됨
+      const res = await axiosInstance.post<ResponseDTO>(
+        `/likes/post/${postId}`
+      );
+      // 실페시 ERROR 던져서 - 강제로 ROLLBACK 시키도록함
+      if (!res.data.success) throw new Error("Failed to like");
+      // 여기에서 반환되는 값이 onSuccess/onERROR의 첫번쨰 인자로 들어가게됨
+      return newLike;
+    },
+    onSuccess: (newLike) => {
+      // 실제 데이터가 업데이트 줌 OPTIMISTIC(낙관적인 결과와 일치시킴)
+      setLikes((prev) => [...prev, newLike]);
+      toast.success("Liked the post successfully");
+    },
+    onError: (error, newLike) => {
+      // ROLLBACK - Update OPTIMISTIC
+      // 낙관적인결과가 아니였음으로 되돌림..
+      setLikes((prev) =>
+        prev.filter((like) => like.user_id !== newLike.user_id)
+      );
+      toast.error("ROLLBACK : failed to like");
+      errorLogV2({
+        file: "SinglePostPage.tsx",
+        function: "LikePost - usemutation",
+        error,
+      });
+    },
+  });
+  // unLike Post
+  const { mutate: unLikePost } = useMutation({
+    mutationFn: async (newLike: Like) => {
+      // OPTIMISTIC UI - 낙관적인 결과부터 보여주기
+      addOptimisticLikes(newLike);
+      // 실제로 백엔드로 DATA 전송하기
+      const result = await axiosInstance.delete<ResponseDTO>(
+        `/likes/post/${postId}`
+      );
+      // 서버에서 요청이 제대로 이루어지지않음
+      if (!result.data.success) throw new Error("Failed to unlike post");
+      // 여기에서 던진 newLike는 onSuccess / onError의 첫번쨰 인자로 받게됨
+      return newLike;
+    },
+    // 실제로 백엔드에서 결과가 제대로진행됨 setLikes 업데이트해주기 -> useOptimistic이 의존하고있음으로 setLikes가 변경되면 자동으로 같이 변경됨
+    onSuccess: (newLike: Like) => {
+      setLikes((prev) =>
+        prev.filter((like) => like.user_id !== newLike.user_id)
+      );
+      toast.success("UnLiked the post successfully");
+    },
+    // 백엔드에서 실패함 롤백해줘야함
+    onError: (newLike: Like) => {
+      setLikes((prev) => [...prev, newLike]);
+      toast.error("Failed to unlike posts");
     },
   });
   // HandleComment
@@ -122,7 +175,8 @@ const SinglePostPage = () => {
   if (isLoading) {
     return <LoadingPage />;
   }
-
+  // -------------------------------------
+  // helper functions - Non crucial tasks
   const toggleShowComment = () => {
     setIsShowComment((prev) => !prev);
   };
