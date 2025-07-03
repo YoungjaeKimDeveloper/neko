@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
 
 
     Single Post + Comments
     1.fetch Single page  
 */
-import { useEffect, useOptimistic, useRef } from "react";
+import { useEffect, useRef } from "react";
 import {
   Cat,
   CircleChevronLeftIcon,
@@ -64,29 +65,20 @@ const SinglePostPage = () => {
       });
     },
   });
+  // Focus - OPTIMISTIC UI
+  const [likes, setLikes] = useState<Like[]>([]);
+  // Fetch likes
   useEffect(() => {
-    if (isSuccess && res?.data.likes) {
-      setLikes(res?.data.likes);
+    if (isSuccess) {
+      setLikes(res.data.likes);
     }
-  }, [isSuccess, res?.data]);
+  }, [isSuccess, res]);
   // Step1. Store Likes - Source of Truth
-  const [likes, setLikes] = useState<Like[]>(res?.data.likes ?? []);
+  // const [likes, setLikes] = useState<Like[]>(res?.data.likes ?? []);
+
   // Optimistic UI
   // Only for fake UI
-  // 값을 전달해주면 reducer로 되어있는 부분에서 로직을 처리하게됨
-  const [optimisticLikes, addOptimisticLikes] = useOptimistic(
-    likes,
-    (state, newLike: Like) => {
-      // It is already liked
-      const isExisted = state.some((like) => like.user_id === newLike.user_id);
-      // Unlike
-      if (isExisted) {
-        // Return value will be state of optimistic likes
-        return state.filter((like) => like.user_id !== newLike.user_id); //unLike Post
-      }
-      return [...state, newLike]; // like Post
-    }
-  );
+
   // Todo - Refactoring to wrtie clean code - Divide the file
   // Verified User
   const currentUser = queryClient.getQueryData(["authUser"]);
@@ -118,10 +110,8 @@ const SinglePostPage = () => {
     },
   });
   // Like Post
-  const { mutate: LikePost, isPending: isLikePending } = useMutation({
+  const { mutate: likePost, isPending: isLikePending } = useMutation({
     mutationFn: async (newLike: Like) => {
-      // FAKE UI - OPTIMISTIC - 일단 페이크용으로 OPTIMISTIc(낙관적인 결과를 먼저보여줌)
-      addOptimisticLikes(newLike);
       // SEND ACTUCAL REQUEST TO BACKEND - 실제 백엔드로 보여주게됨
       const res = await axiosInstance.post<ResponseDTO>(
         `/likes/post/${postId}`
@@ -132,15 +122,12 @@ const SinglePostPage = () => {
       return newLike;
     },
     onSuccess: () => {
-      // 실제 데이터가 업데이트 줌 OPTIMISTIC(낙관적인 결과와 일치시킴)
-      // setLikes((prev) => [...prev, newLike]);
       toast.success("Liked the post successfully");
     },
-    onError: (error, newLike) => {
-      // ROLLBACK - Update OPTIMISTIC
-      // 낙관적인결과가 아니였음으로 되돌림
+    onError: (error, variables: Like) => {
+      // ROLLBACK - Cancel Like
       setLikes((prev) =>
-        prev.filter((like) => like.user_id !== newLike.user_id)
+        prev.filter((like) => like.user_id !== variables.user_id)
       );
       toast.error("ROLLBACK : failed to like");
       errorLogV2({
@@ -153,8 +140,6 @@ const SinglePostPage = () => {
   // unLike Post
   const { mutate: unLikePost, isPending: isUnLikePending } = useMutation({
     mutationFn: async (newLike: Like) => {
-      // OPTIMISTIC UI - 낙관적인 결과부터 보여주기
-      addOptimisticLikes({ user_id: currentUserId, post_id: postId! });
       // 실제로 백엔드로 DATA 전송하기
       const result = await axiosInstance.delete<ResponseDTO>(
         `/likes/post/${postId}`
@@ -166,16 +151,12 @@ const SinglePostPage = () => {
     },
     // 실제로 백엔드에서 결과가 제대로진행됨 setLikes 업데이트해주기 -> useOptimistic이 의존하고있음으로 setLikes가 변경되면 자동으로 같이 변경됨
     onSuccess: () => {
-      // queryClient.invalidateQueries({ queryKey: ["post", postId] });
-      // setLikes((prev) =>
-      //   prev.filter((like) => like.user_id !== newLike.user_id)
-      // );
       toast.success("UnLiked the post successfully");
     },
     // 백엔드에서 실패함 롤백해줘야함
-    onError: () => {
+    onError: (error, variables: Like) => {
       // setLikes((prev) => [...prev, newLike]);
-      addOptimisticLikes({ user_id: currentUserId, post_id: postId! });
+      setLikes((prev) => [...prev, variables]);
       toast.error("Failed to unlike posts");
     },
   });
@@ -185,19 +166,22 @@ const SinglePostPage = () => {
     createComment();
   };
   const handleLikePost = () => {
-    const isLiked = optimisticLikes.some(
-      (like) => like.user_id === currentUserId
-    );
+    const isLiked = likes.some((like) => like.user_id === currentUserId);
     const newLike: Like = {
       post_id: postId!,
       user_id: currentUserId,
     };
-    addOptimisticLikes(newLike);
-    // 실제로 mutation을 부르는게아니라
+
     if (isLiked) {
+      // UNLIKE POST
+      setLikes((prev) =>
+        prev.filter((like) => like.user_id !== newLike.user_id)
+      );
       unLikePost(newLike);
     } else {
-      LikePost(newLike);
+      // LIKE POST
+      setLikes((prev) => [...prev, newLike]);
+      likePost(newLike);
     }
   };
   if (isLoading) {
@@ -246,12 +230,10 @@ const SinglePostPage = () => {
       }
     }
   };
-  const isIncludeUserId = optimisticLikes.some(
-    (like) => like.user_id == currentUserId
-  );
-  console.log(res?.data.likes);
-  console.log("Likes", likes);
-  console.log("optimisticLikes", optimisticLikes);
+  // -------------------------------------
+  const isLiked = likes.some((like) => like.user_id == currentUserId);
+  console.log("RES", res);
+  console.log("optimisticLikes", likes);
   // BUILD UI
   return (
     <div className="flex">
@@ -286,15 +268,13 @@ const SinglePostPage = () => {
                 <button disabled={isLikePending || isUnLikePending}>
                   {/* Issue */}
                   <Cat
-                    className={`${
-                      isIncludeUserId && "fill-red-200 stroke-white"
-                    }`}
+                    className={`${isLiked && "fill-red-200 stroke-white"}`}
                     onClick={() => handleLikePost()}
                     // onClick={() => LikePost()}
                   />
                 </button>
                 {/* Likes */}
-                <span>({optimisticLikes.length})</span>
+                <span>({likes.length})</span>
               </div>
               {/* Comments */}
               <div className="flex hover:cursor-pointer">
