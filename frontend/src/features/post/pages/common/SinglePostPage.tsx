@@ -211,7 +211,9 @@ const SinglePostPage = () => {
       post_id: postId!,
       user_id: currentUserId,
     };
-
+    if (isLikePending || isUnLikePending) {
+      return;
+    }
     if (isLiked) {
       // UNLIKE POST
       setLikes((prev) =>
