@@ -13,10 +13,12 @@ import NeonPostRepo from "../../../post/data/neon.post.repo";
 import { sendResponse } from "../../../../lib/utils/response/helper/response.helper";
 import { RESPONSE_HTTP } from "../../../../../shared/constants/http-status";
 import { RESPONSE_MESSAGES } from "../../../../lib/utils/constants/messages";
+import NeonNotificationRepo from "../../../notification/data/neon.notification.repo";
 
 // Neon - data layer
 const neonPostRepo = new NeonPostRepo();
 const neonCommentRepo = new NeonCommentRepo();
+const neonNotificationRepo = new NeonNotificationRepo();
 
 export const createComment = async (
   req: Request,
