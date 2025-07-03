@@ -32,7 +32,7 @@ import type { ResponseDTO } from "../../../../../../shared/dto/common/response.d
 import type User from "../../../../../../backend/features/auth/domain/entities/user";
 import type Like from "../../../../../../backend/features/like/domain/entity/like";
 
-// Component
+// Component - 
 const SinglePostPage = () => {
   // Refetence Comment
   const commentRef = useRef<HTMLInputElement>(null);
