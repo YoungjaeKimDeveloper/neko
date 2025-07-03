@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
 
 
@@ -12,10 +11,10 @@ import {
   CircleChevronRight,
   Clover,
   Gift,
-  Loader,
   MapPin,
   MessageCircle,
 } from "lucide-react";
+import { v4 as uuidV4 } from "uuid";
 import { AuthDesktopSidebar } from "../../../auth/components/desktop/AuthDesktopSidebar";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -26,13 +25,14 @@ import { errorLogV2 } from "../../../../../../shared/error/error.log";
 import LoadingPage from "../../../../shared/pages/common/LoadingPage";
 import type { DenormalisedPost } from "../../../../../../backend/features/post/domain/entities/post";
 import { formatDistanceToNow } from "date-fns";
-import Comment from "../../components/common/Comment";
+import CommentUI from "../../components/common/Comment";
 import { useState } from "react";
 import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto";
 import type User from "../../../../../../backend/features/auth/domain/entities/user";
 import type Like from "../../../../../../backend/features/like/domain/entity/like";
+import type { Comment } from "../../../../../../backend/features/comment/domain/entity/comment";
 
-// Component - 
+// Component -
 const SinglePostPage = () => {
   // Refetence Comment
   const commentRef = useRef<HTMLInputElement>(null);
@@ -65,12 +65,15 @@ const SinglePostPage = () => {
       });
     },
   });
-  // Focus - OPTIMISTIC UI
+  // Focus - OPTIMISTIC UI - Likes
   const [likes, setLikes] = useState<Like[]>([]);
-  // Fetch likes
+  // Focus - OPTIMISTIC UI - Comments
+  const [optimisticComment, setOptimisticComment] = useState<Comment[]>([]);
+  // Fetch the data only one time when page reload
   useEffect(() => {
     if (isSuccess) {
       setLikes(res.data.likes);
+      setOptimisticComment(res.data.comments);
     }
   }, [isSuccess, res]);
   // Step1. Store Likes - Source of Truth
@@ -87,13 +90,29 @@ const SinglePostPage = () => {
   const { mutate: createComment, isLoading: isCommenting } = useMutation({
     mutationFn: async () => {
       // Create Comment
-      const content = commentRef.current?.value;
-      if (content?.trim().length === 0 || content == null) {
+      if (commentRef.current?.value == null) {
+        toast.error("Please write something");
+        return;
+      }
+      const newComment: Comment = {
+        id: uuidV4(),
+        content: commentRef!.current!.value,
+        user_id: currentUserId,
+        post_id: postId!,
+        user_name: (currentUser as Comment).user_name,
+        user_profile_image: (currentUser as Comment).user_profile_image,
+      };
+
+      if (
+        newComment.content?.trim().length === 0 ||
+        newComment.content == null
+      ) {
         throw new Error("Please write the comment");
       }
       await axiosInstance.post(`/comments/posts/${postId}`, {
-        content: content,
+        content: newComment.content,
       });
+      return newComment;
     },
 
     onSuccess: () => {
@@ -101,9 +120,12 @@ const SinglePostPage = () => {
         commentRef.current.value = "";
       }
       toast.success("Comment created");
-      queryClient.invalidateQueries({ queryKey: ["post", postId] });
     },
-    onError: (error) => {
+    onError: (error, newComment: Comment) => {
+      // Roallback
+      setOptimisticComment((prev) =>
+        prev.filter((comment) => comment.id !== newComment.id)
+      );
       if (error instanceof Error) {
         toast.error(error?.message);
       }
@@ -161,9 +183,27 @@ const SinglePostPage = () => {
     },
   });
   // HandleComment
-  const handleComment = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createComment();
+    // new comment
+    if (commentRef.current?.value != null) {
+      const newComment: Comment = {
+        content: commentRef.current?.value,
+        post_id: postId!,
+        user_id: currentUserId,
+        user_name: (currentUser as User).user_name,
+        user_profile_image: (currentUser as User).user_profile_image,
+        created_at: new Date(),
+      };
+      await setOptimisticComment((prev) => [newComment, ...prev]);
+      // UPDATE OPTIMISTIC UI
+
+      // RESET VALUE
+      createComment(newComment);
+    }
+    // Optimistic UI first
+
+    // Rollback
   };
   const handleLikePost = () => {
     const isLiked = likes.some((like) => like.user_id === currentUserId);
@@ -180,8 +220,10 @@ const SinglePostPage = () => {
       unLikePost(newLike);
     } else {
       // LIKE POST
-      setLikes((prev) => [...prev, newLike]);
-      likePost(newLike);
+      if (!likes.some((like) => like.user_id === currentUserId)) {
+        setLikes((prev) => [...prev, newLike]);
+        likePost(newLike);
+      }
     }
   };
   if (isLoading) {
@@ -234,6 +276,8 @@ const SinglePostPage = () => {
   const isLiked = likes.some((like) => like.user_id == currentUserId);
   console.log("RES", res);
   console.log("optimisticLikes", likes);
+  console.log("optimistic UI Comments", optimisticComment);
+
   // BUILD UI
   return (
     <div className="flex">
@@ -265,11 +309,14 @@ const SinglePostPage = () => {
             <div className="flex justify-between p-2 rounded-b-xl bg-gray-100">
               {/* Cat + like */}
               <div className="flex">
-                <button disabled={isLikePending || isUnLikePending}>
+                <button
+                  disabled={isLikePending || isUnLikePending}
+                  onClick={() => handleLikePost()}
+                >
                   {/* Issue */}
                   <Cat
                     className={`${isLiked && "fill-red-200 stroke-white"}`}
-                    onClick={() => handleLikePost()}
+
                     // onClick={() => LikePost()}
                   />
                 </button>
@@ -284,7 +331,7 @@ const SinglePostPage = () => {
                   }`}
                   onClick={() => toggleShowComment()}
                 />
-                <p>({res?.data?.comments.length ?? 0})</p>
+                <p>({optimisticComment.length ?? 0})</p>
               </div>
               {/* Share */}
               <div
@@ -358,21 +405,17 @@ const SinglePostPage = () => {
           <div className="font-content ">
             <button
               type="submit"
-              className="rounded-lg px-4"
-              disabled={isLoading}
+              className={`rounded-lg px-4 ${isCommenting && "opacity-50"}`}
+              disabled={isCommenting}
             >
-              {isCommenting ? (
-                <Loader className="animate-spin" />
-              ) : (
-                <span>Comment</span>
-              )}
+              <span>Comment</span>
             </button>
           </div>
         </form>
         {/* Comments */}
         {isShowComment &&
-          res?.data?.comments?.map((comment) => (
-            <Comment key={comment.id} comment={comment} />
+          optimisticComment.map((comment) => (
+            <CommentUI key={comment.id} comment={comment} />
           ))}
       </div>
     </div>

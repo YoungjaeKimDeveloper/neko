@@ -8,7 +8,7 @@ import { Loader } from "lucide-react";
 const LoadingPage = () => {
   // BUILD UI
   return (
-    <div className="w-full h-full flex items-center justify-center flex flex-col items-center">
+    <div className="w-full h-full flex items-center justify-center flex-col">
       <Loader className="animate-spin" />
       <p>Loading...</p>
     </div>
