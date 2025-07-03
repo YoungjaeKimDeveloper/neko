@@ -41,32 +41,35 @@ const SinglePostPage = () => {
   const [isShowComment, setIsShowComment] = useState<boolean>(true);
   const [isCopied, setIsCopied] = useState<boolean>(false);
   // Fetch Post
-  const { data: res, isLoading } = useQuery({
+  const {
+    data: res,
+    isLoading,
+    isSuccess,
+  } = useQuery({
     // (caching key
     queryKey: ["post", postId],
     queryFn: async () => {
-      try {
-        console.log(postId);
-        const result = await axiosInstance.get<{ data: DenormalisedPost }>(
-          `/posts/${postId}`
-        );
-        toast.success("Data fetched successfully");
-        return result.data;
-      } catch (error) {
-        errorLogV2({
-          file: "SinglePostPage.tsx",
-          function: "fetch single post useQuery",
-          error: error,
-        });
-      }
+      console.log(postId);
+      const result = await axiosInstance.get<{ data: DenormalisedPost }>(
+        `/posts/${postId}`
+      );
+      toast.success("Data fetched successfully");
+      return result.data;
+    },
+    onError: (error) => {
+      errorLogV2({
+        file: "SinglePostPage.tsx",
+        function: "fetch single post useQuery",
+        error: error,
+      });
     },
   });
   useEffect(() => {
-    if (res?.data.likes) {
+    if (isSuccess && res?.data.likes) {
       setLikes(res?.data.likes);
     }
-  }, [res?.data]);
-  // Step1. Store Likes - real
+  }, [isSuccess, res?.data]);
+  // Step1. Store Likes - Source of Truth
   const [likes, setLikes] = useState<Like[]>(res?.data.likes ?? []);
   // Optimistic UI
   // Only for fake UI
@@ -75,7 +78,7 @@ const SinglePostPage = () => {
     likes,
     (state, newLike: Like) => {
       // It is already liked
-      const isExisted = state.find((like) => like.user_id === newLike.user_id);
+      const isExisted = state.some((like) => like.user_id === newLike.user_id);
       // Unlike
       if (isExisted) {
         // Return value will be state of optimistic likes
@@ -128,9 +131,9 @@ const SinglePostPage = () => {
       // 여기에서 반환되는 값이 onSuccess/onERROR의 첫번쨰 인자로 들어가게됨
       return newLike;
     },
-    onSuccess: (newLike) => {
+    onSuccess: () => {
       // 실제 데이터가 업데이트 줌 OPTIMISTIC(낙관적인 결과와 일치시킴)
-      setLikes((prev) => [...prev, newLike]);
+      // setLikes((prev) => [...prev, newLike]);
       toast.success("Liked the post successfully");
     },
     onError: (error, newLike) => {
@@ -162,16 +165,17 @@ const SinglePostPage = () => {
       return newLike;
     },
     // 실제로 백엔드에서 결과가 제대로진행됨 setLikes 업데이트해주기 -> useOptimistic이 의존하고있음으로 setLikes가 변경되면 자동으로 같이 변경됨
-    onSuccess: (newLike: Like) => {
-      queryClient.invalidateQueries({ queryKey: ["post", postId] });
-      setLikes((prev) =>
-        prev.filter((like) => like.user_id !== newLike.user_id)
-      );
+    onSuccess: () => {
+      // queryClient.invalidateQueries({ queryKey: ["post", postId] });
+      // setLikes((prev) =>
+      //   prev.filter((like) => like.user_id !== newLike.user_id)
+      // );
       toast.success("UnLiked the post successfully");
     },
     // 백엔드에서 실패함 롤백해줘야함
-    onError: (newLike: Like) => {
-      setLikes((prev) => [...prev, newLike]);
+    onError: () => {
+      // setLikes((prev) => [...prev, newLike]);
+      addOptimisticLikes({ user_id: currentUserId, post_id: postId! });
       toast.error("Failed to unlike posts");
     },
   });
@@ -188,6 +192,8 @@ const SinglePostPage = () => {
       post_id: postId!,
       user_id: currentUserId,
     };
+    addOptimisticLikes(newLike);
+    // 실제로 mutation을 부르는게아니라
     if (isLiked) {
       unLikePost(newLike);
     } else {
@@ -278,6 +284,7 @@ const SinglePostPage = () => {
               {/* Cat + like */}
               <div className="flex">
                 <button disabled={isLikePending || isUnLikePending}>
+                  {/* Issue */}
                   <Cat
                     className={`${
                       isIncludeUserId && "fill-red-200 stroke-white"
@@ -286,6 +293,7 @@ const SinglePostPage = () => {
                     // onClick={() => LikePost()}
                   />
                 </button>
+                {/* Likes */}
                 <span>({optimisticLikes.length})</span>
               </div>
               {/* Comments */}
