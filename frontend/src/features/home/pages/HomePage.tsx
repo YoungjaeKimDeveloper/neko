@@ -14,6 +14,7 @@ import type { PostWithWriter } from "../../../../../backend/features/post/domain
 import LoadingPage from "../../../shared/pages/common/LoadingPage";
 // Component
 const HomePage = () => {
+  // fetch all posts
   const { data: posts, isLoading } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
@@ -31,6 +32,7 @@ const HomePage = () => {
       }
     },
   });
+
   console.log(posts);
   // BUILD UI
   return (

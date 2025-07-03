@@ -4,10 +4,14 @@
 import { EllipsisVertical, Gift, MapPin, Pencil, Trash2 } from "lucide-react";
 import type { PostWithWriter } from "../../../../../backend/features/post/domain/entities/post";
 import { formatDistanceToNow } from "date-fns";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type User from "../../../../../backend/features/auth/domain/entities/user";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { axiosInstance } from "../../../shared/api/axios";
+import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
+import toast from "react-hot-toast";
+import { errorLogV2 } from "../../../../../shared/error/error.log";
 // Interface
 interface PostCardProps {
   post: PostWithWriter;
@@ -20,8 +24,35 @@ const PostCard = ({ post }: PostCardProps) => {
   const queryClient = useQueryClient();
   const currentUser = queryClient.getQueryData(["authUser"]);
   const currentUserId = (currentUser as CurrentUser).id;
+  const postId = post.id;
+
   // show menubar
   const [isShowMenubar, setIsShowMenubar] = useState<boolean>(false);
+  // DELETE POST
+  const { mutate: deletePost } = useMutation({
+    mutationFn: async () => {
+      const result = await axiosInstance.delete<ResponseDTO>(
+        `/posts/${postId}`
+      );
+      if (result.data.success !== true) {
+        throw new Error("Failed to delete post");
+      }
+    },
+    onSuccess: () => {
+      toast.success("Posts deleted success fully");
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+    onError: (error) => {
+      toast.error("Failed to delete Post");
+      if (error instanceof Error) {
+        errorLogV2({
+          error: error,
+          function: "Delete Post",
+          file: "PostCard.tsx",
+        });
+      }
+    },
+  });
   console.log("POST", post);
   // BUILD UI
   return (
@@ -46,7 +77,7 @@ const PostCard = ({ post }: PostCardProps) => {
         {/* Menu bar...focus */}
         {isShowMenubar && (
           <ul className="menu menu-horizontal  lg:menu-horizontal bg-base-200 rounded-box absolute  right-[30px] gap-x-4">
-            <button>
+            <button onClick={() => deletePost()}>
               <Trash2 className="size-5" />
             </button>
             <button>

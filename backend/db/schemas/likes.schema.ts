@@ -10,6 +10,7 @@ async function createLikeTable() {
             PRIMARY KEY (user_id,post_id)
         )        
     `;
+
     console.log("LIKES TABLE CREATED✅");
   } catch (error: any) {
     errorLog({ location: "create like table", error });

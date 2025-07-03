@@ -20,6 +20,24 @@ async function createCommentTable() {
     // ALTER TABLE comments
     // ALTER COLUMN created_at SET DEFAULT now()
     // `;
+
+    // 04/07/2025 - UPDATE CONSTRAINT
+    // Table Update to implement deleting post
+    // 1. DROP PREVIOUS CONSTRAINT
+    // await sql`
+    // ALTER TABLE comments
+    // DROP CONSTRAINT comments_post_id_fkey;
+    // `;
+
+    // // 2. ADD NEW CONSTRAINT - ON DELETE CASCADE
+    // await sql`
+    // ALTER TABLE comments
+    // ADD CONSTRAINT fk_comments_post_id
+    // FOREIGN KEY (post_id)
+    // REFERENCES posts(id)
+    // ON DELETE CASCADE;
+    // `;
+    
     console.log("Comment TABLE CREATED✅");
   } catch (error: any) {
     errorLog({ location: "create Comment Table", error });
