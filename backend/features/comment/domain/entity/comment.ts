@@ -10,4 +10,6 @@ export type Comment = {
   created_at?: Date;
   user_id: string;
   post_id: string;
+  user_name?: string;
+  user_profile_image?: string;
 };

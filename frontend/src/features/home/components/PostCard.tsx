@@ -1,12 +1,13 @@
 /*
     Post card component
 */
-import { EllipsisVertical, Gift, MapPin } from "lucide-react";
+import { EllipsisVertical, Gift, MapPin, Pencil, Trash2 } from "lucide-react";
 import type { PostWithWriter } from "../../../../../backend/features/post/domain/entities/post";
 import { formatDistanceToNow } from "date-fns";
 import { useQueryClient } from "@tanstack/react-query";
 import type User from "../../../../../backend/features/auth/domain/entities/user";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 // Interface
 interface PostCardProps {
   post: PostWithWriter;
@@ -19,12 +20,14 @@ const PostCard = ({ post }: PostCardProps) => {
   const queryClient = useQueryClient();
   const currentUser = queryClient.getQueryData(["authUser"]);
   const currentUserId = (currentUser as CurrentUser).id;
+  // show menubar
+  const [isShowMenubar, setIsShowMenubar] = useState<boolean>(false);
   console.log("POST", post);
   // BUILD UI
   return (
     <div className="card w-[300px] h-[300px] shadow-xl bg-gray-100 ">
       {/* Top */}
-      <div className="flex items-center justify-between py-2 ">
+      <div className="flex items-center justify-between py-2 relative">
         <div className="flex items-center justify-between gap-x-1 py-2 px-1">
           <img
             className="size-8 rounded-full"
@@ -35,7 +38,21 @@ const PostCard = ({ post }: PostCardProps) => {
           <p>{post.user_name}</p>
         </div>
         {currentUserId == post.user_id && (
-          <EllipsisVertical className="size-4 mr-2 cursor-pointer" />
+          <EllipsisVertical
+            className="size-4 mr-2 cursor-pointer"
+            onClick={() => setIsShowMenubar((prev) => !prev)}
+          />
+        )}
+        {/* Menu bar...focus */}
+        {isShowMenubar && (
+          <ul className="menu menu-horizontal  lg:menu-horizontal bg-base-200 rounded-box absolute  right-[30px] gap-x-4">
+            <button>
+              <Trash2 className="size-5" />
+            </button>
+            <button>
+              <Pencil className="size-5" />
+            </button>
+          </ul>
         )}
       </div>
       {/* Middle -image */}
