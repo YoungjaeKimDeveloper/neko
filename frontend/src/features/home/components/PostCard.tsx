@@ -28,9 +28,11 @@ const PostCard = ({ post }: PostCardProps) => {
 
   // show menubar
   const [isShowMenubar, setIsShowMenubar] = useState<boolean>(false);
+  const [isDeletingPost, setIsDeletingPost] = useState<boolean>(false);
   // DELETE POST
   const { mutate: deletePost } = useMutation({
     mutationFn: async () => {
+      setIsDeletingPost(true);
       const result = await axiosInstance.delete<ResponseDTO>(
         `/posts/${postId}`
       );
@@ -38,12 +40,14 @@ const PostCard = ({ post }: PostCardProps) => {
         throw new Error("Failed to delete post");
       }
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success("Posts deleted success fully");
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      await queryClient.invalidateQueries({ queryKey: ["posts"] });
+      setIsDeletingPost(false);
     },
     onError: (error) => {
       toast.error("Failed to delete Post");
+      setIsDeletingPost(false);
       if (error instanceof Error) {
         errorLogV2({
           error: error,
@@ -77,7 +81,11 @@ const PostCard = ({ post }: PostCardProps) => {
         {/* Menu bar...focus */}
         {isShowMenubar && (
           <ul className="menu menu-horizontal  lg:menu-horizontal bg-base-200 rounded-box absolute  right-[30px] gap-x-4">
-            <button onClick={() => deletePost()}>
+            <button
+              disabled={isDeletingPost}
+              onClick={() => deletePost()}
+              className={`${isDeletingPost && "opacity-50"}`}
+            >
               <Trash2 className="size-5" />
             </button>
             <button>
