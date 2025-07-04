@@ -21,10 +21,10 @@ import {
 const router = express.Router();
 router.use(verifyToken);
 // 0. fetchNotificationByUserId
-router.get("/notifications", fetchNotification);
+router.get("/", fetchNotification);
 // 1. read notification
-router.put("/notifications/:notificationId", readNotification);
+router.put("/:notificationId", readNotification);
 // 2. delete notification
-router.delete("/notifications/:notificationId", deleteNotification);
+router.delete("/:notificationId", deleteNotification);
 
 export default router;
