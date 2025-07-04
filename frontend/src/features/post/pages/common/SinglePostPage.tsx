@@ -295,7 +295,7 @@ const SinglePostPage = () => {
             <img
               src={res?.data?.post?.image_urls[immageNumber]}
               alt="hero_image"
-              className="w-full h-[250px] rounded-t-lg"
+              className="w-full aspect-video rounded-t-lg "
             />
             {/* Left btn */}
             <CircleChevronLeftIcon

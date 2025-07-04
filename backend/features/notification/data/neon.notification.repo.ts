@@ -49,6 +49,7 @@ class NeonNotificationRepo implements NotificationRepo {
       notifications.created_at as notifications_created_at,
       -- POST INFO - POST IMAGE
       posts.image_urls as post_image_urls,
+    
       -- USER - NAME / PROFILE IMAGE
       users.user_name as user_user_name,
       users.user_profile_image as users_user_profile_image
@@ -58,6 +59,10 @@ class NeonNotificationRepo implements NotificationRepo {
       LEFT JOIN posts on posts.id = notifications.related_post_id
 
       WHERE notifications.user_id = ${params.user_id}
+
+      ORDER BY 
+      notifications_created_at DESC
+
         `;
       return result.length > 0 ? (result as NotificationAPIResponse[]) : [];
     } catch (error) {

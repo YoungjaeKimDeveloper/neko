@@ -13,16 +13,16 @@ import { axiosInstance } from "../../../shared/api/axios";
 import toast from "react-hot-toast";
 import { errorLogV2 } from "../../../../../shared/error/error.log";
 import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
-import type Notification from "../../../../../backend/features/notification/domain/entity/notification";
 import NotificationComponent from "../components/NotificationComponent";
-
+import LoadingPage from "../../../shared/pages/common/LoadingPage";
+import type { NotificationAPIResponse } from "../../../../../backend/features/notification/domain/dto/notification.dto";
 // Component
 const NotificationPage = () => {
   const queryClient = useQueryClient();
   // Get current user - Caching
   const currentUserId = queryClient.getQueriesData({ queryKey: ["authUser"] });
   // - 1. Fetch all notifications by currentUserId
-  const { data: notifications } = useQuery({
+  const { data: notifications, isLoading } = useQuery({
     queryKey: ["notifications", currentUserId],
     queryFn: async () => {
       // Data type axios.get<Date Type>
@@ -43,7 +43,9 @@ const NotificationPage = () => {
       toast.error("Failed to fetch notifications");
     },
   });
-
+  if (isLoading) {
+    return <LoadingPage />;
+  }
   // BUILD UI
   return (
     <div>
@@ -54,10 +56,13 @@ const NotificationPage = () => {
         {/* SubContainer - main content container */}
         <div className=" mt-10  mx-auto rounded-xl shadow-xl border-solid border w-[80%] min-h-[600px] h-fit py-2 px-4">
           {/* Notification */}
-          <h3 className="font-content text-2xl">Notificaiton</h3>
+          <h3 className="font-content text-2xl py-2">Notificaiton</h3>
           {/* Notification - Component */}
-          {notifications?.data.map((notification: Notification) => (
-            <NotificationComponent notification={notification} />
+          {notifications?.data.map((notification: NotificationAPIResponse) => (
+            <NotificationComponent
+              key={notification.notifications_id}
+              notification={notification}
+            />
           ))}
         </div>
       </div>

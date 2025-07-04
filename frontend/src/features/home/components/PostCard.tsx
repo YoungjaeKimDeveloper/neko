@@ -60,7 +60,7 @@ const PostCard = ({ post }: PostCardProps) => {
   console.log("POST", post);
   // BUILD UI
   return (
-    <div className="card w-[275px] h-fit shadow-md bg-gray-100 ">
+    <div className="card w-[275px] h-fit shadow-md bg-gray-50 ">
       {/* Top */}
       <div className="flex items-center justify-between py-2 relative ">
         <div className="flex items-center justify-between gap-x-2 py-2 px-3 ">

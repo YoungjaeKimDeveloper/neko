@@ -41,11 +41,11 @@ const HomePage = () => {
       <AuthDesktopSidebar />
       {/* MainPage - Right */}
       {/* Cards layout */}
-      <div className="h-screen w-screen mx-auto">
+      <div className="h-screen w-screen mx-auto ">
         {isLoading ? (
           <LoadingPage />
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-4 w-fit lg:w-full mx-auto mt-4 lg:mx-4 pl-[200px] gap-5 gap-y-10">
+          <div className="grid grid-cols-1 lg:grid-cols-4 w-fit lg:w-full mx-auto mt-4 lg:mx-4 pl-[200px] gap-5 gap-y-10 pb-32">
             {/* Mapping posts */}
             {posts?.map((post: PostWithWriter) => (
               <PostCard key={post.id} post={post} />
