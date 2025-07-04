@@ -8,12 +8,16 @@ import { Request, Response } from "express";
 import { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
 import { VerifiedUserRequest } from "../../../post/application/controllers/post.controller";
 import NeonCommentRepo from "../../data/neon.comment.repo";
-import { errorLog } from "../../../../../shared/error/error.log";
+import { errorLog, errorLogV2 } from "../../../../../shared/error/error.log";
 import NeonPostRepo from "../../../post/data/neon.post.repo";
-import { sendResponse } from "../../../../lib/utils/response/helper/response.helper";
+import {
+  sendResponse,
+  sendResponseV2,
+} from "../../../../lib/utils/response/helper/response.helper";
 import { RESPONSE_HTTP } from "../../../../../shared/constants/http-status";
 import { RESPONSE_MESSAGES } from "../../../../lib/utils/constants/messages";
 import NeonNotificationRepo from "../../../notification/data/neon.notification.repo";
+import { NotificationType } from "../../../notification/domain/entity/notification";
 
 // Neon - data layer
 const neonPostRepo = new NeonPostRepo();
@@ -80,7 +84,6 @@ export const createComment = async (
           message: `${RESPONSE_MESSAGES.INTERNAL} failed to create new comment - neon comment`,
         });
       }
-
       // Create a new Comment Successfully
     } catch (error) {
       errorLog({ location: "createComment - neon create Comment", error });
@@ -91,7 +94,45 @@ export const createComment = async (
         message: `${RESPONSE_MESSAGES.INTERNAL} failed to create new comment - neon comment`,
       });
     }
-    // Response
+    console.debug("여기까지 왔습니다");
+    // CREATE NEW NOTIFICATION - S
+    try {
+      // fetch single post to compare post.userId and currentUserId
+      const result = await neonPostRepo.fetchSinglePost({ postId });
+      // Validation - Cannot find the singlePost
+      if (result == null) {
+        throw new Error("Cannot find post with provided postId");
+      }
+      console.debug("여기까지 왔습니다 -1");
+      if (result.user_id !== userId) {
+        const newNotification = await neonNotificationRepo.createNotification({
+          type: NotificationType.comment,
+          user_id: result.user_id,
+          related_post_id: postId,
+          related_user_id: userId,
+        });
+        console.debug("새로운 notificaiton이 만들어 졌습니다");
+        if (newNotification == null) {
+          errorLogV2({
+            file: "comment.controller.ts",
+            function: "createComment",
+            error:
+              "Failed to create new notification. Due to : neonNotificationRepo",
+          });
+          throw new Error("Failed to create new notification ");
+        }
+
+        // Succeed in creating new notification
+      }
+    } catch (error: any) {
+      errorLogV2({
+        file: "comment.controller.ts",
+        function: "createComment",
+        error: `Failed to create new Notification ${error.message}`,
+      });
+    }
+    // CREATE NEW NOTIFICATION - E
+    // Final Response
     return sendResponse({
       res: res,
       status: RESPONSE_HTTP.CREATED,
