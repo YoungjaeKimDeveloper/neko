@@ -1,6 +1,7 @@
 import {
   DeleteNotificationDTO,
   FetchNotificationByUserIdDTO,
+  NotificationAPIResponse,
   ReadNotificationDTO,
 } from "./../dto/notification.dto";
 import Notification from "../entity/notification";
@@ -20,7 +21,7 @@ export default interface NotificationRepo {
   ): Promise<Notification | null>;
   fetchNotificationByUserId(
     params: FetchNotificationByUserIdDTO
-  ): Promise<Notification[] | []>;
+  ): Promise<NotificationAPIResponse[] | []>;
   readNotification(params: ReadNotificationDTO): Promise<Notification | null>;
   deleteNotification(
     params: DeleteNotificationDTO

@@ -11,6 +11,7 @@ import {
   FetchNotificationByUserIdDTO,
   ReadNotificationDTO,
   DeleteNotificationDTO,
+  NotificationAPIResponse,
 } from "../domain/dto/notification.dto";
 import NotificationRepo from "../domain/repo/notification.repo";
 import Notification from "../domain/entity/notification";
@@ -34,7 +35,7 @@ class NeonNotificationRepo implements NotificationRepo {
   };
   fetchNotificationByUserId = async (
     params: FetchNotificationByUserIdDTO
-  ): Promise<Notification[] | []> => {
+  ): Promise<NotificationAPIResponse[] | []> => {
     try {
       const result = await sql`
       SELECT 
@@ -42,7 +43,7 @@ class NeonNotificationRepo implements NotificationRepo {
       notifications.id as notifications_id,
       notifications.type as notifications_type,
       notifications.is_read as notifications_is_read,
-      notifications.user_id as notifications_user_id 
+      notifications.user_id as notifications_user_id,
       notifications.related_user_id as notifications_related_user_id,
       notifications.related_post_id as notifications_related_post_id,
       notifications.created_at as notifications_created_at,
@@ -58,7 +59,7 @@ class NeonNotificationRepo implements NotificationRepo {
 
       WHERE notifications.user_id = ${params.user_id}
         `;
-      return result.length > 0 ? (result as Notification[]) : [];
+      return result.length > 0 ? (result as NotificationAPIResponse[]) : [];
     } catch (error) {
       errorLog({ location: "fetchNotification", error: error });
       return [];
