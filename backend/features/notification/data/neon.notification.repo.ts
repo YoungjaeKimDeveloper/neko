@@ -1,3 +1,4 @@
+import { CommentRequestDTO } from "./../../comment/domain/dto/comment.request.dto";
 /*
 
     Implement Core Logic Using Neon SQL
@@ -12,10 +13,11 @@ import {
   ReadNotificationDTO,
   DeleteNotificationDTO,
   NotificationAPIResponse,
+  fetchSingleNotificationByUserIdProps,
 } from "../domain/dto/notification.dto";
 import NotificationRepo from "../domain/repo/notification.repo";
 import Notification from "../domain/entity/notification";
-import { errorLog } from "../../../../shared/error/error.log";
+import { errorLog, errorLogV2 } from "../../../../shared/error/error.log";
 
 class NeonNotificationRepo implements NotificationRepo {
   createNotification = async (
@@ -75,7 +77,7 @@ class NeonNotificationRepo implements NotificationRepo {
   ): Promise<Notification | null> => {
     try {
       const result = await sql`
-    update notifications
+    UPDATE notifications
     SET is_read = true
     WHERE id = ${params.notificationId}
     RETURNING *
@@ -100,6 +102,25 @@ class NeonNotificationRepo implements NotificationRepo {
     } catch (error) {
       errorLog({ location: "Notification Repo - delete Notification ", error });
       return null;
+    }
+  };
+  fetchSingleNotificationByUserId = async ({
+    user_id,
+  }: fetchSingleNotificationByUserIdProps): Promise<Notification[] | []> => {
+    try {
+      const result = await sql`
+        SELECT comments.id as comments_id
+        FROM comments
+        WHERE comments.user_id = ${user_id}
+      `;
+      return result.length > 0 ? (result as Notification[]) : [];
+    } catch (error) {
+      errorLogV2({
+        error: error,
+        file: "neon.notification.repo.ts",
+        function: "fetchSingleNotificationByUserId",
+      });
+      return [];
     }
   };
 }

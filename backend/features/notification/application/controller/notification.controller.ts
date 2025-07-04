@@ -24,7 +24,6 @@ export const fetchNotification = async (
       });
     }
     const user_id = user.id;
-
     const result = await neonNotificationRepo.fetchNotificationByUserId({
       user_id,
     });
@@ -51,6 +50,15 @@ export const readNotification = async (
   res: Response
 ): Promise<any> => {
   try {
+    const user = (req as VerifiedUserRequest).user;
+    if (!user) {
+      return sendResponse({
+        res: res,
+        status: RESPONSE_HTTP.UNAUTHORIZED,
+        success: false,
+        message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
+      });
+    }
     const notificationId = req.params.notificationId;
     if (!notificationId) {
       return sendResponse({
@@ -60,6 +68,7 @@ export const readNotification = async (
         message: `${RESPONSE_MESSAGES.BAD_REQUEST} NotificationID is required `,
       });
     }
+    
     const result = await neonNotificationRepo.readNotification({
       notificationId: notificationId,
     });

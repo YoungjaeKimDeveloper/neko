@@ -1,6 +1,7 @@
 import {
   DeleteNotificationDTO,
   FetchNotificationByUserIdDTO,
+  fetchSingleNotificationByUserIdProps,
   NotificationAPIResponse,
   ReadNotificationDTO,
 } from "./../dto/notification.dto";
@@ -11,6 +12,9 @@ import Notification from "../entity/notification";
     1. Create Notification
     2. Read Notification
     3. Delete Notification
+    4. Fetch Notification
+    //05/07/2025 ADDED
+    5. fetchSingleNotificationByUserId
 */
 
 import { CreateNotificationDTO } from "../dto/notification.dto";
@@ -26,4 +30,7 @@ export default interface NotificationRepo {
   deleteNotification(
     params: DeleteNotificationDTO
   ): Promise<Notification | null>;
+  fetchSingleNotificationByUserId(
+    params: fetchSingleNotificationByUserIdProps
+  ): Promise<Notification[] | []>;
 }

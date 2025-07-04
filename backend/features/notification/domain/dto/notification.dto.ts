@@ -38,3 +38,7 @@ export interface ReadNotificationDTO {
 export interface DeleteNotificationDTO {
   notificationId: string;
 }
+// 05/07/2025 added
+export interface fetchSingleNotificationByUserIdProps {
+  user_id: string;
+}
