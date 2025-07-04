@@ -37,9 +37,26 @@ class NeonNotificationRepo implements NotificationRepo {
   ): Promise<Notification[] | []> => {
     try {
       const result = await sql`
-      SELECT * 
+      SELECT 
+      -- NOTIFICATIONS INFO - ALL
+      notifications.id as notifications_id,
+      notifications.type as notifications_type,
+      notifications.is_read as notifications_is_read,
+      notifications.user_id as notifications_user_id 
+      notifications.related_user_id as notifications_related_user_id,
+      notifications.related_post_id as notifications_related_post_id,
+      notifications.created_at as notifications_created_at,
+      -- POST INFO - POST IMAGE
+      posts.image_urls as post_image_urls,
+      -- USER - NAME / PROFILE IMAGE
+      users.user_name as user_user_name,
+      users.user_profile_image as users_user_profile_image
+  
       FROM notifications
-      WHERE user_id = ${params.user_id}
+      LEFT JOIN users on users.id = notifications.related_user_id
+      LEFT JOIN posts on posts.id = notifications.related_post_id
+
+      WHERE notifications.user_id = ${params.user_id}
         `;
       return result.length > 0 ? (result as Notification[]) : [];
     } catch (error) {
