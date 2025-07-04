@@ -17,7 +17,8 @@ import { Loader } from "lucide-react";
 import AuthNavbar from "./features/auth/components/desktop/AuthDesktopNavbar";
 import CreatePostPage from "./features/post/pages/common/CreatePostPage";
 import SinglePostPage from "./features/post/pages/common/SinglePostPage";
-import ProfilePage from "./features/profile/pages/profilePage";
+import ProfilePage from "./features/profile/pages/ProfilePage";
+import NotificationPage from "./features/notification/pages/NotificationPage";
 
 const App = () => {
   // fetch current User
@@ -80,6 +81,11 @@ const App = () => {
         <Route
           path="/profile"
           element={currentUser ? <ProfilePage /> : <Navigate to="/" />}
+        />
+        {/* Notification */}
+        <Route
+          path="/notification"
+          element={currentUser ? <NotificationPage /> : <Navigate to="/" />}
         />
       </Routes>
     </div>
