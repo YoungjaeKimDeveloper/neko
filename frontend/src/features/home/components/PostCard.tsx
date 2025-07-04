@@ -60,12 +60,12 @@ const PostCard = ({ post }: PostCardProps) => {
   console.log("POST", post);
   // BUILD UI
   return (
-    <div className="card w-[300px] h-[300px] shadow-xl bg-gray-100 ">
+    <div className="card w-[275px] h-fit shadow-md bg-gray-100 ">
       {/* Top */}
-      <div className="flex items-center justify-between py-2 relative">
-        <div className="flex items-center justify-between gap-x-1 py-2 px-1">
+      <div className="flex items-center justify-between py-2 relative ">
+        <div className="flex items-center justify-between gap-x-2 py-2 px-3 ">
           <img
-            className="size-8 rounded-full"
+            className="size-8 rounded-full object-cover"
             src={post.user_profile_image ?? "/userProfile.png"}
             alt="user-profile"
           />
@@ -95,14 +95,16 @@ const PostCard = ({ post }: PostCardProps) => {
         )}
       </div>
       {/* Middle -image */}
+
       <img
         src={
           post?.image_urls[0] ??
           "https://cdn.pixabay.com/photo/2020/10/05/10/51/cat-5628953_1280.jpg"
         }
         alt="cat_img"
-        className="w-full h-[100px] object-center rounded-lg"
+        className="w-full aspect-square object-center rounded-t-lg"
       />
+
       {/* Bottom Details */}
       <div className="px-2 py-2">
         {/* top */}
