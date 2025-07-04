@@ -8,6 +8,7 @@ import { formatDistanceToNow } from "date-fns";
 
 import { Check, Trash2 } from "lucide-react";
 import type { NotificationAPIResponse } from "../../../../../backend/features/notification/domain/dto/notification.dto";
+import { Link } from "react-router-dom";
 interface NotificationComponentProps {
   notification: NotificationAPIResponse;
 }
@@ -38,11 +39,13 @@ const NotificationComponent = ({
         {/* Details - bottom */}
         <div className="flex items-center gap-x-4 mb-4 top-12 z-0 absolute left-2 w-[99%] rounded-xl">
           {/* postimg */}
-          <img
-            src={postImgUrl}
-            alt="user_profile_img"
-            className="size-14 rounded-xl left-0 top-0"
-          />
+          <Link to={`/posts/${notification.notifications_related_post_id}`}>
+            <img
+              src={postImgUrl}
+              alt="user_profile_img"
+              className="size-14 rounded-xl left-0 top-0"
+            />
+          </Link>
           <div className="flex justify-between w-full items-center rounded-xl">
             <div>
               <p>
@@ -61,8 +64,8 @@ const NotificationComponent = ({
             </div>
             {/* Icons */}
             <div className="flex gap-x-3 pr-2">
-              <Trash2 className="hover:opacity-100 duration-150 opacity-50 hover:cursor-pointer" />
-              <Check className="hover:opacity-100 duration-150 opacity-50 hover:cursor-pointer" />
+              <Trash2 className="hover:stroke-red-500 duration-150 opacity-50 hover:cursor-pointer" />
+              <Check className="hover:stroke-green-500 duration-150 opacity-50 hover:cursor-pointer" />
             </div>
           </div>
         </div>
