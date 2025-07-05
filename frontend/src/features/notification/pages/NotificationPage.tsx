@@ -17,10 +17,8 @@ import NotificationComponent from "../components/NotificationComponent";
 import LoadingPage from "../../../shared/pages/common/LoadingPage";
 import type { NotificationAPIResponse } from "../../../../../backend/features/notification/domain/dto/notification.dto";
 
-
 // Component
 const NotificationPage = () => {
-  
   const queryClient = useQueryClient();
   // Get current user - Caching
   const currentUserId = queryClient.getQueryData(["authUser"]);
@@ -47,34 +45,33 @@ const NotificationPage = () => {
     },
   });
   // - 2. Read a notification
-  const { mutate: readNotification, isPending: isReadingNotification } =
-    useMutation({
-      // DO NOT USER TRY CATCH - !
-      mutationFn: async (notificationId: string) => {
-        const result = await axiosInstance.put<ResponseDTO>(
-          `/notifications/${notificationId}`
-        );
-        if (result.data.success != true) {
-          throw new Error("Failed to read the notification");
-        }
-        return true;
-      },
-      onSuccess: () => {
-        toast.success("Notification read successfully!");
-        queryClient.invalidateQueries({
-          queryKey: ["notifications", currentUserId],
-        });
-      },
-      onError: (error) => {
-        errorLogV2({
-          file: "NotificationPage.tsx",
-          error: error,
-          function: "readNotification",
-        });
-      },
-    });
+  const { mutateAsync: readNotification } = useMutation({
+    // DO NOT USER TRY CATCH - !
+    mutationFn: async (notificationId: string) => {
+      const result = await axiosInstance.put<ResponseDTO>(
+        `/notifications/${notificationId}`
+      );
+      if (result.data.success != true) {
+        throw new Error("Failed to read the notification");
+      }
+      return true;
+    },
+    onSuccess: async () => {
+      toast.success("Notification read successfully!");
+      await queryClient.invalidateQueries({
+        queryKey: ["notifications", currentUserId],
+      });
+    },
+    onError: (error) => {
+      errorLogV2({
+        file: "NotificationPage.tsx",
+        error: error,
+        function: "readNotification",
+      });
+    },
+  });
   // - 3. Delete a notification
-  const { mutate: deleteNotification } = useMutation({
+  const { mutateAsync: deleteNotification } = useMutation({
     mutationFn: async (notificationId: string) => {
       const result = await axiosInstance.delete<ResponseDTO>(
         `/notifications/${notificationId}`
@@ -122,7 +119,6 @@ const NotificationPage = () => {
               key={notification.notifications_id}
               notification={notification}
               onReadNotification={readNotification}
-              isReadingNotification={isReadingNotification}
               onDeleteNotification={deleteNotification}
             />
           ))}

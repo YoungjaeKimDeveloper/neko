@@ -15,34 +15,30 @@ interface NotificationComponentProps {
   notification: NotificationAPIResponse;
   onReadNotification: (notificationId: string) => void;
   onDeleteNotification: (notificationId: string) => void;
-  isReadingNotification: boolean;
-  isDeleting: boolean;
 }
 // COMPONENT
 const NotificationComponent = ({
   notification,
-  isReadingNotification,
   onReadNotification,
   onDeleteNotification,
-  isDeleting,
 }: NotificationComponentProps) => {
   // DELETE NOTIFICATION - CONTROL STATE LOCALLY
   const [isDeletingNotification, setIsDeletingNotification] =
     useState<boolean>(false);
+  const [isReadingComment, setIsReadingComment] = useState<boolean>(false);
 
-  // MANAGE NOTIFICATION LOCALLY
-  console.log(isDeletingNotification);
+  // Handle DeleteNotification - Locally
   const handleDeleteNotification = async () => {
     setIsDeletingNotification(true);
-    try {
-      // CREATE NEW PROMISE TO MANAGE BETTER UI
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      await onDeleteNotification(notification.notifications_id);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsDeletingNotification(false); // 3초 지난 후에 false로 변경
-    }
+    // CREATE NEW PROMISE TO MANAGE BETTER UI
+    await onDeleteNotification(notification.notifications_id);
+    setIsDeletingNotification(false);
+  };
+  // Handle Read Notification - Manage Statement Locally
+  const handleReadNotification = async () => {
+    setIsReadingComment(true);
+    await onReadNotification(notification.notifications_id);
+    setIsReadingComment(false);
   };
   // Check - it the array is null or not.
   const postImgUrl =
@@ -53,6 +49,8 @@ const NotificationComponent = ({
   const postLinkUrl = notification?.notifications_related_post_id
     ? `/posts/${notification?.notifications_related_post_id}`
     : "/404Page";
+
+  console.log("Is Deleting Notification", isDeletingNotification);
   // BUILD UI
   return (
     <div
@@ -99,10 +97,8 @@ const NotificationComponent = ({
             <div className="flex gap-x-3 pr-2">
               {/* Delete Notification */}
               <button
-                disabled={
-                  isReadingNotification || isDeletingNotification || isDeleting
-                }
-                onClick={() => handleDeleteNotification()}
+                disabled={isDeletingNotification || isReadingComment}
+                onClick={handleDeleteNotification}
               >
                 {isDeletingNotification ? (
                   <Loader2 className="animate-spin" />
@@ -116,18 +112,17 @@ const NotificationComponent = ({
               </button>
               {/* Read Notification */}
               <button
-                onClick={() =>
-                  onReadNotification(notification.notifications_id)
-                }
-                disabled={
-                  isReadingNotification || isDeletingNotification || isDeleting
-                }
+                onClick={() => handleReadNotification()}
+                disabled={isDeletingNotification || isReadingComment}
               >
-                <Check
-                  className={`hover:stroke-green-500 duration-150 opacity-50 hover:cursor-pointer 
-                    ${isReadingNotification && "stroke-green-500"}
+                {isReadingComment ? (
+                  <Loader2 className="animate-spin " />
+                ) : (
+                  <Check
+                    className={`hover:stroke-green-500 duration-150 opacity-50 hover:cursor-pointer 
                   ${notification.notifications_is_read && "stroke-green-500"} `}
-                />
+                  />
+                )}
               </button>
             </div>
           </div>
