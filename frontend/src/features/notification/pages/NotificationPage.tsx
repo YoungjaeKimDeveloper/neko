@@ -16,13 +16,14 @@ import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto"
 import NotificationComponent from "../components/NotificationComponent";
 import LoadingPage from "../../../shared/pages/common/LoadingPage";
 import type { NotificationAPIResponse } from "../../../../../backend/features/notification/domain/dto/notification.dto";
+import { useState } from "react";
 
 // Component
 const NotificationPage = () => {
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const queryClient = useQueryClient();
   // Get current user - Caching
   const currentUserId = queryClient.getQueryData(["authUser"]);
-
   // - 1. Fetch all notifications by currentUserId
   const { data: notifications, isLoading } = useQuery({
     queryKey: ["notifications", currentUserId],
@@ -72,6 +73,39 @@ const NotificationPage = () => {
         });
       },
     });
+  // - 3. Delete a notification
+  const { mutate: deleteNotification, isPending: isDeletingNotification } =
+    useMutation({
+      mutationFn: async (notificationId: string) => {
+        setIsDeleting(true);
+        const result = await axiosInstance.delete<ResponseDTO>(
+          `/notifications/${notificationId}`
+        );
+        if (result.data.success != true) {
+          throw new Error("Failed to delete a notification");
+        }
+        return true;
+      },
+      onSuccess: async () => {
+        toast.success("Delete notification successfully");
+        await queryClient.invalidateQueries({
+          queryKey: ["notifications", currentUserId],
+        });
+        setIsDeleting(false);
+      },
+
+      onError: (error) => {
+        setIsDeleting(false);
+        if (error instanceof Error) {
+          errorLogV2({
+            error: error,
+            function: "deleteNotification",
+            file: "NotificationPage",
+          });
+          toast.error(error.message);
+        }
+      },
+    });
   if (isLoading) {
     return <LoadingPage />;
   }
@@ -93,6 +127,9 @@ const NotificationPage = () => {
               notification={notification}
               onReadNotification={readNotification}
               isReadingNotification={isReadingNotification}
+              isDeletingNotification={isDeletingNotification}
+              onDeleteNotification={deleteNotification}
+              isDeleting={isDeleting}
             />
           ))}
         </div>

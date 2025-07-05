@@ -14,7 +14,7 @@ async function createLikeTable() {
     console.log("LIKES TABLE CREATED✅");
   } catch (error: any) {
     errorLog({ location: "create like table", error });
-    throw new error("Failed to create comment like table");
+    throw new Error("Failed to create comment like table");
   }
 }
 

@@ -14,13 +14,19 @@ import { Link } from "react-router-dom";
 interface NotificationComponentProps {
   notification: NotificationAPIResponse;
   onReadNotification: (notificationId: string) => void;
+  onDeleteNotification: (notificationId: string) => void;
   isReadingNotification: boolean;
+  isDeletingNotification: boolean;
+  isDeleting: boolean;
 }
 // COMPONENT
 const NotificationComponent = ({
   notification,
   isReadingNotification,
   onReadNotification,
+  isDeletingNotification,
+  onDeleteNotification,
+  isDeleting,
 }: NotificationComponentProps) => {
   // Check - it the array is null or not.
   const postImgUrl =
@@ -28,6 +34,9 @@ const NotificationComponent = ({
     notification.post_image_urls.length > 0
       ? notification.post_image_urls[0]
       : "/neko_logo.png";
+  const postLinkUrl = notification?.notifications_related_post_id
+    ? `/posts/${notification?.notifications_related_post_id}`
+    : "/404Page";
   // BUILD UI
   return (
     <div
@@ -47,7 +56,7 @@ const NotificationComponent = ({
         {/* Details - bottom */}
         <div className="flex items-center gap-x-4 mb-4 top-12 z-0 absolute left-2 w-[99%] rounded-xl">
           {/* postimg */}
-          <Link to={`/posts/${notification.notifications_related_post_id}`}>
+          <Link to={`${postLinkUrl}`}>
             <img
               src={postImgUrl}
               alt="user_profile_img"
@@ -72,13 +81,28 @@ const NotificationComponent = ({
             </div>
             {/* Icons */}
             <div className="flex gap-x-3 pr-2">
-              <Trash2 className="hover:stroke-red-500 duration-150 opacity-50 hover:cursor-pointer" />
+              {/* Delete Notification */}
               <button
                 disabled={
-                  notification.notifications_is_read || isReadingNotification
+                  isReadingNotification || isDeletingNotification || isDeleting
                 }
                 onClick={() =>
+                  onDeleteNotification(notification.notifications_id)
+                }
+              >
+                <Trash2
+                  className={`hover:stroke-red-500 duration-150 opacity-50 hover:cursor-pointer ${
+                    isDeletingNotification && "opacity-20"
+                  }`}
+                />
+              </button>
+              {/* Read Notification */}
+              <button
+                onClick={() =>
                   onReadNotification(notification.notifications_id)
+                }
+                disabled={
+                  isReadingNotification || isDeletingNotification || isDeleting
                 }
               >
                 <Check
