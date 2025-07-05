@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { v4 as uuidV4 } from "uuid";
 import { AuthDesktopSidebar } from "../../../auth/components/desktop/AuthDesktopSidebar";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../../../../shared/api/axios";
 import toast from "react-hot-toast";
@@ -41,7 +41,6 @@ const SinglePostPage = () => {
   const queryClient = useQueryClient();
   const [isShowComment, setIsShowComment] = useState<boolean>(true);
   const [isCopied, setIsCopied] = useState<boolean>(false);
-  const navigate = useNavigate();
   // Fetch Post
   const {
     data: res,
@@ -67,11 +66,7 @@ const SinglePostPage = () => {
     },
   });
   // 05/07/2025 - In case of deleting post
-  useEffect(() => {
-    if (!res || !res?.data || !res.data.post) {
-      navigate("/404Page");
-    }
-  }, [isLoading, res, navigate]);
+
   // Focus - OPTIMISTIC UI - Likes
   const [likes, setLikes] = useState<Like[]>([]);
   // Focus - OPTIMISTIC UI - Comments

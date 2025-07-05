@@ -6,8 +6,8 @@
 */
 
 import { formatDistanceToNow } from "date-fns";
-
-import { Check, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { Check, Loader2, Trash2 } from "lucide-react";
 import type { NotificationAPIResponse } from "../../../../../backend/features/notification/domain/dto/notification.dto";
 import { Link } from "react-router-dom";
 
@@ -16,7 +16,6 @@ interface NotificationComponentProps {
   onReadNotification: (notificationId: string) => void;
   onDeleteNotification: (notificationId: string) => void;
   isReadingNotification: boolean;
-  isDeletingNotification: boolean;
   isDeleting: boolean;
 }
 // COMPONENT
@@ -24,10 +23,27 @@ const NotificationComponent = ({
   notification,
   isReadingNotification,
   onReadNotification,
-  isDeletingNotification,
   onDeleteNotification,
   isDeleting,
 }: NotificationComponentProps) => {
+  // DELETE NOTIFICATION - CONTROL STATE LOCALLY
+  const [isDeletingNotification, setIsDeletingNotification] =
+    useState<boolean>(false);
+
+  // MANAGE NOTIFICATION LOCALLY
+  console.log(isDeletingNotification);
+  const handleDeleteNotification = async () => {
+    setIsDeletingNotification(true);
+    try {
+      // CREATE NEW PROMISE TO MANAGE BETTER UI
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await onDeleteNotification(notification.notifications_id);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsDeletingNotification(false); // 3초 지난 후에 false로 변경
+    }
+  };
   // Check - it the array is null or not.
   const postImgUrl =
     Array.isArray(notification.post_image_urls) &&
@@ -86,15 +102,17 @@ const NotificationComponent = ({
                 disabled={
                   isReadingNotification || isDeletingNotification || isDeleting
                 }
-                onClick={() =>
-                  onDeleteNotification(notification.notifications_id)
-                }
+                onClick={() => handleDeleteNotification()}
               >
-                <Trash2
-                  className={`hover:stroke-red-500 duration-150 opacity-50 hover:cursor-pointer ${
-                    isDeletingNotification && "opacity-20"
-                  }`}
-                />
+                {isDeletingNotification ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  <Trash2
+                    className={`hover:stroke-red-500 duration-150 opacity-50 hover:cursor-pointer ${
+                      isDeletingNotification && "stroke-red-600"
+                    }`}
+                  />
+                )}
               </button>
               {/* Read Notification */}
               <button
@@ -107,6 +125,7 @@ const NotificationComponent = ({
               >
                 <Check
                   className={`hover:stroke-green-500 duration-150 opacity-50 hover:cursor-pointer 
+                    ${isReadingNotification && "stroke-green-500"}
                   ${notification.notifications_is_read && "stroke-green-500"} `}
                 />
               </button>

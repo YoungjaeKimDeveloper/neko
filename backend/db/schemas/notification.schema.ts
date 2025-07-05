@@ -27,48 +27,39 @@ const createNotificationTable = async () => {
     //   ALTER TABLE notifications
     //   ALTER COLUMN id SET DEFAULT gen_random_uuid()
     // `;
+    // -------------05/07/2025-------------------
     // 05/07/2025 - when user/related user/realted post delete - notifications are deleted
     // 1.Drop previous constraint
-    await sql`
-    ALTER TABLE notifications
-    DROP CONSTRAINT 
-    IF EXISTS notifications_user_id_fkey;
-    `;
-    await sql`
-    ALTER TABLE notifications
-    DROP CONSTRAINT 
-    IF EXISTS notifications_related_user_id_fkey;
-    `;
-    await sql`
-    ALTER TABLE notifications
-    DROP CONSTRAINT 
-    IF EXISTS notifications_related_post_id_fkey;
-    `;
-    // 2. Add new constraint
-    // user
-    await sql`
-    ALTER TABLE notifications
-    ADD CONSTRAINT fk_notifications_user
-    FOREIGN KEY (user_id)
-    REFERENCES users(id)
-    ON DELETE CASCADE;
-    `;
-    // user - related user
-    await sql`
-    ALTER TABLE notifications
-    ADD CONSTRAINT fk_notifications_related_user
-    FOREIGN KEY (related_user_id) 
-    REFERENCES users(id)
-    ON DELETE CASCADE
-    `;
-    // post - related post
-    await sql`
-    ALTER TABLE notifications
-    ADD CONSTRAINT fk_notifications_related_post
-    FOREIGN KEY (related_post_id)
-    REFERENCES posts(id)
-    ON DELETE CASCADE 
-    `;
+    // await sql`ALTER TABLE notifications DROP CONSTRAINT IF EXISTS fk_notifications_user;`;
+    // await sql`ALTER TABLE notifications DROP CONSTRAINT IF EXISTS fk_notifications_related_user;`;
+    // await sql`ALTER TABLE notifications DROP CONSTRAINT IF EXISTS fk_notifications_related_post;`;
+
+    // // 2. Add new constraint
+    // // user
+    // await sql`
+    // ALTER TABLE notifications
+    // ADD CONSTRAINT fk_notifications_user
+    // FOREIGN KEY (user_id)
+    // REFERENCES users(id)
+    // ON DELETE CASCADE;
+    // `;
+    // // user - related user
+    // await sql`
+    // ALTER TABLE notifications
+    // ADD CONSTRAINT fk_notifications_related_user
+    // FOREIGN KEY (related_user_id)
+    // REFERENCES users(id)
+    // ON DELETE CASCADE
+    // `;
+    // // post - related post
+    // await sql`
+    // ALTER TABLE notifications
+    // ADD CONSTRAINT fk_notifications_related_post
+    // FOREIGN KEY (related_post_id)
+    // REFERENCES posts(id)
+    // ON DELETE CASCADE
+    // `;
+    // -------------05/07/2025-------------------
     console.log("NOTIFICATION TABLE CREATED✅");
   } catch (error: any) {
     errorLog({ location: "create notification Table", error });
