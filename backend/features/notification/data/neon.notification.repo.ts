@@ -72,6 +72,7 @@ class NeonNotificationRepo implements NotificationRepo {
       return [];
     }
   };
+  // 04/07/2025 - updated : filter notification with userId
   readNotification = async (
     params: ReadNotificationDTO
   ): Promise<Notification | null> => {
@@ -79,7 +80,10 @@ class NeonNotificationRepo implements NotificationRepo {
       const result = await sql`
     UPDATE notifications
     SET is_read = true
-    WHERE id = ${params.notificationId}
+    WHERE 
+    id = ${params.notificationId}
+    AND
+    user_id =${params.userId}
     RETURNING *
     `;
       return result.length > 0 ? (result[0] as Notification) : null;
@@ -95,7 +99,10 @@ class NeonNotificationRepo implements NotificationRepo {
       const result = await sql`
         DELETE 
         FROM notifications
-        WHERE id =${params.notificationId}
+        WHERE 
+        id =${params.notificationId}
+        AND
+        user_id = ${params.userId}
         RETURNING *
         `;
       return result.length > 0 ? (result[0] as Notification) : null;
@@ -104,6 +111,7 @@ class NeonNotificationRepo implements NotificationRepo {
       return null;
     }
   };
+  // 04/07/2025 - Implement this function to compare if the notificationId is identifcal with userId
   fetchSingleNotificationByUserId = async ({
     user_id,
   }: fetchSingleNotificationByUserIdProps): Promise<Notification[] | []> => {

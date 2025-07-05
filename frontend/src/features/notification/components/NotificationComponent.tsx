@@ -2,6 +2,7 @@
 
     NotificationComponent component
     
+    
 */
 
 import { formatDistanceToNow } from "date-fns";
@@ -9,12 +10,19 @@ import { formatDistanceToNow } from "date-fns";
 import { Check, Trash2 } from "lucide-react";
 import type { NotificationAPIResponse } from "../../../../../backend/features/notification/domain/dto/notification.dto";
 import { Link } from "react-router-dom";
+
 interface NotificationComponentProps {
   notification: NotificationAPIResponse;
+  onReadNotification: (notificationId: string) => void;
+  isReadingNotification: boolean;
 }
+// COMPONENT
 const NotificationComponent = ({
   notification,
+  isReadingNotification,
+  onReadNotification,
 }: NotificationComponentProps) => {
+  // Check - it the array is null or not.
   const postImgUrl =
     Array.isArray(notification.post_image_urls) &&
     notification.post_image_urls.length > 0
@@ -24,7 +32,7 @@ const NotificationComponent = ({
   return (
     <div
       className={`relative mt-5 shadow-xl min-h-[120px] rounded-xl w-full ${
-        notification.notifications_is_read ?? "bg-gray-100"
+        notification.notifications_is_read && "bg-gray-200"
       }`}
     >
       <div className=" w-full h-full">
@@ -65,7 +73,19 @@ const NotificationComponent = ({
             {/* Icons */}
             <div className="flex gap-x-3 pr-2">
               <Trash2 className="hover:stroke-red-500 duration-150 opacity-50 hover:cursor-pointer" />
-              <Check className="hover:stroke-green-500 duration-150 opacity-50 hover:cursor-pointer" />
+              <button
+                disabled={
+                  notification.notifications_is_read || isReadingNotification
+                }
+                onClick={() =>
+                  onReadNotification(notification.notifications_id)
+                }
+              >
+                <Check
+                  className={`hover:stroke-green-500 duration-150 opacity-50 hover:cursor-pointer 
+                  ${notification.notifications_is_read && "stroke-green-500"} `}
+                />
+              </button>
             </div>
           </div>
         </div>

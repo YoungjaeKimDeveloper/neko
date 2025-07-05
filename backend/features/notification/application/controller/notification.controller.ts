@@ -51,6 +51,7 @@ export const readNotification = async (
 ): Promise<any> => {
   try {
     const user = (req as VerifiedUserRequest).user;
+    const userId = user.id;
     if (!user) {
       return sendResponse({
         res: res,
@@ -68,9 +69,10 @@ export const readNotification = async (
         message: `${RESPONSE_MESSAGES.BAD_REQUEST} NotificationID is required `,
       });
     }
-    
+
     const result = await neonNotificationRepo.readNotification({
       notificationId: notificationId,
+      userId: userId,
     });
     if (result == null) {
       return sendResponse({
@@ -104,6 +106,18 @@ export const deleteNotification = async (
   res: Response<ResponseDTO>
 ): Promise<any> => {
   try {
+    const user = (req as VerifiedUserRequest).user;
+    // USER ID
+    const userId = user.id;
+    if (!user) {
+      return sendResponse({
+        res: res,
+        status: RESPONSE_HTTP.UNAUTHORIZED,
+        success: false,
+        message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
+      });
+    }
+    // NOTIFICATION ID
     const notificationId = req.params.notificationId;
     if (!notificationId) {
       return sendResponse({
@@ -113,8 +127,10 @@ export const deleteNotification = async (
         message: `${RESPONSE_MESSAGES.BAD_REQUEST} NotificationID is required`,
       });
     }
+    // SEND REQUEST TO DELETE POST -> NEON
     const result = await neonNotificationRepo.deleteNotification({
       notificationId: notificationId,
+      userId: userId,
     });
     if (result == null) {
       return sendResponse({
@@ -124,7 +140,7 @@ export const deleteNotification = async (
         message: `${RESPONSE_MESSAGES.NOT_FOUND} failed to find the notification`,
       });
     }
-
+    // DELETE NOTIFICATION SUCCESSFULLY
     return sendResponse({
       res: res,
       status: RESPONSE_HTTP.OK,

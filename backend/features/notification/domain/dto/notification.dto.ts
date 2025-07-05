@@ -30,13 +30,15 @@ export interface NotificationAPIResponse {
 export interface FetchNotificationByUserIdDTO {
   user_id: string;
 }
-
+// 04/07/2025 - Update Interface to ensure only notification owner enables to read the notification
 export interface ReadNotificationDTO {
   notificationId: string;
+  userId: string;
 }
 
 export interface DeleteNotificationDTO {
   notificationId: string;
+  userId: string;
 }
 // 05/07/2025 added
 export interface fetchSingleNotificationByUserIdProps {

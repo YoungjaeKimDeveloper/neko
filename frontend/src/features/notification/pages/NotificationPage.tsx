@@ -4,10 +4,10 @@
         - Services
             - 1. Fetch all notifications by currentUserId
             - 2. Read a notification
-            - 3. Delete a notification
+            - 3. Delete a notification            
 */
 
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AuthDesktopSidebar } from "../../auth/components/desktop/AuthDesktopSidebar";
 import { axiosInstance } from "../../../shared/api/axios";
 import toast from "react-hot-toast";
@@ -16,11 +16,13 @@ import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto"
 import NotificationComponent from "../components/NotificationComponent";
 import LoadingPage from "../../../shared/pages/common/LoadingPage";
 import type { NotificationAPIResponse } from "../../../../../backend/features/notification/domain/dto/notification.dto";
+
 // Component
 const NotificationPage = () => {
   const queryClient = useQueryClient();
   // Get current user - Caching
-  const currentUserId = queryClient.getQueriesData({ queryKey: ["authUser"] });
+  const currentUserId = queryClient.getQueryData(["authUser"]);
+
   // - 1. Fetch all notifications by currentUserId
   const { data: notifications, isLoading } = useQuery({
     queryKey: ["notifications", currentUserId],
@@ -43,6 +45,33 @@ const NotificationPage = () => {
       toast.error("Failed to fetch notifications");
     },
   });
+  // - 2. Read a notification
+  const { mutate: readNotification, isPending: isReadingNotification } =
+    useMutation({
+      // DO NOT USER TRY CATCH - !
+      mutationFn: async (notificationId: string) => {
+        const result = await axiosInstance.put<ResponseDTO>(
+          `/notifications/${notificationId}`
+        );
+        if (result.data.success != true) {
+          throw new Error("Failed to read the notification");
+        }
+        return true;
+      },
+      onSuccess: () => {
+        toast.success("Notification read successfully!");
+        queryClient.invalidateQueries({
+          queryKey: ["notifications", currentUserId],
+        });
+      },
+      onError: (error) => {
+        errorLogV2({
+          file: "NotificationPage.tsx",
+          error: error,
+          function: "readNotification",
+        });
+      },
+    });
   if (isLoading) {
     return <LoadingPage />;
   }
@@ -62,6 +91,8 @@ const NotificationPage = () => {
             <NotificationComponent
               key={notification.notifications_id}
               notification={notification}
+              onReadNotification={readNotification}
+              isReadingNotification={isReadingNotification}
             />
           ))}
         </div>

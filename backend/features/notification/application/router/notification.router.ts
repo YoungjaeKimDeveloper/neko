@@ -24,7 +24,7 @@ router.use(verifyToken);
 router.get("/", fetchNotification);
 // 1. read notification
 router.put("/:notificationId", readNotification);
-// 2. delete notification
+// 2. delete notification-
 router.delete("/:notificationId", deleteNotification);
 
 export default router;
