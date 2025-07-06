@@ -30,10 +30,11 @@ postRouter.get("/", fetchPostsByUserId);
 postRouter.put("/:postId", updatePost);
 // deletePost
 postRouter.delete("/:postId", deletePost);
-
 // fetch Allposts
 postRouter.get("/all", fetchAllPosts);
-// fetch single post
-postRouter.get("/:postId", fetchSinglePostWithComments);
+// fetch single post with postID - (update post - fetch existed Info)
+postRouter.get("/:postId", fetchSinglePost);
+// fetch single post with comments - (full information)
+postRouter.get("/:postId/full", fetchSinglePostWithComments);
 
 export default postRouter;

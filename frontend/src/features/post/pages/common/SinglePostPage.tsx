@@ -52,7 +52,7 @@ const SinglePostPage = () => {
     queryFn: async () => {
       console.log(postId);
       const result = await axiosInstance.get<{ data: DenormalisedPost }>(
-        `/posts/${postId}`
+        `/posts/${postId}/full`
       );
       toast.success("Data fetched successfully");
       return result.data;

@@ -19,6 +19,7 @@ import CreatePostPage from "./features/post/pages/common/CreatePostPage";
 import SinglePostPage from "./features/post/pages/common/SinglePostPage";
 import ProfilePage from "./features/profile/pages/ProfilePage";
 import NotificationPage from "./features/notification/pages/NotificationPage";
+import EditPostPage from "./features/post/pages/common/EditPostPage";
 
 const App = () => {
   // fetch current User
@@ -76,6 +77,10 @@ const App = () => {
         <Route
           path="/posts/:postId"
           element={currentUser ? <SinglePostPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/posts/:postId/edit"
+          element={currentUser ? <EditPostPage /> : <Navigate to="/" />}
         />
         {/* Profile */}
         <Route

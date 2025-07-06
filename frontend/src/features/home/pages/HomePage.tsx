@@ -41,7 +41,7 @@ const HomePage = () => {
       <AuthDesktopSidebar />
       {/* MainPage - Right */}
       {/* Cards layout */}
-      <div className="h-screen w-screen mx-auto ">
+      <div className="h-screen w-screen mx-auto pr-10">
         {isLoading ? (
           <LoadingPage />
         ) : (

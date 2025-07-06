@@ -88,9 +88,9 @@ const PostCard = ({ post }: PostCardProps) => {
             >
               <Trash2 className="size-5" />
             </button>
-            <button>
+            <Link to={`/posts/${postId}/edit`}>
               <Pencil className="size-5" />
-            </button>
+            </Link>
           </ul>
         )}
       </div>
@@ -126,7 +126,7 @@ const PostCard = ({ post }: PostCardProps) => {
           </span>
         </p>
         {/* Details */}
-        <p className="w-[40%] h-[20px] overflow-hidden text-base text-gray-500">
+        <p className="w-[40%] h-[20px] text-gray-500 overflow-hidden">
           {post.content}
         </p>
         {/* Last Bottom */}

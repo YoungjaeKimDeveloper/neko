@@ -11,7 +11,7 @@ import AuthDesktopSidebarListTitle from "./AuthDesktopSidebarListTitle";
 
 export const AuthDesktopSidebar = () => {
   return (
-    <div className="fixed top-[75px] left-0  w-[150px] h-screen bg-red shadow-sidebar z-50">
+    <div className="fixed top-[75px] left-0  w-[150px] h-screen bg-red shadow-sidebar z-50 hidden lg:block">
       {/* Sidebar Icon */}
       <div className="h-screen flex flex-col gap-4 bg-white z-50 ">
         <div className=" h-screen w-full">

@@ -1,10 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
 
-    Create Post page - common(Mobile + Desktop)
-    Todo 
-      1. Show error message()
-      1. Send the form to the backend()
+    Edit post page - Responsive Size - (Mobile + Desktop)
+    Features
+    - 1. Fetch Existed Post image
+    - 2. User can Update
+    Validation
+    1. Zod + RHF
+    
 */
 
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -21,21 +23,48 @@ import { RESPONSE_HTTP } from "../../../../../../shared/constants/http-status";
 import { errorLogV2 } from "../../../../../../shared/error/error.log";
 import toast from "react-hot-toast";
 import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto";
-import { useNavigate } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate, useParams } from "react-router-dom";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import LoadingPage from "../../../../shared/pages/common/LoadingPage";
 // Schema - Runtime
 
-// Inferred Type - Complie
 // Component
-const CreatePostPage = () => {
+const EditPostPage = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { postId } = useParams();
+
+  // Fetch existed Data - UseQuery - Action
+  const {
+    data: fetchedPost,
+    isError: isFetchingPostError,
+    error: fetchingPostError,
+    isLoading: isFetchPostLoading,
+  } = useQuery({
+    queryKey: ["posts", postId],
+    queryFn: async () => {
+      const result = await axiosInstance.get<ResponseDTO>(`/posts/${postId}`);
+      if (result.data.success !== true) {
+        throw new Error("Failed to fetch single Post with postId");
+      }
+      return result.data.data;
+    },
+  });
+  //   Fetching error
+  if (isFetchingPostError) {
+    errorLogV2({
+      error: fetchingPostError,
+      function: "Fetch existed post",
+      file: "EditPostPage.tsx",
+    });
+  }
+  console.log("Fetched Post Successfully ", fetchedPost);
+
   // React hook-form (RHF)
   const {
     register,
     handleSubmit,
     // Catch the check the error manually
-    setError,
     // Set the value manually
     setValue,
     // Show erros || isSubmitting
@@ -87,7 +116,7 @@ const CreatePostPage = () => {
       toast.success("Post created✅");
     } catch (error) {
       errorLogV2({
-        file: "CreatePostPage",
+        file: "EditPostPage",
         function: "onSutmib",
         error: error,
       });
@@ -95,6 +124,12 @@ const CreatePostPage = () => {
       return;
     }
   };
+  //   Loading UI
+  if (isFetchPostLoading) {
+    return <LoadingPage />;
+  }
+  const { title, content, is_found, image_urls, location, reward_amount } =
+    fetchedPost;
   // BUILD UI
   return (
     <div className="flex pb-20">
@@ -110,14 +145,14 @@ const CreatePostPage = () => {
           className={`w-[100%] mx-auto h-20 mt-10 max-w-[600px]  flex flex-col justify-between`}
         >
           <p>Create post</p>
-          {/* Image Uploader */}
+          {/* Image Uploader images */}
           <ImageUploader images={images} onChange={onChange} />
           {errors.image_urls?.message}
         </div>
         {/* Title */}
         <PostInput
           title="Title"
-          hintText="Please help me find the cat"
+          hintText={title}
           numberOfLetters={20}
           register={register("title")}
           errorMessage={errors.title?.message}
@@ -127,12 +162,13 @@ const CreatePostPage = () => {
           <div className="flex mx-auto h-full">
             {/* Title and Input */}
             <div className="flex flex-col w-full items-start h-full">
+              {/* DESCRIPTION */}
               <div className="flex flex-col w-full h-full">
                 <p>Description</p>
                 <textarea
                   {...register("content")}
                   maxLength={300}
-                  placeholder="I lost my cute cat near Townhall station"
+                  placeholder={content}
                   className={
                     "input shadow-postInput w-full  mt-3 font-content pl-[10px] h-full py-2 resize-none"
                   }
@@ -151,20 +187,23 @@ const CreatePostPage = () => {
             </div>
           </div>
         </div>
+        {/* Reward amount*/}
         <PostInput
           title="Reward amount"
-          hintText="$0"
+          hintText={`$${reward_amount}`}
           numberOfLetters={10}
           register={register("reward_amount")}
           errorMessage={errors.reward_amount?.message}
         />
+        {/* Location */}
         <PostInput
           title="Location"
-          hintText="Townhall station"
+          hintText={location}
           numberOfLetters={10}
           register={register("location")}
           errorMessage={errors.location?.message}
         />
+        {/* Submit BTN */}
         {isSubmitting ? (
           <MainButton
             text="Loading..."
@@ -174,7 +213,7 @@ const CreatePostPage = () => {
           />
         ) : (
           <MainButton
-            text="Post"
+            text="Edit"
             type="submit"
             style="w-[40%] mt-5"
             isLoading={isSubmitting}
@@ -185,4 +224,4 @@ const CreatePostPage = () => {
   );
 };
 
-export default CreatePostPage;
+export default EditPostPage;
