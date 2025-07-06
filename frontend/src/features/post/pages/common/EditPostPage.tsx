@@ -67,6 +67,7 @@ const EditPostPage = () => {
     // Catch the check the error manually
     // Set the value manually
     setValue,
+    setError,
     // Show erros || isSubmitting
     formState: { errors, isSubmitting },
     // Accpet the Filed mathcing schema
@@ -117,9 +118,17 @@ const EditPostPage = () => {
     } catch (error) {
       errorLogV2({
         file: "EditPostPage",
-        function: "onSutmib",
+        function: "onSubmit",
         error: error,
       });
+      
+      if (error instanceof Error) {
+        // Show error message from Back-end response
+        setError("root", {
+          type: "manual",
+          message: error?.message,
+        });
+      }
       toast.error("Failed to post");
       return;
     }
