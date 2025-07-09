@@ -14,7 +14,7 @@
     
 */
 
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PostInput from "../../components/common/PostInput";
 import { AuthDesktopSidebar } from "../../../auth/components/desktop/AuthDesktopSidebar";
@@ -31,6 +31,7 @@ import type { ResponseDTO } from "../../../../../../shared/dto/common/response.d
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import LoadingPage from "../../../../shared/pages/common/LoadingPage";
+import type { Post } from "../../../../../../backend/features/post/domain/entities/post";
 // Schema - Runtime
 
 // Component
@@ -75,7 +76,7 @@ const EditPostPage = () => {
     setError,
     reset,
     // Show erros || isSubmitting
-    formState: { errors, isSubmitting },
+    formState: { errors },
     // Accpet the Filed mathcing schema
     // Check the type based on Shcema
   } = useForm<PostFormValues>({
@@ -120,7 +121,7 @@ const EditPostPage = () => {
   // Image Tracker[E] ------------------
 
   // Submit the new from to update post
-  const { mutate: updatePost, isPending: isUpdating } = useMutation({
+  const { mutateAsync: updatePost, isPending: isUpdating } = useMutation({
     // useMutation에서는 외부에서 직접적으로 데이터를 받아와서 사용해줘야함
     // 실제 function 자체를 의미함
     mutationFn: async (data: PostFormValues) => {
@@ -134,6 +135,8 @@ const EditPostPage = () => {
     },
     onSuccess: async () => {
       toast.success("Post Editted successfully");
+      await queryClient.invalidateQueries({ queryKey: ["posts"] });
+      await queryClient.invalidateQueries({ queryKey: ["posts", postId] });
       await navigate("/home");
     },
     onError: (error) => {
@@ -143,6 +146,10 @@ const EditPostPage = () => {
         function: "updatePost",
       });
       if (error instanceof Error) {
+        setError("root", {
+          type: "server",
+          message: error.message,
+        });
         toast.error(`Failed to update post ${error.message}`);
       }
     },
@@ -153,6 +160,7 @@ const EditPostPage = () => {
   }
   const { title, content, is_found, image_urls, location, reward_amount } =
     fetchedPost;
+  console.log("Image urls", image_urls);
   // BUILD UI
   return (
     <div className="flex pb-20">
@@ -161,7 +169,7 @@ const EditPostPage = () => {
       {/* Right - main */}
       <form
         className="flex flex-col items-start w-screen  gap-y-4"
-        onSubmit={handleSubmit((data)=>updatePost(data))}
+        onSubmit={handleSubmit((data) => updatePost(data))}
       >
         {/* Image Preview */}
         <div
@@ -170,6 +178,11 @@ const EditPostPage = () => {
           <p>Create post</p>
           {/* Image Uploader images */}
           <ImageUploader images={images} onChange={onChange} />
+          {image_urls.map((url: string) => (
+            <div className="size-10 relative">
+              <img src={url} alt="image" className="size-10 rounded-sm" />
+            </div>
+          ))}
           {errors.image_urls?.message}
         </div>
         {/* Title */}
@@ -228,19 +241,19 @@ const EditPostPage = () => {
           errorMessage={errors.location?.message}
         />
         {/* Submit BTN */}
-        {isSubmitting ? (
+        {isUpdating ? (
           <MainButton
             text="Loading..."
             type="submit"
             style="w-[40%] mt-5"
-            isLoading={isSubmitting}
+            isLoading={isUpdating}
           />
         ) : (
           <MainButton
             text="Edit"
             type="submit"
             style="w-[40%] mt-5"
-            isLoading={isSubmitting}
+            isLoading={isUpdating}
           />
         )}
       </form>

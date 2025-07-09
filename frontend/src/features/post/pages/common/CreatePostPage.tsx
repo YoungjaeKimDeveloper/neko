@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
 
     Create Post page - common(Mobile + Desktop)
@@ -35,7 +34,7 @@ const CreatePostPage = () => {
     register,
     handleSubmit,
     // Catch the check the error manually
-    setError,
+
     // Set the value manually
     setValue,
     // Show erros || isSubmitting
