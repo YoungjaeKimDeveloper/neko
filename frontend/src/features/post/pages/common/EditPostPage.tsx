@@ -6,6 +6,11 @@
     - 2. User can Update
     Validation
     1. Zod + RHF
+
+    Always Searpate
+    - UI
+    - Main Logic
+    - Side Effect
     
 */
 
@@ -24,7 +29,7 @@ import { errorLogV2 } from "../../../../../../shared/error/error.log";
 import toast from "react-hot-toast";
 import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto";
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import LoadingPage from "../../../../shared/pages/common/LoadingPage";
 // Schema - Runtime
 
@@ -33,32 +38,32 @@ const EditPostPage = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { postId } = useParams();
-
-  // Fetch existed Data - UseQuery - Action
+  const [description, setdescription] = useState<number>(0);
+  const [images, setImages] = useState<ImageListType>([]);
+  // Fetch existed Data - UseQuery - Main Logic
   const {
     data: fetchedPost,
-    isError: isFetchingPostError,
-    error: fetchingPostError,
     isLoading: isFetchPostLoading,
+    isSuccess: isFetchedData,
   } = useQuery({
     queryKey: ["posts", postId],
     queryFn: async () => {
       const result = await axiosInstance.get<ResponseDTO>(`/posts/${postId}`);
+      // Throw error when it fails to load
       if (result.data.success !== true) {
         throw new Error("Failed to fetch single Post with postId");
       }
+      console.log("Fetched Post Successfully ", fetchedPost);
       return result.data.data;
     },
+    onError: (error) => {
+      errorLogV2({
+        error: error,
+        function: "Fetch existed post",
+        file: "EditPostPage.tsx",
+      });
+    },
   });
-  //   Fetching error
-  if (isFetchingPostError) {
-    errorLogV2({
-      error: fetchingPostError,
-      function: "Fetch existed post",
-      file: "EditPostPage.tsx",
-    });
-  }
-  console.log("Fetched Post Successfully ", fetchedPost);
 
   // React hook-form (RHF)
   const {
@@ -68,6 +73,7 @@ const EditPostPage = () => {
     // Set the value manually
     setValue,
     setError,
+    reset,
     // Show erros || isSubmitting
     formState: { errors, isSubmitting },
     // Accpet the Filed mathcing schema
@@ -76,63 +82,71 @@ const EditPostPage = () => {
     // Runtime Checker(Resolver)
     resolver: zodResolver(PostSchema),
   });
+  // Set the default values when data fetched
+  useEffect(() => {
+    if (isFetchedData && fetchedPost) {
+      reset({
+        title: fetchedPost.title,
+        content: fetchedPost.content,
+        image_urls: fetchedPost.image_urls,
+        location: fetchedPost.location,
+        reward_amount: fetchedPost.reward_amount,
+      });
+    }
+  }, [isFetchedData, fetchedPost, reset]);
   // Track the number of description
-  const [description, setdescription] = useState<number>(0);
 
   // Image Tracker[S] -------------
-  // Todo - Double check
   // As image uploder is external libary,it is impossible to track using input,
-  // So, track the value, manually.
   useEffect(() => {
     register("image_urls");
   }, [register]);
-  // Add "images" to register
-  register("image_urls");
-  //   Save images in array
-  const [images, setImages] = useState<ImageListType>([]);
-  // onChange method
+
+  // Handle image lists
   const onChange = (imageList: ImageListType) => {
     // UI for user
     setImages(imageList);
     // Track the image value manually
     // images[key] : value[imageList.map((img)=>img.file)]
+    // Set the value manually, instead of using register
+    // {"image_ulrs",["imageUrl1,imageUrl2,imageUrl3"]}
     setValue(
       "image_urls",
       imageList.map((img) => img.data_url),
+      // After users set new iamge -> check the validtaion
       { shouldValidate: true } // base64
     );
   };
   // Image Tracker[E] ------------------
-  const onSubmit: SubmitHandler<PostFormValues> = async (
-    data: PostFormValues
-  ) => {
-    try {
-      const result = await axiosInstance.post<ResponseDTO>("/posts", data);
-      if (result.status !== RESPONSE_HTTP.CREATED) {
-        toast.error(`Failed to create new post ${result.data?.message}`);
+
+  // Submit the new from to update post
+  const { mutate: updatePost, isPending: isUpdating } = useMutation({
+    // useMutation에서는 외부에서 직접적으로 데이터를 받아와서 사용해줘야함
+    // 실제 function 자체를 의미함
+    mutationFn: async (data: PostFormValues) => {
+      const result = await axiosInstance.put<ResponseDTO>(
+        `posts/${postId}`,
+        data
+      );
+      if (result.data.status != RESPONSE_HTTP.OK) {
+        throw new Error(`Failed to update post ${result.data.message}`);
       }
-      await queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+    onSuccess: async () => {
+      toast.success("Post Editted successfully");
       await navigate("/home");
-      // Tood -Invalidate queirs
-      toast.success("Post created✅");
-    } catch (error) {
+    },
+    onError: (error) => {
       errorLogV2({
-        file: "EditPostPage",
-        function: "onSubmit",
+        file: "EditPostPage.tsx",
         error: error,
+        function: "updatePost",
       });
-      
       if (error instanceof Error) {
-        // Show error message from Back-end response
-        setError("root", {
-          type: "manual",
-          message: error?.message,
-        });
+        toast.error(`Failed to update post ${error.message}`);
       }
-      toast.error("Failed to post");
-      return;
-    }
-  };
+    },
+  });
   //   Loading UI
   if (isFetchPostLoading) {
     return <LoadingPage />;
@@ -147,7 +161,7 @@ const EditPostPage = () => {
       {/* Right - main */}
       <form
         className="flex flex-col items-start w-screen  gap-y-4"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit((data)=>updatePost(data))}
       >
         {/* Image Preview */}
         <div
@@ -175,13 +189,14 @@ const EditPostPage = () => {
               <div className="flex flex-col w-full h-full">
                 <p>Description</p>
                 <textarea
-                  {...register("content")}
+                  {...register("content", {
+                    onChange: (e) => setdescription(e.target.value.length),
+                  })}
                   maxLength={300}
                   placeholder={content}
                   className={
                     "input shadow-postInput w-full  mt-3 font-content pl-[10px] h-full py-2 resize-none"
                   }
-                  onChange={(e) => setdescription(e.target.value.length)}
                 />
               </div>
               {/* World counter */}
