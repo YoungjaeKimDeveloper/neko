@@ -5,26 +5,25 @@
 */
 
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 import axios from "axios";
+import type { NewsResponse } from "../types/news.type";
 // BUILD COMPONENT
 const NewsPage = () => {
   const newsAPI = import.meta.env.VITE_NEWS_API;
-  console.log("HERE IS NEWS API", newsAPI);
-  const { data, isSuccess } = useQuery({
+  const { data } = useQuery({
     queryKey: ["news"],
     queryFn: async () => {
-      const result = await axios.get(newsAPI);
-      return result.data;
+      const result = await axios.get<NewsResponse>(newsAPI);
+      return result.data.articles;
     },
     onError: (error) => {
       console.log("Failed to fetch the NEWS data", error);
     },
   });
-  useEffect(() => {
-    console.log("Fetched Data", data);
-  }, [isSuccess, data]);
-  console.log(data);
+
+  if (data != null) {
+    console.log(data[0].content);
+  }
   // BUILD UI
   return <div>NewsPage</div>;
 };
