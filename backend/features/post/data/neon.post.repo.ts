@@ -76,7 +76,7 @@ class NeonPostRepo implements PostRepo {
         SET 
         title = ${params.updated_title},
         content = ${params.updated_content},
-        image_url = ${params.updated_image_urls},
+        image_urls = ${params.updated_image_urls},
         location = ${params.updated_location},
         reward_amount= ${params.updated_reward_amount},
         is_found = ${params.updated_is_found},

@@ -24,6 +24,7 @@ export const PostSchema = z.object({
     .string()
     .min(3, { message: "Location is too short (min: 3 letters)" })
     .max(10, { message: "Location is too long (max: 15 letters)" }),
+  is_found: z.boolean(),
 });
 
 // Inferred type for Post - Compile

@@ -19,19 +19,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import PostInput from "../../components/common/PostInput";
 import { AuthDesktopSidebar } from "../../../auth/components/desktop/AuthDesktopSidebar";
 import MainButton from "../../../../shared/components/MainButton";
-import type { ImageListType } from "react-images-uploading";
 import { useEffect, useState } from "react";
 import { PostSchema, type PostFormValues } from "../../schema/postSchema";
-import ImageUploader from "../../../../shared/components/ImageUploader";
 import { axiosInstance } from "../../../../shared/api/axios";
-import { RESPONSE_HTTP } from "../../../../../../shared/constants/http-status";
 import { errorLogV2 } from "../../../../../../shared/error/error.log";
 import toast from "react-hot-toast";
 import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import LoadingPage from "../../../../shared/pages/common/LoadingPage";
-import type { Post } from "../../../../../../backend/features/post/domain/entities/post";
+
 // Schema - Runtime
 
 // Component
@@ -39,8 +36,8 @@ const EditPostPage = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { postId } = useParams();
-  const [description, setdescription] = useState<number>(0);
-  const [images, setImages] = useState<ImageListType>([]);
+  const [description, setDescription] = useState<string>("");
+
   // Fetch existed Data - UseQuery - Main Logic
   const {
     data: fetchedPost,
@@ -83,53 +80,45 @@ const EditPostPage = () => {
     // Runtime Checker(Resolver)
     resolver: zodResolver(PostSchema),
   });
+  // As image uploder is external libary,it is impossible to track using input,
+
+  // const onChange = (imageList: ImageListType) => {
+  //   setImageList(imageList);
+  //   setValue(
+  //     "image_urls",
+  //     imageList.map((img) => img.data_url),
+  //     { shouldValidate: true }
+  //   );
+  // };
   // Set the default values when data fetched
   useEffect(() => {
+    register("image_urls");
+    setValue("image_urls", fetchedPost?.image_urls, { shouldValidate: true });
+  }, [register, setValue, fetchedPost?.image_urls]);
+
+  useEffect(() => {
     if (isFetchedData && fetchedPost) {
+      setDescription(fetchedPost?.content);
       reset({
-        title: fetchedPost.title,
-        content: fetchedPost.content,
-        image_urls: fetchedPost.image_urls,
-        location: fetchedPost.location,
-        reward_amount: fetchedPost.reward_amount,
+        title: fetchedPost?.title,
+        content: fetchedPost?.content,
+        location: fetchedPost?.location,
+        reward_amount: fetchedPost?.reward_amount,
+        image_urls: fetchedPost?.image_urls,
       });
     }
-  }, [isFetchedData, fetchedPost, reset]);
-  // Track the number of description
-
-  // Image Tracker[S] -------------
-  // As image uploder is external libary,it is impossible to track using input,
-  useEffect(() => {
-    register("image_urls");
-  }, [register]);
-
-  // Handle image lists
-  const onChange = (imageList: ImageListType) => {
-    // UI for user
-    setImages(imageList);
-    // Track the image value manually
-    // images[key] : value[imageList.map((img)=>img.file)]
-    // Set the value manually, instead of using register
-    // {"image_ulrs",["imageUrl1,imageUrl2,imageUrl3"]}
-    setValue(
-      "image_urls",
-      imageList.map((img) => img.data_url),
-      // After users set new iamge -> check the validtaion
-      { shouldValidate: true } // base64
-    );
-  };
-  // Image Tracker[E] ------------------
-
+  }, [setValue, fetchedPost, reset, isFetchedData]);
   // Submit the new from to update post
   const { mutateAsync: updatePost, isPending: isUpdating } = useMutation({
     // useMutation에서는 외부에서 직접적으로 데이터를 받아와서 사용해줘야함
     // 실제 function 자체를 의미함
     mutationFn: async (data: PostFormValues) => {
+      console.log(data);
       const result = await axiosInstance.put<ResponseDTO>(
         `posts/${postId}`,
         data
       );
-      if (result.data.status != RESPONSE_HTTP.OK) {
+      if (!result.data.success) {
         throw new Error(`Failed to update post ${result.data.message}`);
       }
     },
@@ -167,22 +156,40 @@ const EditPostPage = () => {
       {/* Left Sidebar */}
       <AuthDesktopSidebar />
       {/* Right - main */}
+      {/* Check final values before submitting forms */}
       <form
         className="flex flex-col items-start w-screen  gap-y-4"
-        onSubmit={handleSubmit((data) => updatePost(data))}
+        onSubmit={handleSubmit((data) => {
+          console.log(data);
+          updatePost(data);
+        })}
       >
         {/* Image Preview */}
         <div
           className={`w-[100%] mx-auto h-20 mt-10 max-w-[600px]  flex flex-col justify-between`}
         >
-          <p>Create post</p>
+          <p>Edit post</p>
           {/* Image Uploader images */}
-          <ImageUploader images={images} onChange={onChange} />
-          {image_urls.map((url: string) => (
-            <div className="size-10 relative">
-              <img src={url} alt="image" className="size-10 rounded-sm" />
+
+          <div className="flex gap-x-2 rounded-x  items-center justify-between">
+            <div className="flex gap-x-2">
+              {image_urls?.map((url: string) => (
+                <div className="size-10">
+                  <img src={url} alt="image" className="size-10 rounded-sm" />
+                </div>
+              ))}
             </div>
-          ))}
+            <label className="flex flex-col items-center">
+              <input
+                type="checkbox"
+                className="checkbox"
+                value={is_found}
+                {...register("is_found")}
+                defaultChecked={is_found}
+              />
+              <span className="font-content text-sm">I found my cat</span>
+            </label>
+          </div>
           {errors.image_urls?.message}
         </div>
         {/* Title */}
@@ -192,6 +199,7 @@ const EditPostPage = () => {
           numberOfLetters={20}
           register={register("title")}
           errorMessage={errors.title?.message}
+          value={title}
         />
         {/* Text area - Description */}
         <div className="w-[100%] mx-auto h-[200px] mt-5 max-w-[600px]">
@@ -203,8 +211,9 @@ const EditPostPage = () => {
                 <p>Description</p>
                 <textarea
                   {...register("content", {
-                    onChange: (e) => setdescription(e.target.value.length),
+                    onChange: (e) => setDescription(e.target.value),
                   })}
+                  value={description}
                   maxLength={300}
                   placeholder={content}
                   className={
@@ -217,7 +226,7 @@ const EditPostPage = () => {
                 <div className="flex justify-between w-full">
                   <p className="text-warning">{errors.content?.message} </p>
                   <p className="text-hintText">
-                    {description}/{300}
+                    {description.length}/{300}
                   </p>
                 </div>
               </div>
@@ -231,6 +240,7 @@ const EditPostPage = () => {
           numberOfLetters={10}
           register={register("reward_amount")}
           errorMessage={errors.reward_amount?.message}
+          value={reward_amount}
         />
         {/* Location */}
         <PostInput
@@ -239,6 +249,7 @@ const EditPostPage = () => {
           numberOfLetters={10}
           register={register("location")}
           errorMessage={errors.location?.message}
+          value={location}
         />
         {/* Submit BTN */}
         {isUpdating ? (

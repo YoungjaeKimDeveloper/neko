@@ -34,7 +34,6 @@ const CreatePostPage = () => {
     register,
     handleSubmit,
     // Catch the check the error manually
-
     // Set the value manually
     setValue,
     // Show erros || isSubmitting

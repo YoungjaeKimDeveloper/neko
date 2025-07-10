@@ -5,7 +5,7 @@
     Input + React Hook Form<PostFormValues>
 
 */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // Q - Need to deep study
 import type { UseFormRegisterReturn } from "react-hook-form";
 // Inteface
@@ -18,6 +18,7 @@ interface PostInputProps {
   height?: string;
   register: UseFormRegisterReturn; // from register Q - Need to deep study Track the value
   errorMessage?: string;
+  value?: string;
 }
 
 // Component
@@ -28,9 +29,15 @@ const PostInput = ({
   height,
   register, // Q - register return type
   errorMessage,
+  value,
 }: PostInputProps) => {
+  useEffect(() => {
+    if (value) {
+      setInputLength(value.length);
+    }
+  }, [value]);
   // Track number of letters
-  const [inputLength, setInputLength] = useState<number>(0);
+  const [inputLength, setInputLength] = useState<number>(value?.length ?? 0);
   // BUILD UI
   return (
     // Container
@@ -41,8 +48,8 @@ const PostInput = ({
           <div className="flex flex-col itmes-start w-full h-full">
             <p>{title}</p>
             <input
-              {...register} // Q - connect RHF
-              placeholder={hintText}
+              {...register}
+              placeholder={hintText ?? value}
               type="text"
               className={`input shadow-postInput w-full  mt-3 font-content pl-[10px] h-full py-2 `}
               maxLength={numberOfLetters}
