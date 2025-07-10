@@ -20,6 +20,7 @@ import SinglePostPage from "./features/post/pages/common/SinglePostPage";
 import ProfilePage from "./features/profile/pages/ProfilePage";
 import NotificationPage from "./features/notification/pages/NotificationPage";
 import EditPostPage from "./features/post/pages/common/EditPostPage";
+import NewsPage from "./features/news/pages/NewsPage";
 
 const App = () => {
   // fetch current User
@@ -91,6 +92,11 @@ const App = () => {
         <Route
           path="/notification"
           element={currentUser ? <NotificationPage /> : <Navigate to="/" />}
+        />
+        {/* NEWS API */}
+        <Route
+          path="/news-api"
+          element={currentUser ? <NewsPage /> : <Navigate to="/" />}
         />
       </Routes>
     </div>
