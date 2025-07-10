@@ -112,7 +112,7 @@ const EditPostPage = () => {
   const { mutateAsync: updatePost, isPending: isUpdating } = useMutation({
     // useMutation에서는 외부에서 직접적으로 데이터를 받아와서 사용해줘야함
     // 실제 function 자체를 의미함
-    mutationFn: async (data: PostFormValues) => {
+    mutationFn: async (data) => {
       console.log(data);
       const result = await axiosInstance.put<ResponseDTO>(
         `posts/${postId}`,
@@ -160,8 +160,15 @@ const EditPostPage = () => {
       <form
         className="flex flex-col items-start w-screen  gap-y-4"
         onSubmit={handleSubmit((data) => {
-          console.log(data);
-          updatePost(data);
+          const formattedData = {
+            updated_title: data.title,
+            updated_content: data.content,
+            updated_reward_amount: data.reward_amount,
+            updated_location: data.location,
+            updated_is_found: data.is_found,
+          };
+          const { updated_title ,updated_content,updated_reward_amount,updated_location,updated_is_found} = formattedData;
+          updatePost(formattedData);
         })}
       >
         {/* Image Preview */}

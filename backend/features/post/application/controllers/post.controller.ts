@@ -241,25 +241,9 @@ export const updatePost = async (
         }
       }
     }
-
-    // 4. Validation - Nothing to update
-    // Todo: Rethink about this code. Why I need it?
-    // const atLeastOneUpdateField = Object.values(req.body).some(
-    //   (val) => val != undefined && val !== null && val !== ""
-    // );
-    // if (!atLeastOneUpdateField) {
-    //   return sendResponseV2({
-    //     res: res,
-    //     status: 400,
-    //     success: false,
-    //     details:
-    //       "user requested to update the post,but nothing to update - no need to call DB",
-    //     message: `${RESPONSE_HTTP.BAD_REQUEST}`,
-    //   });
-    // }
     // Fetch post using sent postId
     const result = await neonPostRepo.fetchSinglePost({ postId });
-    // 5.Validation - find post
+    // 5.Validation - return false when failed to find the post
     if (result == null) {
       return sendResponseV2({
         res: res,
@@ -269,7 +253,7 @@ export const updatePost = async (
         message: `${RESPONSE_MESSAGES.BAD_REQUEST}`,
       });
     }
-    // 5.Validation - User is not authorized to edit post
+    // 6.Validation - User is not authorized to edit post
     if (result.user_id !== userId) {
       return sendResponseV2({
         res: res,
@@ -308,12 +292,13 @@ export const updatePost = async (
         message: `${RESPONSE_MESSAGES.INTERNAL}`,
       });
     }
+    // Succeed in updating post
     return sendResponseV2({
       res: res,
       status: RESPONSE_HTTP.OK,
       success: true,
       details: "Post Updated",
-      message: `${RESPONSE_MESSAGES.CREATE}`,
+      message: `${RESPONSE_MESSAGES.UPDATE}`,
       data: updatedResult,
     });
   } catch (error) {
