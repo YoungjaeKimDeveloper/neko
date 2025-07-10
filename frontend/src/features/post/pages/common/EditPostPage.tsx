@@ -20,7 +20,6 @@ import PostInput from "../../components/common/PostInput";
 import { AuthDesktopSidebar } from "../../../auth/components/desktop/AuthDesktopSidebar";
 import MainButton from "../../../../shared/components/MainButton";
 import { useEffect, useState } from "react";
-import { PostSchema, type PostFormValues } from "../../schema/postSchema";
 import { axiosInstance } from "../../../../shared/api/axios";
 import { errorLogV2 } from "../../../../../../shared/error/error.log";
 import toast from "react-hot-toast";
@@ -28,6 +27,10 @@ import type { ResponseDTO } from "../../../../../../shared/dto/common/response.d
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import LoadingPage from "../../../../shared/pages/common/LoadingPage";
+import {
+  UpdatePostSchema,
+  type UpdatePostValues,
+} from "../../schema/updatePostSchema";
 
 // Schema - Runtime
 
@@ -76,9 +79,9 @@ const EditPostPage = () => {
     formState: { errors },
     // Accpet the Filed mathcing schema
     // Check the type based on Shcema
-  } = useForm<PostFormValues>({
+  } = useForm<UpdatePostValues>({
     // Runtime Checker(Resolver)
-    resolver: zodResolver(PostSchema),
+    resolver: zodResolver(UpdatePostSchema),
   });
   // As image uploder is external libary,it is impossible to track using input,
 
@@ -92,19 +95,22 @@ const EditPostPage = () => {
   // };
   // Set the default values when data fetched
   useEffect(() => {
-    register("image_urls");
-    setValue("image_urls", fetchedPost?.image_urls, { shouldValidate: true });
+    register("updated_image_urls");
+    setValue("updated_image_urls", fetchedPost?.image_urls, {
+      shouldValidate: true,
+    });
   }, [register, setValue, fetchedPost?.image_urls]);
 
   useEffect(() => {
     if (isFetchedData && fetchedPost) {
       setDescription(fetchedPost?.content);
       reset({
-        title: fetchedPost?.title,
-        content: fetchedPost?.content,
-        location: fetchedPost?.location,
-        reward_amount: fetchedPost?.reward_amount,
-        image_urls: fetchedPost?.image_urls,
+        updated_title: fetchedPost.title,
+        updated_content: fetchedPost?.content,
+        updated_location: fetchedPost?.location,
+        updated_reward_amount: fetchedPost?.reward_amount,
+        updated_image_urls: fetchedPost?.image_urls,
+        updated_is_found: fetchedPost?.is_found,
       });
     }
   }, [setValue, fetchedPost, reset, isFetchedData]);
@@ -112,7 +118,7 @@ const EditPostPage = () => {
   const { mutateAsync: updatePost, isPending: isUpdating } = useMutation({
     // useMutation에서는 외부에서 직접적으로 데이터를 받아와서 사용해줘야함
     // 실제 function 자체를 의미함
-    mutationFn: async (data) => {
+    mutationFn: async (data: UpdatePostValues) => {
       console.log(data);
       const result = await axiosInstance.put<ResponseDTO>(
         `posts/${postId}`,
@@ -144,7 +150,7 @@ const EditPostPage = () => {
     },
   });
   //   Loading UI
-  if (isFetchPostLoading) {
+  if (isFetchPostLoading || !fetchedPost) {
     return <LoadingPage />;
   }
   const { title, content, is_found, image_urls, location, reward_amount } =
@@ -159,16 +165,9 @@ const EditPostPage = () => {
       {/* Check final values before submitting forms */}
       <form
         className="flex flex-col items-start w-screen  gap-y-4"
-        onSubmit={handleSubmit((data) => {
-          const formattedData = {
-            updated_title: data.title,
-            updated_content: data.content,
-            updated_reward_amount: data.reward_amount,
-            updated_location: data.location,
-            updated_is_found: data.is_found,
-          };
-          const { updated_title ,updated_content,updated_reward_amount,updated_location,updated_is_found} = formattedData;
-          updatePost(formattedData);
+        onSubmit={handleSubmit((data: UpdatePostValues) => {
+          console.log("Form clicked!");
+          updatePost(data);
         })}
       >
         {/* Image Preview */}
@@ -190,22 +189,21 @@ const EditPostPage = () => {
               <input
                 type="checkbox"
                 className="checkbox"
-                value={is_found}
-                {...register("is_found")}
+                {...register("updated_is_found")}
                 defaultChecked={is_found}
               />
               <span className="font-content text-sm">I found my cat</span>
             </label>
           </div>
-          {errors.image_urls?.message}
+          {errors.updated_image_urls?.message}
         </div>
         {/* Title */}
         <PostInput
           title="Title"
           hintText={title}
           numberOfLetters={20}
-          register={register("title")}
-          errorMessage={errors.title?.message}
+          register={register("updated_title")}
+          errorMessage={errors.updated_title?.message}
           value={title}
         />
         {/* Text area - Description */}
@@ -217,7 +215,7 @@ const EditPostPage = () => {
               <div className="flex flex-col w-full h-full">
                 <p>Description</p>
                 <textarea
-                  {...register("content", {
+                  {...register("updated_content", {
                     onChange: (e) => setDescription(e.target.value),
                   })}
                   value={description}
@@ -231,7 +229,9 @@ const EditPostPage = () => {
               {/* World counter */}
               <div className="flex justify-end w-full ">
                 <div className="flex justify-between w-full">
-                  <p className="text-warning">{errors.content?.message} </p>
+                  <p className="text-warning">
+                    {errors.updated_content?.message}{" "}
+                  </p>
                   <p className="text-hintText">
                     {description.length}/{300}
                   </p>
@@ -245,8 +245,8 @@ const EditPostPage = () => {
           title="Reward amount"
           hintText={`$${reward_amount}`}
           numberOfLetters={10}
-          register={register("reward_amount")}
-          errorMessage={errors.reward_amount?.message}
+          register={register("updated_reward_amount")}
+          errorMessage={errors.updated_reward_amount?.message}
           value={reward_amount}
         />
         {/* Location */}
@@ -254,8 +254,8 @@ const EditPostPage = () => {
           title="Location"
           hintText={location}
           numberOfLetters={10}
-          register={register("location")}
-          errorMessage={errors.location?.message}
+          register={register("updated_location")}
+          errorMessage={errors.updated_location?.message}
           value={location}
         />
         {/* Submit BTN */}
