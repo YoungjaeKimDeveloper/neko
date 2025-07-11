@@ -108,7 +108,7 @@ const NotificationPage = () => {
       {/* Left - Sidebar */}
       <AuthDesktopSidebar />
       {/* Right - main - margin-l -150px */}
-      <div className="pl-[150px]  w-full h-full">
+      <div className="lg:pl-[150px]  w-full h-full">
         {/* SubContainer - main content container */}
         <div className=" mt-10  mx-auto rounded-xl shadow-xl border-solid border w-[80%] min-h-[600px] h-fit py-2 px-4">
           {/* Notification */}
