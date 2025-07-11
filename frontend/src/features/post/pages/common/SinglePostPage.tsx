@@ -289,7 +289,7 @@ const SinglePostPage = () => {
       <AuthDesktopSidebar />
       {/* Right main */}
       {/* Container */}
-      <div className="w-[40%] flex flex-col gap-y-10 mx-auto  h-fit gap-x-4">
+      <div className=" w-[90%] lg:w-[40%] flex flex-col gap-y-10 mx-auto h-fit gap-x-4">
         <div className="mx-auto mt-5  w-full">
           {/* Main Picture + Status bar */}
           <div className="w-full rounded-sm relative">

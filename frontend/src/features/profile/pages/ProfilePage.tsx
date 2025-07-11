@@ -103,14 +103,14 @@ const ProfilePage = () => {
   console.log(currentUser);
   // BUILD UI
   return (
-    <div className="flex pl-[150px]">
+    <div className="flex lg:pl-[150px] w-screen h-screen">
       {/* Left */}
       <AuthDesktopSidebar />
       {/* Right */}
-      <div className=" w-full h-screen shadow-xl bg-gray-50 pt-10 rounded-sm">
-        <div className="size-[80%]  rounded-card shadow-xl mx-auto">
+      <div className=" w-full h-full shadow-xl pt-10 rounded-sm ">
+        <div className="rounded-card mx-auto ">
           {/* Component Container */}
-          <div className="flex flex-col items-center h-fullmax-w-[800px] mx-auto bg-gray-200 h-full rounded-xl">
+          <div className="flex flex-col items-center h-full max-w-[800px] bg-gray-50 shadow-xl rounded-xl mx-auto">
             {/* Heading + Image */}
             <form
               className="mt-5 flex flex-col items-center justify-between w-full h-fit"
@@ -159,7 +159,12 @@ const ProfilePage = () => {
                 />
               </div>
               <div className="mt-10">
-                <MainButton text="Save" type="submit" isLoading={isUpdating} />
+                <MainButton
+                  text="Save"
+                  type="submit"
+                  isLoading={isUpdating}
+                  style="p-4"
+                />
               </div>
             </form>
           </div>

@@ -27,7 +27,7 @@ const MainButton = ({
 }: MainButton) => {
   // Build ui
   return (
-    <div className={`w-[ ${width ?? 100}% mx-auto text-sm`}>
+    <div className={`w-[ ${width ?? 100}% mx-auto text-sm ${style}`}>
       <div
         className={`flex justify-center px-20 py-1 rounded-xl shadow-sm hover:bg-gray-100 duration-200 cursor-pointer font-content w-full ${style}`}
       >
