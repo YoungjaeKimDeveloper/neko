@@ -3,7 +3,7 @@
     Authorized user - Homepage
 
 */
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AuthDesktopSidebar } from "../../auth/components/desktop/AuthDesktopSidebar";
 import { axiosInstance } from "../../../shared/api/axios";
 import { errorLogV2 } from "../../../../../shared/error/error.log";
@@ -12,9 +12,15 @@ import toast from "react-hot-toast";
 import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
 import type { PostWithWriter } from "../../../../../backend/features/post/domain/entities/post";
 import LoadingPage from "../../../shared/pages/common/LoadingPage";
+import type User from "../../../../../backend/features/auth/domain/entities/user";
+
+import type { NotificationAPIResponse } from "../../../../../backend/features/notification/domain/dto/notification.dto";
+
 // Component
 const HomePage = () => {
-  // fetch all posts
+  const queryClient = useQueryClient();
+  // Auth user
+  const authUser = queryClient.getQueryData<User>(["authUser"]);
   const { data: posts, isLoading } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
@@ -33,7 +39,40 @@ const HomePage = () => {
     },
   });
 
+  // unreadNotification
+
+  const { data: notifications, isLoading: isFetchingNotifications } = useQuery({
+    queryKey: ["notifications", authUser?.id],
+    queryFn: async () => {
+      // Data type axios.get<Date Type>
+      const result = await axiosInstance.get<ResponseDTO>("/notifications");
+      return result.data.data;
+    },
+    onSuccess: (notification) => {
+      console.log("Message from backend", notification.message);
+      console.log("Fetched notifications: ", notification);
+      toast.success("Notifications fetched successfully");
+    },
+    onError: (error) => {
+      errorLogV2({
+        error: error,
+        function: "Fetch notification",
+        file: "NotificationPage.tsx",
+      });
+      toast.error("Failed to fetch notifications");
+    },
+  });
+  const unreadNotification = notifications?.filter(
+    (notification: NotificationAPIResponse) =>
+      notification.notifications_is_read == false
+  ).length;
+
   console.log(posts);
+  console.log("Notification from HomePage", notifications);
+  console.log(unreadNotification);
+  if (isLoading) {
+    return <LoadingPage />;
+  }
   // BUILD UI
   return (
     <div className="flex min-h-screen w-screen">
@@ -42,7 +81,7 @@ const HomePage = () => {
       {/* MainPage - Right */}
       {/* Cards layout */}
       <div className="h-screen w-screen mx-auto lg:pr-10">
-        {isLoading ? (
+        {isLoading || isFetchingNotifications ? (
           <LoadingPage />
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-4 w-fit lg:w-full mx-auto mt-4 lg:mx-4 lg:pl-[200px] gap-5 gap-y-10 pb-32">

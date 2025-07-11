@@ -16,12 +16,13 @@ import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto"
 import NotificationComponent from "../components/NotificationComponent";
 import LoadingPage from "../../../shared/pages/common/LoadingPage";
 import type { NotificationAPIResponse } from "../../../../../backend/features/notification/domain/dto/notification.dto";
+import type User from "../../../../../backend/features/auth/domain/entities/user";
 
 // Component
 const NotificationPage = () => {
   const queryClient = useQueryClient();
   // Get current user - Caching
-  const currentUserId = queryClient.getQueryData(["authUser"]);
+  const currentUserId = queryClient.getQueryData<User>(["authUser"])?.id;
   // - 1. Fetch all notifications by currentUserId
   const { data: notifications, isLoading } = useQuery({
     queryKey: ["notifications", currentUserId],
