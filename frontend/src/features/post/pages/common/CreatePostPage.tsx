@@ -100,7 +100,7 @@ const CreatePostPage = () => {
       <AuthDesktopSidebar />
       {/* Right - main */}
       <form
-        className="flex flex-col items-start w-screen  gap-y-4"
+        className="flex flex-col items-start w-[80%] mx-auto lg:w-screen gap-y-4"
         onSubmit={handleSubmit(onSubmit)}
       >
         {/* Image Preview */}
