@@ -15,7 +15,7 @@ export const AuthDesktopSidebar = () => {
       {/* Sidebar Icon */}
       <div className="h-screen flex flex-col gap-0 bg-white z-50 ">
         <div className=" h-screen w-full">
-          <div className="flex justify-between items-start flex-col h-[250px] py-2 mt-10   w-full">
+          <div className="flex justify-between items-start flex-col h-[250px] py-2 pl-2 mt-10 w-full">
             <AuthDesktopSidebarListTitle
               icon={Home}
               link="home"

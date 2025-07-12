@@ -13,6 +13,7 @@ import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto"
 import type { PostWithWriter } from "../../../../../backend/features/post/domain/entities/post";
 import LoadingPage from "../../../shared/pages/common/LoadingPage";
 import type User from "../../../../../backend/features/auth/domain/entities/user";
+import AuthMobileSidebar from "../../auth/components/mobile/AuthMobileSidebar";
 // Component
 const HomePage = () => {
   const queryClient = useQueryClient();
@@ -56,7 +57,8 @@ const HomePage = () => {
   return (
     <div className="flex min-h-screen w-screen">
       {/* Sidebar - left */}
-      <AuthDesktopSidebar />
+      {/* <AuthDesktopSidebar /> */}
+      <AuthMobileSidebar />
       {/* MainPage - Right */}
       {/* Cards layout */}
       <div className="h-screen w-screen mx-auto lg:pr-10">

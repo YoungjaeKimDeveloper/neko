@@ -113,7 +113,7 @@ const NotificationPage = () => {
         {/* SubContainer - main content container */}
         <div className=" mt-10 mx-auto rounded-xl shadow-xl border-solid border w-[80%] min-h-[600px] h-fit ">
           {/* Notification */}
-          <h3 className="font-content text-2xl py-4 shadow-xl px-4 rounded-sm bg-gray-50 ">
+          <h3 className="font-content text-2xl py-4 shadow-lg px-4 rounded-sm  ">
             Notificaiton
           </h3>
           {/* Notification - Component */}
