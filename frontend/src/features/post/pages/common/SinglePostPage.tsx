@@ -31,6 +31,7 @@ import type { ResponseDTO } from "../../../../../../shared/dto/common/response.d
 import type User from "../../../../../../backend/features/auth/domain/entities/user";
 import type Like from "../../../../../../backend/features/like/domain/entity/like";
 import type { Comment } from "../../../../../../backend/features/comment/domain/entity/comment";
+import AuthMobileSidebar from "../../../auth/components/mobile/AuthMobileSidebar";
 
 // Component -
 const SinglePostPage = () => {
@@ -284,9 +285,10 @@ const SinglePostPage = () => {
 
   // BUILD UI
   return (
-    <div className="flex">
+    <div className="flex pb-10">
       {/* Left Sidebar */}
       <AuthDesktopSidebar />
+      <AuthMobileSidebar />
       {/* Right main */}
       {/* Container */}
       <div className=" w-[90%] lg:w-[40%] flex flex-col gap-y-10 mx-auto h-fit gap-x-4">

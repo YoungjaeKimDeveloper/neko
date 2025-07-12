@@ -64,7 +64,7 @@ const AuthNavbar = () => {
   // BUILD UI
   return (
     // Size
-    <div className="w-screen shadow-sm h-[75px]  ">
+    <div className="w-screen shadow-sm h-[75px] ">
       {/* Layout */}
       <div className="flex justify-between items-center ">
         {/* Left Logo + Neko */}

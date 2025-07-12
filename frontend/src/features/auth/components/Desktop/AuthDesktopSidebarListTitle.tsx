@@ -14,9 +14,9 @@ const AuthDesktopSidebarListTitle = ({
 }: ListTitle) => {
   // BUILD UI
   return (
-    <div className=" hover:bg-gray-200 w-[90%] py-2 rounded-xl px-1 mx-auto duration-300 text-gray-400 hover:text-black bg-red-200">
+    <div className=" hover:bg-gray-200 w-[90%] py-2 rounded-xl px-1 mx-auto duration-300 text-gray-400 hover:text-black ">
       <Link to={`/${link}`}>
-        <div className="flex justify-center sm:justify-start items-center gap-2 bg-blue-300 flex ">
+        <div className="flex justify-center sm:justify-start items-center gap-2   ">
           <Icon size={size ?? 10} className="" />
           <p className="uppercase">{label}</p>
         </div>

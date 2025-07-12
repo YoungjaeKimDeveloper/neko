@@ -22,6 +22,7 @@ import toast from "react-hot-toast";
 import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
+import AuthMobileSidebar from "../../../auth/components/mobile/AuthMobileSidebar";
 // Schema - Runtime
 
 // Inferred Type - Complie
@@ -97,6 +98,7 @@ const CreatePostPage = () => {
   return (
     <div className="flex pb-20">
       {/* Left Sidebar */}
+      <AuthMobileSidebar />
       <AuthDesktopSidebar />
       {/* Right - main */}
       <form

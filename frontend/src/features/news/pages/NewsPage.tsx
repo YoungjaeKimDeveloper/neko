@@ -12,6 +12,7 @@ import LoadingPage from "../../../shared/pages/common/LoadingPage";
 import { errorLogV2 } from "../../../../../shared/error/error.log";
 import { AuthDesktopSidebar } from "../../auth/components/desktop/AuthDesktopSidebar";
 import NewsCard from "../components/NewsCard";
+import AuthMobileSidebar from "../../auth/components/mobile/AuthMobileSidebar";
 // BUILD COMPONENT
 const NewsPage = () => {
   const newsAPI = import.meta.env.VITE_NEWS_API;
@@ -40,13 +41,17 @@ const NewsPage = () => {
   }
   // BUILD UI - Main Page
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 w-fit lg:w-full mx-auto mt-4 lg:mx-2 lg:pl-[200px] gap-5 gap-y-10 pb-32">
-      {/* Sidebar */}
+    <div className=" ">
+      <AuthMobileSidebar />
       <AuthDesktopSidebar />
-      {/* Show News Card */}
-      {newsData?.map((news, index) => (
-        <NewsCard key={index} {...news} />
-      ))}
+      <div className="grid grid-cols-1 lg:grid-cols-4 w-fit lg:w-full mx-auto pt-4 lg:mx-2 lg:pl-[200px] gap-5 gap-y-10 pb-32 ">
+        {/* Sidebar */}
+
+        {/* Show News Card */}
+        {newsData?.map((news, index) => (
+          <NewsCard key={index} {...news} />
+        ))}
+      </div>
     </div>
   );
 };

@@ -15,6 +15,7 @@ import { format } from "date-fns";
 import MainButton from "../../../shared/components/MainButton";
 import { axiosInstance } from "../../../shared/api/axios";
 import toast from "react-hot-toast";
+import AuthMobileSidebar from "../../auth/components/mobile/AuthMobileSidebar";
 
 type ProfilePage = {
   user_profile: string;
@@ -105,12 +106,13 @@ const ProfilePage = () => {
   return (
     <div className="flex lg:pl-[150px] w-screen h-screen">
       {/* Left */}
+      <AuthMobileSidebar />
       <AuthDesktopSidebar />
       {/* Right */}
-      <div className=" w-full h-full shadow-xl pt-10 rounded-sm ">
+      <div className=" w-full h-full  pt-10 rounded-sm ">
         <div className="rounded-card mx-auto ">
           {/* Component Container */}
-          <div className="flex flex-col items-center h-full max-w-[800px] bg-gray-50 shadow-xl rounded-xl mx-auto">
+          <div className="flex flex-col items-center h-full max-w-[800px] bg-gray-50 shadow-sm rounded-xl mx-auto">
             {/* Heading + Image */}
             <form
               className="mt-5 flex flex-col items-center justify-between w-full h-fit"

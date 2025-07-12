@@ -59,6 +59,7 @@ const HomePage = () => {
       {/* Sidebar - left */}
       {/* <AuthDesktopSidebar /> */}
       <AuthMobileSidebar />
+      <AuthDesktopSidebar />
       {/* MainPage - Right */}
       {/* Cards layout */}
       <div className="h-screen w-screen mx-auto lg:pr-10">
