@@ -115,7 +115,7 @@ const NotificationPage = () => {
           {/* Notification */}
           <h3 className="font-content text-2xl py-2">Notificaiton</h3>
           {/* Notification - Component */}
-          {notifications?.data?.map((notification: NotificationAPIResponse) => (
+          {notifications?.data.map((notification: NotificationAPIResponse) => (
             <NotificationComponent
               key={notification.notifications_id}
               notification={notification}
