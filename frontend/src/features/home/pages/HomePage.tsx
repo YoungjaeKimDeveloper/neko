@@ -13,9 +13,6 @@ import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto"
 import type { PostWithWriter } from "../../../../../backend/features/post/domain/entities/post";
 import LoadingPage from "../../../shared/pages/common/LoadingPage";
 import type User from "../../../../../backend/features/auth/domain/entities/user";
-
-import type { NotificationAPIResponse } from "../../../../../backend/features/notification/domain/dto/notification.dto";
-
 // Component
 const HomePage = () => {
   const queryClient = useQueryClient();
@@ -37,39 +34,21 @@ const HomePage = () => {
         return null;
       }
     },
+    enabled: !!authUser,
   });
 
   // unreadNotification
 
-  const { data: notifications, isLoading: isFetchingNotifications } = useQuery({
-    queryKey: ["notifications", authUser?.id],
-    queryFn: async () => {
-      // Data type axios.get<Date Type>
-      const result = await axiosInstance.get<ResponseDTO>("/notifications");
-      return result.data.data;
-    },
-    onSuccess: (notification) => {
-      console.log("Message from backend", notification.message);
-      console.log("Fetched notifications: ", notification);
-      toast.success("Notifications fetched successfully");
-    },
-    onError: (error) => {
-      errorLogV2({
-        error: error,
-        function: "Fetch notification",
-        file: "NotificationPage.tsx",
-      });
-      toast.error("Failed to fetch notifications");
-    },
-  });
-  const unreadNotification = notifications?.filter(
-    (notification: NotificationAPIResponse) =>
-      notification.notifications_is_read == false
-  ).length;
+  // if (notifications !== null) {
+  //   const unreadNotification = notifications?.filter(
+  //     (notification: NotificationAPIResponse) =>
+  //       notification.notifications_is_read == false
+  //   ).length;
+  //   console.log(unreadNotification);
+  // }
 
   console.log(posts);
-  console.log("Notification from HomePage", notifications);
-  console.log(unreadNotification);
+
   if (isLoading) {
     return <LoadingPage />;
   }
@@ -81,7 +60,7 @@ const HomePage = () => {
       {/* MainPage - Right */}
       {/* Cards layout */}
       <div className="h-screen w-screen mx-auto lg:pr-10">
-        {isLoading || isFetchingNotifications ? (
+        {isLoading ? (
           <LoadingPage />
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-4 w-fit lg:w-full mx-auto mt-4 lg:mx-4 lg:pl-[200px] gap-5 gap-y-10 pb-32">
