@@ -31,7 +31,7 @@ const AuthNavbar = () => {
   // Auth user
   const authUser = queryClient.getQueryData<User>(["authUser"]);
   // unreadNotification
-  const { data: notifications, isLoading: isFetchingNotifications } = useQuery({
+  const { data: notifications } = useQuery({
     queryKey: ["notifications", authUser?.id],
     queryFn: async () => {
       // Data type axios.get<Date Type>
@@ -54,14 +54,13 @@ const AuthNavbar = () => {
     enabled: !!authUser?.id,
   });
   console.log("Notifications: ", notifications);
-  // if (notifications !== null) {
-  //   const unreadNotification = notifications?.filter(
-  //     (notification: NotificationAPIResponse) =>
-  //       notification.notifications_is_read == false
-  //   ).length;
-  //   console.log(unreadNotification);
-  // }
-  console.log("Notification from HomePage", notifications);
+
+  const unreadNotification = notifications?.data?.filter(
+    (notification: NotificationAPIResponse) =>
+      notification.notifications_is_read == false
+  ).length;
+  console.log(unreadNotification);
+
   // BUILD UI
   return (
     // Size
@@ -80,7 +79,16 @@ const AuthNavbar = () => {
         {/* Right Home + Login */}
         <div className="flex gap-2 pr-5  items-center">
           <CommonLinkIcon link="profile" size={30} icon={UserIocn} />
-          <CommonLinkIcon link="notification" size={30} icon={Bell} />
+          <div className="relative">
+            <CommonLinkIcon link="notification" size={30} icon={Bell} />
+            {unreadNotification > 0 && (
+              <div className="absolute bottom-5 left-3 bg-red-400 px-2 rounded-full">
+                <span className="text-white font-content">
+                  {unreadNotification}
+                </span>
+              </div>
+            )}
+          </div>
           <button onClick={() => logout()}>
             <LogOut
               size={30}
