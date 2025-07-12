@@ -111,18 +111,30 @@ const NotificationPage = () => {
       {/* Right - main - margin-l -150px */}
       <div className="lg:pl-[150px]  w-full h-full">
         {/* SubContainer - main content container */}
-        <div className=" mt-10  mx-auto rounded-xl shadow-xl border-solid border w-[80%] min-h-[600px] h-fit py-2 px-4">
+        <div className=" mt-10 mx-auto rounded-xl shadow-xl border-solid border w-[80%] min-h-[600px] h-fit ">
           {/* Notification */}
-          <h3 className="font-content text-2xl py-2">Notificaiton</h3>
+          <h3 className="font-content text-2xl py-4 shadow-xl px-4 rounded-sm bg-gray-50 ">
+            Notificaiton
+          </h3>
           {/* Notification - Component */}
-          {notifications?.data.map((notification: NotificationAPIResponse) => (
-            <NotificationComponent
-              key={notification.notifications_id}
-              notification={notification}
-              onReadNotification={readNotification}
-              onDeleteNotification={deleteNotification}
-            />
-          ))}
+          {notifications?.data?.length > 0 ? (
+            <div>
+              {notifications?.data.map(
+                (notification: NotificationAPIResponse) => (
+                  <NotificationComponent
+                    key={notification.notifications_id}
+                    notification={notification}
+                    onReadNotification={readNotification}
+                    onDeleteNotification={deleteNotification}
+                  />
+                )
+              )}
+            </div>
+          ) : (
+            <div className=" w-full min-h-[600px] flex items-center justify-center">
+              <p>No notifications yet.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
