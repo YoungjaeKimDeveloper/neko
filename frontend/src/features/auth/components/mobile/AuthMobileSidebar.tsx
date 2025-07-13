@@ -16,11 +16,11 @@ import {
 import AuthMobileSideListTitle from "./AuthMobileSidebarListTitle";
 import HoverEffectedIcon from "./HoverEffectedIcon";
 
-// Component
+// Component..
 const AuthMobileSidebar = () => {
   const [isShowingSidebar, setIsShowingSidebar] = useState<boolean>(true);
   const toggleSidebar = () => setIsShowingSidebar((prev) => !prev);
-  console.log("isShowingSidebar", isShowingSidebar);
+  console.log("isShowingSideba1r", isShowingSidebar);
   // 
   // BUILD UI
   return (
