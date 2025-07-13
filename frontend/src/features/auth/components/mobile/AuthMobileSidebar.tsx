@@ -21,10 +21,11 @@ const AuthMobileSidebar = () => {
   const [isShowingSidebar, setIsShowingSidebar] = useState<boolean>(true);
   const toggleSidebar = () => setIsShowingSidebar((prev) => !prev);
   console.log("isShowingSidebar", isShowingSidebar);
+  // 
   // BUILD UI
   return (
     <div className="relative block lg:hidden">
-      <div className="fixed z-20 left-[20px] ">
+      <div className="fixed z-50 left-[20px] ">
         {/* Toggle Menu BTN */}
         {isShowingSidebar ? (
           <HoverEffectedIcon

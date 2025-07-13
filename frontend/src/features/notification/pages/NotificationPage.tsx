@@ -17,6 +17,7 @@ import NotificationComponent from "../components/NotificationComponent";
 import LoadingPage from "../../../shared/pages/common/LoadingPage";
 import type { NotificationAPIResponse } from "../../../../../backend/features/notification/domain/dto/notification.dto";
 import type User from "../../../../../backend/features/auth/domain/entities/user";
+import AuthMobileSidebar from "../../auth/components/mobile/AuthMobileSidebar";
 
 // Component
 const NotificationPage = () => {
@@ -107,9 +108,10 @@ const NotificationPage = () => {
   return (
     <div>
       {/* Left - Sidebar */}
+      <AuthMobileSidebar />
       <AuthDesktopSidebar />
       {/* Right - main - margin-l -150px */}
-      <div className="lg:pl-[150px]  w-full h-full">
+      <div className=" pl-5 lg:pl-[150px]  w-full h-full">
         {/* SubContainer - main content container */}
         <div className=" mt-10 mx-auto rounded-xl shadow-xl border-solid border w-[80%] min-h-[600px] h-fit ">
           {/* Notification */}

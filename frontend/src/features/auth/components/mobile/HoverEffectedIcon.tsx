@@ -20,7 +20,7 @@ const HoverEffectedIcon = ({
 }: HoverEffectedIconProps) => {
   // BUILD UI
   return (
-    <div className="hover:bg-gray-200 text-gray-400  hover:text-black size-10 items-center justify-center rounded-full mx-auto cursor-pointer mt-2  flex flex-col  absolute left-[-5px] z-50">
+    <div className="hover:bg-gray-200 text-gray-400  hover:text-black size-10 items-center justify-center rounded-full mx-auto cursor-pointer mt-2  flex flex-col  absolute left-[-12px] top-2 z-50">
       <Icon onClick={() => toggleSidebar()} />
     </div>
   );
