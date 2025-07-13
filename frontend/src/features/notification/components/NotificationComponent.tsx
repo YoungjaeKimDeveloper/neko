@@ -54,7 +54,7 @@ const NotificationComponent = ({
   // BUILD UI
   return (
     <div
-      className={`relative mt-5 shadow-xl min-h-[120px] rounded-xl w-[90%] mx-auto  ${
+      className={`relative mt-5 shadow-xl min-h-[120px] rounded-xl w-[90%] mx-auto z-50  ${
         notification.notifications_is_read && "bg-gray-200"
       }`}
     >
@@ -94,7 +94,7 @@ const NotificationComponent = ({
               </p>
             </div>
             {/* Icons */}
-            <div className="flex gap-x-3 pr-2">
+            <div className="flex gap-x-3 pr-2 z-50">
               {/* Delete Notification */}
               <button
                 disabled={isDeletingNotification || isReadingComment}
