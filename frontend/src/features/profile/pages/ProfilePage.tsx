@@ -16,6 +16,7 @@ import MainButton from "../../../shared/components/MainButton";
 import { axiosInstance } from "../../../shared/api/axios";
 import toast from "react-hot-toast";
 import AuthMobileSidebar from "../../auth/components/mobile/AuthMobileSidebar";
+import { useNavigate } from "react-router-dom";
 
 type ProfilePage = {
   user_profile: string;
@@ -29,6 +30,7 @@ type ProfilePage = {
 const ProfilePage = () => {
   const queryClient = useQueryClient();
   const currentUser = queryClient.getQueryData<ProfilePage>(["authUser"]);
+  const navigate = useNavigate();
   // Profile Image Url
   const [uploadImageFile, setUploadImageFile] = useState<File>();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -61,6 +63,7 @@ const ProfilePage = () => {
     },
     onSuccess: () => {
       toast.success("User Profile updated successfully");
+      navigate("/");
     },
     onError: (error) => {
       if (error instanceof Error) {
@@ -129,6 +132,7 @@ const ProfilePage = () => {
                   imageSize="size-20"
                   isEditable={true}
                   onImageChange={handleImageChange}
+                  isLoading={isUpdating}
                 />
               </div>
               {/* Input Components*/}

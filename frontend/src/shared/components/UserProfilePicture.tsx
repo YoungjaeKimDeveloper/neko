@@ -12,11 +12,13 @@ interface ProfilePicture {
   imageSize: string;
   isEditable?: boolean;
   onImageChange?: (previewUrl: string, file: File) => void; // transfer the data to the parent
+  isLoading?: boolean;
 }
 const UserProfilePicture = ({
   imageSrc,
   imageSize,
   isEditable,
+  isLoading,
   onImageChange,
 }: ProfilePicture) => {
   // file -ref
@@ -50,6 +52,7 @@ const UserProfilePicture = ({
               accept="image/*"
               className="hidden"
               onChange={handleChange}
+              disabled={isLoading}
             />
           </label>
         </>

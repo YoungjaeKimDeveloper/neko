@@ -21,6 +21,7 @@ import ProfilePage from "./features/profile/pages/ProfilePage";
 import NotificationPage from "./features/notification/pages/NotificationPage";
 import EditPostPage from "./features/post/pages/common/EditPostPage";
 import NewsPage from "./features/news/pages/NewsPage";
+import NotFoundPage from "./shared/pages/common/NotFoundPage";
 
 const App = () => {
   // fetch current User
@@ -98,6 +99,7 @@ const App = () => {
           path="/news-api"
           element={currentUser ? <NewsPage /> : <Navigate to="/" />}
         />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
   );
