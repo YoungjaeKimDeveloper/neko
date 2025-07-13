@@ -54,7 +54,7 @@ const NotificationComponent = ({
   // BUILD UI
   return (
     <div
-      className={`relative mt-5 shadow-xl min-h-[120px] rounded-xl w-full ${
+      className={`relative mt-5 shadow-xl min-h-[120px] rounded-xl w-[90%] mx-auto  ${
         notification.notifications_is_read && "bg-gray-200"
       }`}
     >
@@ -65,16 +65,16 @@ const NotificationComponent = ({
             notification.users_user_profile_image ?? "/userProfile.png"
           } `}
           alt="user_profile_img"
-          className="size-14 rounded-full z-20 absolute bottom-15"
+          className="size-14 rounded-full z-0 absolute bottom-12"
         />
         {/* Details - bottom */}
-        <div className="flex items-center gap-x-4 mb-4 top-12 z-0 absolute left-2 w-[99%] rounded-xl">
+        <div className="flex items-center gap-x-4 mb-4 top-12 -z-10  absolute left-2 w-[99%] rounded-xl">
           {/* postimg */}
           <Link to={`${postLinkUrl}`}>
             <img
               src={postImgUrl}
               alt="user_profile_img"
-              className="size-14 rounded-xl left-0 top-0"
+              className="size-14 rounded-xl"
             />
           </Link>
           <div className="flex justify-between w-full items-center rounded-xl">
@@ -112,6 +112,7 @@ const NotificationComponent = ({
               </button>
               {/* Read Notification */}
               <button
+                className="cursor-pointer"
                 onClick={() => handleReadNotification()}
                 disabled={isDeletingNotification || isReadingComment}
               >

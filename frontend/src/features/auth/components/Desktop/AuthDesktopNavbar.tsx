@@ -55,11 +55,11 @@ const AuthNavbar = () => {
   });
   console.log("Notifications: ", notifications);
 
-  const unreadNotification = notifications?.data?.filter(
+  const unReadNotifications = notifications?.data?.filter(
     (notification: NotificationAPIResponse) =>
       notification.notifications_is_read == false
   ).length;
-  console.log(unreadNotification);
+  console.log(unReadNotifications);
 
   // BUILD UI
   return (
@@ -81,10 +81,10 @@ const AuthNavbar = () => {
           <CommonLinkIcon link="profile" size={30} icon={UserIocn} />
           <div className="hidden md:block sm:relative">
             <CommonLinkIcon link="notification" size={30} icon={Bell} />
-            {unreadNotification > 0 && (
+            {unReadNotifications > 0 && (
               <div className="absolute bottom-5 left-3 bg-red-400 px-2 rounded-full">
                 <span className="text-white font-content">
-                  {unreadNotification}
+                  {unReadNotifications}
                 </span>
               </div>
             )}
