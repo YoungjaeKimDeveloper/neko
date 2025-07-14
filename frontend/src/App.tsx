@@ -99,6 +99,13 @@ const App = () => {
           path="/news-api"
           element={currentUser ? <NewsPage /> : <Navigate to="/" />}
         />
+        {/* Help Page */}
+        <Route
+          path="/help"
+          element={currentUser ? <NewsPage /> : <Navigate to="/" />}
+        />
+
+        {/* 404 Not found */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
