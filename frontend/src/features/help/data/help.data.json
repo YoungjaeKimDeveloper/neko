@@ -1,0 +1,34 @@
+[
+  {
+    "question": "How do I report a missing cat?",
+    "answer": "If your cat goes missing, you can report it by creating a post through the 'Create' button on the home page. Please provide clear information such as the last seen location and upload a recent photo to help others recognize it easily."
+  },
+  {
+    "question": "How can I edit or delete my post?",
+    "answer": "To update or remove your post, click the three dots icon on the existing post. From there, choose to edit or delete the post. You can update text details, but images cannot be edited. Deleting will permanently remove the post from public view."
+  },
+  {
+    "question": "How do I contact other users?",
+    "answer": "You can communicate with other users by leaving comments on their posts. Whenever someone responds to your comment or interacts with your post, you’ll receive a notification in the app."
+  },
+  {
+    "question": "How does the notification system work?",
+    "answer": "You’ll receive real-time notifications when someone comments on your post, reacts to your post, or when a new post is published in your area. To view all notifications, simply tap the bell icon in the top navigation bar."
+  },
+  {
+    "question": "How to stay safe while meeting other users?",
+    "answer": "When meeting someone in person through the service, always prioritize safety: meet in public places, let a family member or friend know about the meeting, and avoid sharing sensitive personal information. We are not responsible for any offline interactions, so please use caution."
+  },
+  {
+    "question": "How do I change my profile picture or information?",
+    "answer": "You can update your profile details by visiting the 'Profile' page and clicking the user icon on the top navigation bar. There you can change your profile photo and location anytime."
+  },
+  {
+    "question": "Do you have a mobile app?",
+    "answer": "Currently, our service is only available as a web app. We are working on developing a mobile app version — stay tuned for updates through our official announcements."
+  },
+  {
+    "question": "Where is this service available?",
+    "answer": "This service is currently available in local areas within Australia. We are gradually expanding our service coverage."
+  }
+]
