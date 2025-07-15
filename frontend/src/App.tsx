@@ -22,6 +22,7 @@ import NotificationPage from "./features/notification/pages/NotificationPage";
 import EditPostPage from "./features/post/pages/common/EditPostPage";
 import NewsPage from "./features/news/pages/NewsPage";
 import NotFoundPage from "./shared/pages/common/NotFoundPage";
+import HelpPage from "./features/help/pages/HelpPage";
 
 const App = () => {
   // fetch current User
@@ -102,7 +103,7 @@ const App = () => {
         {/* Help Page */}
         <Route
           path="/help"
-          element={currentUser ? <NewsPage /> : <Navigate to="/" />}
+          element={currentUser ? <HelpPage /> : <Navigate to="/" />}
         />
 
         {/* 404 Not found */}
