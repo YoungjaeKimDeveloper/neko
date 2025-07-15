@@ -1,6 +1,6 @@
 /*
 
-  IMPLEMENT Core logic with Rrep
+  IMPLEMENT Core logic with Repo
 
  */
 
