@@ -38,18 +38,6 @@ const HomePage = () => {
     enabled: !!authUser,
   });
 
-  // unreadNotification
-
-  // if (notifications !== null) {
-  //   const unreadNotification = notifications?.filter(
-  //     (notification: NotificationAPIResponse) =>
-  //       notification.notifications_is_read == false
-  //   ).length;
-  //   console.log(unreadNotification);
-  // }
-
-  console.log(posts);
-
   if (isLoading) {
     return <LoadingPage />;
   }

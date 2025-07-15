@@ -24,7 +24,6 @@ const AuthMobileLoginPage = () => {
   const { mutate: loginMutation, isLoading } = useMutation({
     mutationFn: (userData: LoginDTO) => loginAPI(userData),
     onSuccess: async () => {
-      console.log("Tried to login");
       await queryClient.invalidateQueries({ queryKey: ["authUser"] });
       await navigate("/home");
       toast.success("Hello user");
@@ -41,7 +40,6 @@ const AuthMobileLoginPage = () => {
   // Submit login form
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Button Clicked");
     const result = authLoginSchema.safeParse({ email, password });
     if (!result.success) {
       console.error(result.error.format()); // foramt --> show details
@@ -54,7 +52,7 @@ const AuthMobileLoginPage = () => {
   // BUILD UI
   return (
     // Outer Container
-    <div className="px-10 mb-10 pt-10">
+    <div className="px-10 mb-10 pt-20 lg:hidden flex items-center">
       {/* Inner Container */}
       <div className="w-[300px] shadow-lg  h-[500px] mx-auto rounded-xl">
         {/* Main Content */}

@@ -51,7 +51,6 @@ const SinglePostPage = () => {
     // (caching key
     queryKey: ["post", postId],
     queryFn: async () => {
-      console.log(postId);
       const result = await axiosInstance.get<{ data: DenormalisedPost }>(
         `/posts/${postId}/full`
       );
@@ -279,9 +278,6 @@ const SinglePostPage = () => {
   };
   // -------------------------------------
   const isLiked = likes.some((like) => like.user_id == currentUserId);
-  console.log("RES", res);
-  console.log("optimisticLikes", likes);
-  console.log("optimistic UI Comments", optimisticComment);
 
   // BUILD UI
   return (

@@ -27,15 +27,15 @@ const MainButton = ({
 }: MainButton) => {
   // Build ui
   return (
-    <div className={`w-[ ${width ?? 100}% mx-auto text-sm ${style}`}>
-      <div
-        className={`flex justify-center px-20 py-1 rounded-xl shadow-sm hover:bg-gray-100 duration-200 cursor-pointer font-content w-full ${style}`}
-      >
-        <button disabled={isLoading} type={type}>
-          {isLoading ? <Loader className="animate-spin" /> : text}
-        </button>
-      </div>
-    </div>
+    <button
+      disabled={isLoading}
+      type={type}
+      className={`flex justify-center items-center px-20 py-1 rounded-xl shadow-sm hover:bg-gray-100 duration-200 cursor-pointer font-content text-sm w-[${
+        width ?? 100
+      }%] ${style}`}
+    >
+      {isLoading ? <Loader className="animate-spin" /> : text}
+    </button>
   );
 };
 

@@ -15,7 +15,7 @@ interface CommentProps {
 }
 const Comment = ({ comment }: CommentProps) => {
   // BUILD UI
-  console.log("Comment", comment);
+
   return (
     <div className="pb-2">
       <div className="flex flex-col rounded-xl bg-gray-50 shadow-sm">

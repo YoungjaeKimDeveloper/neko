@@ -334,7 +334,7 @@ export const deletePost = async (
     }
     const userId = (req as VerifiedUserRequest).user.id;
     const postId = req.params.postId;
-    // console.log("postid", postId);
+
     // Validation - Check if there is postId
 
     if (!postId) {
@@ -350,7 +350,6 @@ export const deletePost = async (
     const result = await neonPostRepo.fetchSinglePost({ postId });
     // Validation - Check if there is a single post
 
-    // console.log("Fetched result", result);
     if (result == null) {
       return sendResponseV2({
         res: res,
@@ -371,7 +370,7 @@ export const deletePost = async (
       });
     }
     //
-    // console.log("PASSED TILL HERE");
+
     await neonPostRepo.deletePost({ postId });
     return sendResponseV2({
       res: res,

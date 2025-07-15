@@ -27,7 +27,6 @@ describe("Update post", () => {
     };
     await updatePost(request, response);
     const json = response._getJSONData();
-    // console.log(json);
     expect(response.statusCode).toBe(200);
     expect(json.success).toBe(true);
     expect(json.data).not.toBe(null);

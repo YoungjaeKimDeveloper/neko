@@ -39,9 +39,8 @@ const AuthNavbar = () => {
       return result.data;
     },
     onSuccess: (notification) => {
-      console.log("Message from backend", notification.message);
-      console.log("Fetched notifications: ", notification);
       toast.success("Notifications fetched successfully");
+      return notification;
     },
     onError: (error) => {
       errorLogV2({
@@ -53,13 +52,11 @@ const AuthNavbar = () => {
     },
     enabled: !!authUser?.id,
   });
-  console.log("Notifications: ", notifications);
 
   const unReadNotifications = notifications?.data?.filter(
     (notification: NotificationAPIResponse) =>
       notification.notifications_is_read == false
   ).length;
-  console.log(unReadNotifications);
 
   // BUILD UI
   return (

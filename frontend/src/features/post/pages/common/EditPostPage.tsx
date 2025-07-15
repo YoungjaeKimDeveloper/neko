@@ -54,7 +54,7 @@ const EditPostPage = () => {
       if (result.data.success !== true) {
         throw new Error("Failed to fetch single Post with postId");
       }
-      console.log("Fetched Post Successfully ", fetchedPost);
+
       return result.data.data;
     },
     onError: (error) => {
@@ -119,7 +119,6 @@ const EditPostPage = () => {
     // useMutation에서는 외부에서 직접적으로 데이터를 받아와서 사용해줘야함
     // 실제 function 자체를 의미함
     mutationFn: async (data: UpdatePostValues) => {
-      console.log(data);
       const result = await axiosInstance.put<ResponseDTO>(
         `posts/${postId}`,
         data
@@ -155,7 +154,6 @@ const EditPostPage = () => {
   }
   const { title, content, is_found, image_urls, location, reward_amount } =
     fetchedPost;
-  console.log("Image urls", image_urls);
   // BUILD UI
   return (
     <div className="flex pb-20">
@@ -166,7 +164,6 @@ const EditPostPage = () => {
       <form
         className="flex flex-col items-start w-screen  gap-y-4"
         onSubmit={handleSubmit((data: UpdatePostValues) => {
-          console.log("Form clicked!");
           updatePost(data);
         })}
       >

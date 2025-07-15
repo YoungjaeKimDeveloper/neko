@@ -15,7 +15,7 @@ import { Lock, User } from "lucide-react";
 const AuthDesktopLoginPage = () => {
   // Build Ui
   return (
-    <div className="px-10">
+    <div className="px-10 hidden lg:block mt-20">
       <div className="w-[100%] bg-gray-50-50 h-[700px] rounded-lg shadow-lg">
         <div className="grid grid-cols-1 lg:grid-cols-2 w-full h-full rounded-lg">
           {/* Left - Login Input */}

@@ -98,7 +98,6 @@ class NeonPostRepo implements PostRepo {
       WHERE id = ${params.postId}
       RETURNING *
       `;
-      console.log("POST HAS BEEN DELETED");
     } catch (error: any) {
       errorLog({ location: "neoPost repo - deletePost", error });
     }
@@ -107,14 +106,13 @@ class NeonPostRepo implements PostRepo {
   fetchSinglePost = async (params: {
     postId: string;
   }): Promise<Post | null> => {
-    // console.log(`HERE IS THE POSTID:,${params.postId}`);
     try {
       const posts = await sql`
         SELECT * 
         FROM posts
         WHERE id= ${params.postId}
       `;
-      // console.log("HERE IS THE POSTS: ", posts);
+
       if (posts.length === 0) {
         return null;
       }

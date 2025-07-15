@@ -53,7 +53,6 @@ export const verifyToken = async (
         message: `${RESPONSE_MESSAGES.UNAUTHORIZED} can't find the email`,
       });
     }
-    // console.log(`user email ${userEmail}`);
 
     const user = await sql`
     SELECT id,email,user_name,user_profile_image,location,created_at
@@ -68,7 +67,7 @@ export const verifyToken = async (
         message: `${RESPONSE_MESSAGES.NOT_FOUND} can't find the user`,
       });
     }
-    console.log("");
+
     req.user = user[0] as User;
     next();
   } catch (error) {

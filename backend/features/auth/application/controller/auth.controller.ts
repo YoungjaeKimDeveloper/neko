@@ -43,7 +43,7 @@ export const createUser = async (req: Request, res: Response): Promise<any> => {
     }
     // Validation - 2
     const existedEmail = await emailValidation(email);
-    // console.log(existedEmail);
+
     if (existedEmail) {
       return sendResponse({
         res: res,
@@ -52,10 +52,9 @@ export const createUser = async (req: Request, res: Response): Promise<any> => {
         message: `${RESPONSE_MESSAGES.BAD_REQUEST}email Exists`,
       });
     }
-    console.log("Passed this test");
+
     // Validation - 3
     const existedUsername = await usernameValidation(user_name);
-    console.log("this existed name?", existedUsername);
     if (existedUsername) {
       return sendResponse({
         res: res,
@@ -77,7 +76,7 @@ export const createUser = async (req: Request, res: Response): Promise<any> => {
         message: `${RESPONSE_MESSAGES.INTERNAL} server error in creating new user`,
       });
     }
-    console.log(`New user created ✅: ${user_name}`);
+
     // 2.Create token
     const token = generateToken(newUser!.email);
     res.cookie("authToken", token, {

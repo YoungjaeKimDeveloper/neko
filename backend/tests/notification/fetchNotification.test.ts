@@ -19,7 +19,6 @@ describe("Fetch notification tests", () => {
     const response = httpMocks.createResponse();
     await fetchNotification(request, response);
     const json = response._getJSONData();
-    console.log("JSON", json);
     expect(response.statusCode).toBe(200);
   });
 });

@@ -33,9 +33,8 @@ const NotificationPage = () => {
       return result.data;
     },
     onSuccess: (notification) => {
-      console.log("Message from backend", notification.message);
-      console.log("Fetched notifications: ", notification);
       toast.success("Notifications fetched successfully");
+      return notification;
     },
     onError: (error) => {
       errorLogV2({

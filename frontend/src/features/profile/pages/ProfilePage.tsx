@@ -80,13 +80,10 @@ const ProfilePage = () => {
     created_at,
     location,
     user_name: userName,
-    user_profile: userProfile,
     user_profile_image,
   } = currentUser;
 
   // Side Effect
-
-  console.log(email, created_at, location, userName, userProfile);
 
   // formatted Date
   const joinedDate = format(new Date(created_at), "dd/MM/yyyy");
@@ -97,14 +94,12 @@ const ProfilePage = () => {
     setPreviewUrl(previewUrl);
     setUploadImageFile(file);
   };
-  console.log("UploadedFile", uploadImageFile);
-  console.log("New Location", updatedLocation);
-  console.log("New Preview Image Url", previewUrl);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     updateProfile();
   };
-  console.log(currentUser);
+
   // BUILD UI
   return (
     <div className="flex lg:pl-[150px] w-screen h-screen">

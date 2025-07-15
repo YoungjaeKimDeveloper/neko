@@ -50,7 +50,6 @@ const NotificationComponent = ({
     ? `/posts/${notification?.notifications_related_post_id}`
     : "/404Page";
 
-  console.log("Is Deleting Notification", isDeletingNotification);
   // BUILD UI
   return (
     <div

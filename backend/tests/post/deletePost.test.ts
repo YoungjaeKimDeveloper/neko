@@ -28,7 +28,6 @@ describe("Delete post testing ", () => {
     const response = httpMocks.createResponse();
     await deletePost(request, response);
     const json = response._getJSONData();
-    // console.log("Delete post - json", json);
     expect(response.statusCode).toBe(401);
     expect(json.success).toBe(false);
   });
@@ -44,7 +43,6 @@ describe("Delete post testing ", () => {
     const response = httpMocks.createResponse();
     await deletePost(request, response);
     const json = response._getJSONData();
-    // console.log("Delete post - json", json);
     expect(response.statusCode).toBe(404);
     expect(json.success).toBe(false);
   });

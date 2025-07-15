@@ -57,7 +57,7 @@ const PostCard = ({ post }: PostCardProps) => {
       }
     },
   });
-  console.log("POST", post);
+
   // BUILD UI
   return (
     <div className="card w-[275px] h-fit shadow-md bg-gray-50 ">

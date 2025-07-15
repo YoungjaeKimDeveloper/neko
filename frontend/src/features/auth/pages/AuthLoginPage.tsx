@@ -12,13 +12,9 @@ const AuthLoginPage = () => {
   return (
     <>
       {/* Mobile */}
-      <div className="block lg:hidden">
-        <AuthMobileLoginPage />
-      </div>
+      <AuthMobileLoginPage />
       {/* Desktop */}
-      <div className="hidden lg:block">
-        <AuthDesktopLoginPage />
-      </div>
+      <AuthDesktopLoginPage />
     </>
   );
 };

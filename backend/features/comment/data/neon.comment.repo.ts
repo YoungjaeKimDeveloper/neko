@@ -38,7 +38,6 @@ class NeonCommentRepo implements CommentRepo {
       WHERE id = ${params.comment_id}
       RETURNING * 
       `;
-      console.log("Comment deleted✅");
     } catch (error: any) {
       errorLog({ location: "Delete Comment", error });
       // 부른쪽에서 catch로 잡게됨

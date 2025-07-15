@@ -28,21 +28,19 @@ const AuthMobileSidebar = () => {
   const queryClient = useQueryClient();
   const [isShowingSidebar, setIsShowingSidebar] = useState<boolean>(true);
   const toggleSidebar = () => setIsShowingSidebar((prev) => !prev);
-  console.log("isShowingSideba1r", isShowingSidebar);
+
   //
   const authUser = queryClient.getQueryData<User>(["authUser"]);
   // Notification
   const { data: notifications } = useQuery({
     queryKey: ["notifications", authUser?.id],
     queryFn: async () => {
-      // Data type axios.get<Date Type>
       const result = await axiosInstance.get<ResponseDTO>("/notifications");
       return result.data;
     },
     onSuccess: (notification) => {
-      console.log("Message from backend", notification.message);
-      console.log("Fetched notifications: ", notification);
       toast.success("Notifications fetched successfully");
+      return notification;
     },
     onError: (error) => {
       errorLogV2({
@@ -52,19 +50,16 @@ const AuthMobileSidebar = () => {
       });
       toast.error("Failed to fetch notifications");
     },
+    staleTime: 1000 * 60 * 3,
+    refetchOnWindowFocus: false,
+    refetchInterval: false,
     enabled: !!authUser?.id,
   });
-  console.log("Notifications: ", notifications);
 
   const unReadNotification = notifications?.data?.filter(
     (notification: NotificationAPIResponse) =>
       notification.notifications_is_read == false
   ).length;
-
-  console.log(
-    "Number of Notificaiton from AuthMobileSidebar",
-    unReadNotification
-  );
 
   // BUILD UI
   return (

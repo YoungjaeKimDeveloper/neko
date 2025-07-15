@@ -23,9 +23,6 @@ const NewsPage = () => {
       const result = await axios.get<NewsResponse>(newsAPI);
       return result.data.articles;
     },
-    onSuccess: () => {
-      console.log(newsData);
-    },
     onError: (error) => {
       errorLogV2({
         error: error,
@@ -34,7 +31,7 @@ const NewsPage = () => {
       });
     },
   });
-  console.log("News: ", newsData);
+
   // BUILD UI - Loading Page
   if (isNewsLoading) {
     return <LoadingPage />;
