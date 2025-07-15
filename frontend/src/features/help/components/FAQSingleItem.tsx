@@ -4,10 +4,10 @@
 
 */
 
+// Component
 const FAQSingleItem = () => {
-  return (
-    <div>FAQSingleItem</div>
-  )
-}
+  // BUILD UI
+  return <div>FAQSingleItem</div>;
+};
 
-export default FAQSingleItem
+export default FAQSingleItem;

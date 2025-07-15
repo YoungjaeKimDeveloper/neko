@@ -15,7 +15,8 @@ import {
   TabletSmartphone,
   UserRoundPen,
 } from "lucide-react";
-import FAQLists from "../data/help.data.json";
+import { useState } from "react";
+
 // Matching ICON text and Icon
 const ICON_MAP = {
   report: FlagTriangleRight,
@@ -30,29 +31,42 @@ const ICON_MAP = {
 // Limited Options
 // Extract the key of ICON_MAP -> create new type
 
+export type ICONTYPE = keyof typeof ICON_MAP;
+
+interface FAQItemProps {
+  icon: ICONTYPE;
+  question: string;
+  answer: string;
+}
+
 // Component
-const FAQItem = () => {
+const FAQItem = ({ icon, question, answer }: FAQItemProps) => {
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+  const toggleFAQ = () => setIsOpened((prev) => !prev);
   // BUILD UI
+  const IconComponent = ICON_MAP[icon as keyof typeof ICON_MAP];
   return (
-    <>
-      {FAQLists.map(({ icon, question, answer }, index) => {
-        const IconComponent = ICON_MAP[icon as keyof typeof ICON_MAP];
-        return (
-          <div key={index} className="shadow-lg p-4 rounded-md">
-            <div className="border border-gray-200 shadow-sm size-10 flex items-center justify-center rounded-xl  absolute -left-12 ">
-              <IconComponent />
-            </div>
-            <div className="flex justify-between w-full flex-col ">
-              <div className="flex justify-between w-full">
-                <h3 className="font-content">{question}</h3>
-                <ChevronUp />
-              </div>
-              <p className="font-sans inline-block">{answer}</p>
-            </div>
-          </div>
-        );
-      })}
-    </>
+    <div className="flex gap-x-4 min-w-[100%]">
+      <div className="border border-gray-200 shadow-sm size-10 flex items-center justify-center rounded-xl   ">
+        <IconComponent />
+      </div>
+      <div className="flex justify-between w-full flex-col ">
+        <div className="flex justify-between w-full">
+          <h3 className="font-content">{question}</h3>
+          <ChevronUp
+            className={`${
+              isOpened && "rotate-180"
+            } duration-300 cursor-pointer`}
+            onClick={() => toggleFAQ()}
+          />
+        </div>
+        {isOpened && (
+          <p className="font-sans inline-block text-sm md:text-lg mt-3 ">
+            {answer}
+          </p>
+        )}
+      </div>
+    </div>
   );
 };
 

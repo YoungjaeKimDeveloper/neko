@@ -6,11 +6,12 @@
 
 import { AuthDesktopSidebar } from "../../auth/components/desktop/AuthDesktopSidebar";
 import AuthMobileSidebar from "../../auth/components/mobile/AuthMobileSidebar";
-import FAQItem from "../components/FAQItem";
-
+import FAQItem, { type ICONTYPE } from "../components/FAQItem";
+import FAQLists from "../data/help.data.json";
 // Component
 const HelpPage = () => {
   // BUILD UI
+
   return (
     <div className="flex min-h-screen w-screen mb-20 ">
       {/* Sidebar - left */}
@@ -36,7 +37,14 @@ const HelpPage = () => {
 
           {/* Bottom - Container */}
           <div className="flex items-start w-[75%] md:w-[60%] relative mt-10 flex-col gap-y-10">
-            <FAQItem />
+            {FAQLists.map(({ icon, question, answer }, index) => (
+              <FAQItem
+                key={index}
+                icon={icon as ICONTYPE}
+                question={question}
+                answer={answer}
+              />
+            ))}
           </div>
         </div>
       </div>
