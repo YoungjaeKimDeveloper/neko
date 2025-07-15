@@ -4,28 +4,27 @@
 
 */
 
-import { ChevronUp, Smile } from "lucide-react";
 import { AuthDesktopSidebar } from "../../auth/components/desktop/AuthDesktopSidebar";
 import AuthMobileSidebar from "../../auth/components/mobile/AuthMobileSidebar";
-import faqList from "../data/help.data.json";
+import FAQItem from "../components/FAQItem";
+
 // Component
 const HelpPage = () => {
-  console.log("FAQLIST", faqList);
   // BUILD UI
   return (
-    <div className="flex min-h-screen w-screen">
+    <div className="flex min-h-screen w-screen mb-20 ">
       {/* Sidebar - left */}
       <AuthMobileSidebar />
       <AuthDesktopSidebar />
       {/* Right Container - Right */}
-      <div className="w-full ml-[75px] md:ml-[150px] ">
-        <div className=" mx-auto mt-10 w-[80%] h-screenflex-1 flex flex-col items-center rounded-xl shadow-xl">
-          <div className="size-24 bg-gray-50 mt-4 rounded-xl shadow-sm mb-5">
+      <div className="w-full lg:ml-[150px] ">
+        <div className=" mx-auto mt-10 w-[80%] h-screenflex-1 flex flex-col items-center rounded-xl ">
+          <div className="size-24 mt-4 rounded-xl  mb-5">
             {/* Logo - Content */}
             <img
               src="/neko_logo.png"
               alt="neko_logo"
-              className="object-cover"
+              className="object-cover border border-gray-300 rounded-xl shadow-sm"
             />
           </div>
           {/* Top - title */}
@@ -36,19 +35,8 @@ const HelpPage = () => {
           </p>
 
           {/* Bottom - Container */}
-          <div className="flex items-start w-[75%] md:w-[60%] relative mt-10 bg-red-400">
-            <div className="bg-gray-100 size-10 flex items-center justify-center rounded-xl  absolute bottom-5 -left-12">
-              <Smile />
-            </div>
-            <div className="flex justify-between w-full flex-col ">
-              <div className="flex justify-between w-full">
-                <h3 className="font-content">
-                  Is there a free trial available?
-                </h3>
-                <ChevronUp />
-              </div>
-              <p className="font-sans inline-block">yes</p>
-            </div>
+          <div className="flex items-start w-[75%] md:w-[60%] relative mt-10 flex-col gap-y-10">
+            <FAQItem />
           </div>
         </div>
       </div>
