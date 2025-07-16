@@ -1,16 +1,19 @@
-import { useState } from "react";
-
 import InputPassword from "../../components/common/AuthInputPassword";
 import InputText from "../../components/common/AuthInputText";
 import MainButton from "../../../../shared/components/MainButton";
 import AuthFooter from "../../components/common/AuthFooter";
-import { authLoginSchema } from "../../schema/auth.login.schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import loginAPI from "../../services/auth/auth.login.service";
+import loginAPI from "../../services/auth.login.service";
 import type { LoginDTO } from "../../../../../../shared/dto/auth/auth.request.dto";
 import toast from "react-hot-toast";
 import { Lock, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  authLoginSchema,
+  type AuthLoginFormValues,
+} from "../../schema/auth.login.schema";
 
 /*
 
@@ -20,34 +23,40 @@ import { useNavigate } from "react-router-dom";
 const AuthMobileLoginPage = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(authLoginSchema),
+  });
   // Call Login API
   const { mutate: loginMutation, isLoading } = useMutation({
     mutationFn: (userData: LoginDTO) => loginAPI(userData),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["authUser"] });
       await navigate("/home");
-      toast.success("Hello user");
+      toast.success("Welcome Back");
     },
-    onError: (error: unknown) => {
+    onError: (error) => {
+      console.log("콜론에러", error);
+      if (error instanceof Error) {
+        setError("root", {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          message: (error as any).response.data.message,
+        });
+      }
       if (error instanceof Error) {
         toast.error("Something went wrong");
       }
     },
   });
-  // Track the values
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+
   // Submit login form
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const result = authLoginSchema.safeParse({ email, password });
-    if (!result.success) {
-      console.error(result.error.format()); // foramt --> show details
-      return;
-    }
-    loginMutation({ email, password });
-    // const validData = result.data;
-  };
+
+  const onSubmit: SubmitHandler<AuthLoginFormValues> = (data) =>
+    loginMutation(data);
 
   // BUILD UI
   return (
@@ -64,27 +73,38 @@ const AuthMobileLoginPage = () => {
           </div>
           <img src="/neko_logo.png" alt="logo_image" className="size-20" />
           {/* Login form */}
-          <form className="w-full" onSubmit={handleLogin}>
+          <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
             {/* email */}
             <InputText
+              register={register("email")}
               Icon={User}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              hintText="neko@gmail.com"
+              errorMessage={errors?.email?.message}
             />
             {/* Password */}
             <InputPassword
               Icon={Lock}
               hintText="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              regitser={register("password")}
+              errorMessage={errors.password?.message}
             />
+
             {/* Login button */}
             <div
               className={`w-[80%] mx-auto mt-3 ${
                 isLoading && "cursor-not-allowed"
               }`}
             >
-              <MainButton text="Login" type="submit" isLoading={isLoading} />
+              <MainButton
+                text="Login"
+                type="submit"
+                isLoading={isLoading || isSubmitting}
+              />
+              {errors.root?.message && (
+                <p className="text-warning text-sm text-center py-2">
+                  {errors.root?.message}
+                </p>
+              )}
             </div>
           </form>
           {/* Sigm up message */}

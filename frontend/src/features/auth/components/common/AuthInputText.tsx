@@ -3,22 +3,21 @@
 */
 
 import { type LucideIcon } from "lucide-react";
+import type { UseFormRegisterReturn } from "react-hook-form";
 
 interface AuthInputText {
   hintText?: string;
-  value?: string;
   Icon: LucideIcon;
   errorMessage?: string;
+  register: UseFormRegisterReturn;
   // Set the type of parameters
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const AuthInputText = ({
-  value,
-  onChange,
   hintText,
   Icon,
   errorMessage,
+  register,
 }: AuthInputText) => {
   // BUILD UI
   return (
@@ -27,11 +26,10 @@ const AuthInputText = ({
         {/* Icon */}
         {Icon && <Icon className="absolute left-11 text-hintText size-5" />}
         <input
-          value={value}
+          {...register}
           type="text"
           placeholder={hintText ?? "Email@gmail.com"}
           className="input w-full [text-indent:1rem] shadow-md font-content placeholder:text-hintText placeholder:text-sm"
-          onChange={onChange}
         />
       </div>
       {errorMessage && (

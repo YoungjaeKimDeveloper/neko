@@ -6,10 +6,11 @@
 // External
 import toast from "react-hot-toast";
 // Internal
-import { RESPONSE_HTTP } from "../../../../../../shared/constants/http-status";
-import type { SignUpDTO } from "../../../../../../shared/dto/auth/auth.request.dto";
-import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto";
-import { axiosInstance } from "../../../../shared/api/axios";
+import { RESPONSE_HTTP } from "../../../../../shared/constants/http-status";
+import type { SignUpDTO } from "../../../../../shared/dto/auth/auth.request.dto";
+import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
+import { axiosInstance } from "../../../shared/api/axios";
+
 
 const signupAPI = async (signupDTO: SignUpDTO) => {
   try {

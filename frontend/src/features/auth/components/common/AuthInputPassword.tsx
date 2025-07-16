@@ -4,20 +4,19 @@
 
 import { Eye, EyeClosed, type LucideIcon } from "lucide-react";
 import { useState } from "react";
+import type { UseFormRegisterReturn } from "react-hook-form";
 interface AuthInputText {
-  value?: string;
   hintText: string;
   Icon: LucideIcon;
   errorMessage?: string;
+  regitser: UseFormRegisterReturn;
   // Void - > reutrn nothing
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 const AuthInputPassword = ({
   hintText,
-  value,
-  onChange,
   Icon,
   errorMessage,
+  regitser,
 }: AuthInputText) => {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
   const togglePassword = () => setIsShowPassword((prev) => !prev);
@@ -28,11 +27,11 @@ const AuthInputPassword = ({
         {Icon && <Icon className="absolute left-11 text-hintText size-5" />}
         {/* Text filed */}
         <input
-          value={value}
+          // spared -> Send all data to parents component
+          {...regitser}
           type={isShowPassword ? "text" : "password"}
           placeholder={hintText}
           className="input w-full [text-indent:1rem] shadow-md font-content placeholder:text-hintText placeholder:text-sm"
-          onChange={onChange}
         />
         {/* Show password */}
         {isShowPassword ? (

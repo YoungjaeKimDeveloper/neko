@@ -114,7 +114,7 @@ export const issueAuthToken = async (
         res: res,
         status: RESPONSE_HTTP.BAD_REQUEST,
         success: false,
-        message: `${RESPONSE_MESSAGES.BAD_REQUEST} please fill up the all forms`,
+        message: "Email and Password required",
       });
     }
     const authUser = await authNeonRepo.login(email, password);
@@ -123,7 +123,7 @@ export const issueAuthToken = async (
         res: res,
         status: RESPONSE_HTTP.UNAUTHORIZED,
         success: false,
-        message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
+        message: "Please double-check ID and PW",
       });
     }
     const token = generateToken(email);
@@ -144,7 +144,7 @@ export const issueAuthToken = async (
       res: res,
       status: RESPONSE_HTTP.INTERNAL,
       success: false,
-      message: `${RESPONSE_MESSAGES.INTERNAL} in issueToken`,
+      message: "Server error -500",
     });
   }
 };

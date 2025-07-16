@@ -15,7 +15,7 @@ import AuthInputText from "../../components/common/AuthInputText";
 
 import { User, UserRoundPen, Lock, LockKeyhole } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
-import signupAPI from "../../services/auth/auth.signup.service";
+import signupAPI from "../../services/auth.signup.service";
 import type { SignUpDTO } from "../../../../../../shared/dto/auth/auth.request.dto";
 import { authSignupSchema } from "../../schema/auth.signup.schema";
 import type { AuthSignupFormValues } from "../../schema/auth.signup.schema";

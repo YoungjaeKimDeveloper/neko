@@ -38,10 +38,12 @@ class AuthNeonRepo implements AuthRepo {
         WHERE email = ${email} 
         `;
       const user = users.length > 0 ? (users[0] as User) : null;
-      const isMatch = await bcrypt.compare(password, user!.password);
+      if (user == null) {
+        return null;
+      }
+      const isMatch = await bcrypt.compare(password, user.password);
       return isMatch ? user : null;
     } catch (error: any) {
-      errorLog({ location: "neon login", error });
       return null;
     }
   };
