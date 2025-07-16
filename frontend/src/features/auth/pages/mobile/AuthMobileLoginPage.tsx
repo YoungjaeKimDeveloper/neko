@@ -45,8 +45,6 @@ const AuthMobileLoginPage = () => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           message: (error as any).response.data.message,
         });
-      }
-      if (error instanceof Error) {
         toast.error("Something went wrong");
       }
     },
@@ -84,7 +82,7 @@ const AuthMobileLoginPage = () => {
             <InputPassword
               Icon={Lock}
               hintText="Password"
-              regitser={register("password")}
+              register={register("password")}
               errorMessage={errors.password?.message}
             />
 
