@@ -23,6 +23,7 @@ import {
 } from "../../schema/auth.signup.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+// Component
 const AuthDesktopSignUpPage = () => {
   const queryClient = useQueryClient();
   const naviagte = useNavigate();
@@ -123,7 +124,7 @@ const AuthDesktopSignUpPage = () => {
                 errorMessage={errors.confirmPassword?.message}
               />
               {/* Show error message from back-end */}
-              <p className="text-center text-red-500">
+              <p className="text-center text-red-500 py-4">
                 {errors.root && errors.root.message}
               </p>
               <div className="w-[70%] max-w-[200px] mx-auto mt-5">
