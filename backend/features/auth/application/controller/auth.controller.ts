@@ -28,7 +28,7 @@ export const createUser = async (req: Request, res: Response): Promise<any> => {
         res: res,
         status: RESPONSE_HTTP.BAD_REQUEST,
         success: false,
-        message: `${RESPONSE_MESSAGES.BAD_REQUEST}: Please fill required form`,
+        message: `Please fill all  required form`,
       });
     }
     // Validation - 1
@@ -38,18 +38,17 @@ export const createUser = async (req: Request, res: Response): Promise<any> => {
         res: res,
         status: RESPONSE_HTTP.UNAUTHORIZED,
         success: false,
-        message: `${RESPONSE_MESSAGES.UNAUTHORIZED}password Invalid`,
+        message: `Password should be at least 6 characters`,
       });
     }
     // Validation - 2
     const existedEmail = await emailValidation(email);
-
     if (existedEmail) {
       return sendResponse({
         res: res,
         status: RESPONSE_HTTP.BAD_REQUEST,
         success: false,
-        message: `${RESPONSE_MESSAGES.BAD_REQUEST}email Exists`,
+        message: "Email already exists. Please use a different one.",
       });
     }
 
@@ -60,7 +59,7 @@ export const createUser = async (req: Request, res: Response): Promise<any> => {
         res: res,
         status: RESPONSE_HTTP.BAD_REQUEST,
         success: false,
-        message: `${RESPONSE_MESSAGES.BAD_REQUEST} please try another name`,
+        message: "Username already exists. Please use a different one.",
       });
     }
     // CREATE NEW USER
@@ -73,7 +72,7 @@ export const createUser = async (req: Request, res: Response): Promise<any> => {
         res: res,
         status: RESPONSE_HTTP.BAD_REQUEST,
         success: false,
-        message: `${RESPONSE_MESSAGES.INTERNAL} server error in creating new user`,
+        message: `Server error to hash passwod`,
       });
     }
 

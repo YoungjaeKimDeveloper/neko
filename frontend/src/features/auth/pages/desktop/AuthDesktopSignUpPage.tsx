@@ -12,7 +12,7 @@ import AuthInputPassword from "../../components/common/AuthInputPassword";
 import AuthInputText from "../../components/common/AuthInputText";
 // Assets
 import { User, UserRoundPen, Lock, LockKeyhole } from "lucide-react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import signupAPI from "../../services/auth.signup.service";
 import type { SignUpDTO } from "../../../../../../shared/dto/auth/auth.request.dto";
 import { useNavigate } from "react-router-dom";
@@ -24,6 +24,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const AuthDesktopSignUpPage = () => {
+  const queryClient = useQueryClient();
   const naviagte = useNavigate();
   // Send the data to API
   // SET UP FOR RHF
@@ -38,16 +39,18 @@ const AuthDesktopSignUpPage = () => {
     resolver: zodResolver(authSignupSchema),
   });
 
-  const { mutate: signupMutation, isLoading } = useMutation({
+  const { mutateAsync: signupMutation, isLoading } = useMutation({
     mutationFn: (userData: SignUpDTO) => signupAPI(userData),
-    onSuccess: () => {
-      toast.success("User signup");
-      naviagte("/");
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["authUser"] });
+
+      await toast.success("User signup");
+      naviagte("/home");
     },
     onError: (error: unknown) => {
       setError("root", {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        message: (error as any).response.data.message,
+        message: (error as any).response.data.message || "ID is existed",
       });
       if (error instanceof Error) {
         console.log("Failed to signup", error?.message);
@@ -119,6 +122,10 @@ const AuthDesktopSignUpPage = () => {
                 register={register("confirmPassword")}
                 errorMessage={errors.confirmPassword?.message}
               />
+              {/* Show error message from back-end */}
+              <p className="text-center text-red-500">
+                {errors.root && errors.root.message}
+              </p>
               <div className="w-[70%] max-w-[200px] mx-auto mt-5">
                 <MainButton
                   text="Sign up"

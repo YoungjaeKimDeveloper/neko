@@ -14,11 +14,13 @@ const signupAPI = async (signupDTO: SignUpDTO) => {
       signupDTO
     );
     if (
+      result == null ||
       result.status !== RESPONSE_HTTP.CREATED ||
       result.data.success !== true
     ) {
       throw new Error(result.data.message || "Failed to singup");
     }
+    // Send response to requested mutation
     return true;
   } catch (error: unknown) {
     if (error instanceof Error) {
