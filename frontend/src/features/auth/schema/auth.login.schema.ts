@@ -1,7 +1,5 @@
 /*
-
     Auth login Schema
-
 */
 import { z } from "zod";
 // Pure Schema(About User Action) - Runtime

@@ -40,7 +40,6 @@ const AuthMobileLoginPage = () => {
       toast.success("Welcome Back");
     },
     onError: (error) => {
-      console.log("콜론에러", error);
       if (error instanceof Error) {
         setError("root", {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any

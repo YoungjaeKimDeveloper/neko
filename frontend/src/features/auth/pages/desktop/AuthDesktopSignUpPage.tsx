@@ -5,46 +5,50 @@
 */
 // External
 import toast from "react-hot-toast";
-import { useState } from "react";
 // Components
 import MainButton from "../../../../shared/components/MainButton";
 import AuthFooter from "../../components/common/AuthFooter";
 import AuthInputPassword from "../../components/common/AuthInputPassword";
 import AuthInputText from "../../components/common/AuthInputText";
 // Assets
-
 import { User, UserRoundPen, Lock, LockKeyhole } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import signupAPI from "../../services/auth.signup.service";
 import type { SignUpDTO } from "../../../../../../shared/dto/auth/auth.request.dto";
-import { authSignupSchema } from "../../schema/auth.signup.schema";
-import type { AuthSignupFormValues } from "../../schema/auth.signup.schema";
 import { useNavigate } from "react-router-dom";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import {
+  authSignupSchema,
+  type AuthSignupFormValues,
+} from "../../schema/auth.signup.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const AuthDesktopSignUpPage = () => {
-  // useMutation
-  // Refact - Separate the file UI and Logic
-
-  // Refact - Try to use react form
-  // Track Values
-  const [email, setEmail] = useState<string>("");
-  const [userName, setUserName] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  // show error message if user failes to pass schema - Object
-  const [formattedErros, setFormattedErros] = useState<
-    Partial<Record<keyof AuthSignupFormValues, string>>
-  >({});
   const naviagte = useNavigate();
-  // Send to  API
+  // Send the data to API
+  // SET UP FOR RHF
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    // Apply type for useForm
+  } = useForm<AuthSignupFormValues>({
+    // Resolver - check the validation during "Runtime" and display message
+    resolver: zodResolver(authSignupSchema),
+  });
+
   const { mutate: signupMutation, isLoading } = useMutation({
     mutationFn: (userData: SignUpDTO) => signupAPI(userData),
     onSuccess: () => {
       toast.success("User signup");
-      naviagte("/home");
+      naviagte("/");
     },
-
     onError: (error: unknown) => {
+      setError("root", {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        message: (error as any).response.data.message,
+      });
       if (error instanceof Error) {
         console.log("Failed to signup", error?.message);
       }
@@ -52,34 +56,9 @@ const AuthDesktopSignUpPage = () => {
     },
   });
   // Submit to API
-  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // Reset forms
-    setFormattedErros({});
-    // Verify fileds with schema
-    const result = authSignupSchema.safeParse({
-      email,
-      userName,
-      password,
-      confirmPassword,
-    });
-    // Failed to pass schema
-    if (!result.success) {
-      // Show error message in arrange
-      const formattedError = result.error.format();
-      // Partial enalbes this logic!
-      setFormattedErros({
-        email: formattedError.email?._errors[0],
-        userName: formattedError.userName?._errors[0],
-        password: formattedError.password?._errors[0],
-        confirmPassword: formattedError.confirmPassword?._errors[0],
-      });
-      return;
-    }
-    signupMutation({ email, password, userName });
-  };
-
+  // Complie type error
+  const onSubmit: SubmitHandler<AuthSignupFormValues> = (data) =>
+    signupMutation(data);
   // Build Ui
   return (
     <div className="px-10">
@@ -111,33 +90,34 @@ const AuthDesktopSignUpPage = () => {
             {/* Right- Logo */}
             <img src="/neko_logo.png" alt="neko_logo" className="size-20" />
             {/* Input */}
-            <form className="w-[75%]" onSubmit={handleSignup}>
+            <form className="w-[75%]" onSubmit={handleSubmit(onSubmit)}>
+              {/* Email */}
               <AuthInputText
                 Icon={User}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                errorMessage={formattedErros?.email}
+                hintText="newUser@gmail.com"
+                register={register("email")}
+                errorMessage={errors?.email?.message}
               />
+              {/* Username */}
               <AuthInputText
                 Icon={UserRoundPen}
                 hintText="Username"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                errorMessage={formattedErros?.userName}
+                register={register("userName")}
+                errorMessage={errors.userName?.message}
               />
+              {/* Password */}
               <AuthInputPassword
-                hintText="Password"
                 Icon={Lock}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                errorMessage={formattedErros?.password}
+                hintText="Password"
+                register={register("password")}
+                errorMessage={errors.password?.message}
               />
+              {/* ConfirmPassword */}
               <AuthInputPassword
                 hintText="Confirm Password"
                 Icon={LockKeyhole}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                errorMessage={formattedErros?.confirmPassword}
+                register={register("confirmPassword")}
+                errorMessage={errors.confirmPassword?.message}
               />
               <div className="w-[70%] max-w-[200px] mx-auto mt-5">
                 <MainButton

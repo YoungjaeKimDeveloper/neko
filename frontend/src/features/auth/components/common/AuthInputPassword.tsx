@@ -9,14 +9,14 @@ interface AuthInputText {
   hintText: string;
   Icon: LucideIcon;
   errorMessage?: string;
-  regitser: UseFormRegisterReturn;
+  register: UseFormRegisterReturn;
   // Void - > reutrn nothing
 }
 const AuthInputPassword = ({
   hintText,
   Icon,
   errorMessage,
-  regitser,
+  register,
 }: AuthInputText) => {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
   const togglePassword = () => setIsShowPassword((prev) => !prev);
@@ -28,7 +28,7 @@ const AuthInputPassword = ({
         {/* Text filed */}
         <input
           // spared -> Send all data to parents component
-          {...regitser}
+          {...register}
           type={isShowPassword ? "text" : "password"}
           placeholder={hintText}
           className="input w-full [text-indent:1rem] shadow-md font-content placeholder:text-hintText placeholder:text-sm"
