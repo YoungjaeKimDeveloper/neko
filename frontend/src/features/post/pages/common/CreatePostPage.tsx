@@ -1,11 +1,3 @@
-/*
-
-    Create Post page - common(Mobile + Desktop)
-    Todo 
-      1. Show error message()
-      1. Send the form to the backend()
-*/
-
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PostInput from "../../components/common/PostInput";
@@ -23,9 +15,7 @@ import type { ResponseDTO } from "../../../../../../shared/dto/common/response.d
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import AuthMobileSidebar from "../../../auth/components/mobile/AuthMobileSidebar";
-// Schema - Runtime
 
-// Inferred Type - Complie
 // Component
 const CreatePostPage = () => {
   const navigate = useNavigate();
@@ -34,13 +24,8 @@ const CreatePostPage = () => {
   const {
     register,
     handleSubmit,
-    // Catch the check the error manually
-    // Set the value manually
     setValue,
-    // Show erros || isSubmitting
     formState: { errors, isSubmitting },
-    // Accpet the Filed mathcing schema
-    // Check the type based on Shcema
   } = useForm<PostFormValues>({
     // Runtime Checker(Resolver)
     resolver: zodResolver(PostSchema),
@@ -176,7 +161,7 @@ const CreatePostPage = () => {
           <MainButton
             text="Post"
             type="submit"
-            style="w-[40%] mt-5"
+            style="w-[50%] mt-5 mx-auto"
             isLoading={isSubmitting}
           />
         )}
