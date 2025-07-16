@@ -6,14 +6,14 @@ import ImageUpLoading, { type ImageListType } from "react-images-uploading";
 import { Plus } from "lucide-react";
 
 // Interface - Capitalcase
-interface ImageUploder {
+interface ImageUploderProps {
   images: ImageListType;
   onChange: (imageList: ImageListType) => void;
-  numberOfImage?: number;
 }
 
 // Component
-const ImageUploader = ({ images, onChange }: ImageUploder) => {
+// Accept [images and onChange ] from parents component
+const ImageUploader = ({ images, onChange }: ImageUploderProps) => {
   return (
     <ImageUpLoading
       multiple

@@ -10,7 +10,7 @@ export const PostSchema = z.object({
   title: z
     .string()
     .min(5, { message: "Title should be at least 5 characters." })
-    .max(20, { message: "Title should be 20 characters or less." }),
+    .max(40, { message: "Title should be 40 characters or less." }),
   image_urls: z
     .array(z.any(), { required_error: "At least 1 image is required" })
     .min(1, { message: "At least 1 image is required." })
@@ -46,9 +46,9 @@ export const PostSchema = z.object({
   location: z
     .string()
     .min(3, { message: "Location should be at least 3 characters." })
-    .max(10, { message: "Location should be 10 characters or less." }),
+    .max(30, { message: "Location should be 20 characters or less." }),
 });
 
-// Inferred type for Post - Compile
+// complie type
 // Name Convention - --formValues
 export type PostFormValues = z.infer<typeof PostSchema>;

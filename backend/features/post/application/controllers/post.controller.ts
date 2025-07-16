@@ -42,7 +42,7 @@ export const createPost = async (
         res: res,
         status: RESPONSE_HTTP.UNAUTHORIZED,
         success: false,
-        message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
+        message: "Unauthorized user",
       });
     }
     const userId = (req as VerifiedUserRequest).user.id;
@@ -61,7 +61,7 @@ export const createPost = async (
         res: res,
         status: RESPONSE_HTTP.BAD_REQUEST,
         success: false,
-        message: `${RESPONSE_MESSAGES.BAD_REQUEST} `,
+        message: "title,content,location, and at least one image are required",
       });
     }
     // ✅ ---Add Image to Cloudinary
@@ -69,7 +69,7 @@ export const createPost = async (
     let uploadedImageUrls: string[] = [];
     // Save image_urls to uploadedImageUrl array
     try {
-      // Images are uploaded in parallel for better..
+      // Images are uploaded in parallel for better performance
       uploadedImageUrls = await Promise.all(
         image_urls.map(async (base64: string) => {
           const result = await cloudinary.uploader.upload(base64);
@@ -79,19 +79,19 @@ export const createPost = async (
     } catch (error) {
       errorLogV2({
         file: "post.controller.ts",
-        function: "createPost",
+        function: "createPost - upload pictures to cloudinary",
         error: error,
       });
       return sendResponseV2({
         res,
         status: RESPONSE_HTTP.INTERNAL,
         success: false,
-        details: "Failed to update image",
-        message: RESPONSE_MESSAGES.INTERNAL,
+        details: "Failed to upload images to. cloudinary",
+        message: "Failed to upload images to. cloudinary",
       });
     }
 
-    // Check DTO
+    // Formatted Data
     const postDTO: CreatePostDTO = {
       title: title,
       content: content,
@@ -100,7 +100,7 @@ export const createPost = async (
       reward_amount: reward_amount,
       location: location,
     };
-    // Send the data to Neon
+    // Send the data to Neon(SQL)
     const result = await neonPostRepo.createPost(postDTO);
     if (result == null) {
       return sendResponseV2({
@@ -111,7 +111,7 @@ export const createPost = async (
         message: `${RESPONSE_MESSAGES.INTERNAL}`,
       });
     }
-
+    // Succeed in creating new post
     return sendResponseV2({
       res: res,
       status: RESPONSE_HTTP.CREATED,

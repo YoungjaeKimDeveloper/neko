@@ -26,6 +26,7 @@ const CreatePostPage = () => {
     handleSubmit,
     setValue,
     setError,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<PostFormValues>({
     // Runtime Checker(Resolver)
@@ -34,22 +35,18 @@ const CreatePostPage = () => {
     // Based on user interaction
     mode: "onChange",
   });
-  // Track the number of description
-  const [description, setdescription] = useState<number>(0);
-
+  const content = watch("content") || "";
   // As image uploder is external libary,it is impossible to track using input,
   // So, track the value, manually.
   useEffect(() => {
     register("image_urls");
   }, [register]);
 
-  //   Save images in array
+  // Manage images
   const [images, setImages] = useState<ImageListType>([]);
-  // onChange method
   const onChange = (imageList: ImageListType) => {
-    // UI for user
     setImages(imageList);
-    // As uploadingImage is external library, set the key,value manually.
+    // Set the values manually to RHF
     setValue(
       "image_urls",
       imageList.map((img) => img.data_url),
@@ -57,14 +54,16 @@ const CreatePostPage = () => {
       { shouldValidate: true }
     );
   };
+
   // Create new Post
   const { mutateAsync: createPost } = useMutation({
     mutationFn: async (data: PostFormValues) => {
       const result = await axiosInstance.post<ResponseDTO>("/posts", data);
       if (
-        result.data.status !== RESPONSE_HTTP.CREATED ||
+        result.status !== RESPONSE_HTTP.CREATED ||
         result.data.success !== true
       ) {
+        console.log("에러추적", result.data);
         throw new Error(result.data.message || "Failed to create newpost");
       }
       return true;
@@ -72,11 +71,12 @@ const CreatePostPage = () => {
     // Success
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["posts"] });
-      await navigate("/ ");
+      await navigate("/");
       toast.success("New post created successfully");
     },
     onError: async (error) => {
       if (error instanceof Error) {
+        console.log("에러 열어보기", error);
         setError("root", {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           message: (error as any).response.data.message,
@@ -86,7 +86,7 @@ const CreatePostPage = () => {
     },
     // Error(fail)
   });
-
+  // Submit form to Backend - Call API
   const onSubmit: SubmitHandler<PostFormValues> = (data) => createPost(data);
 
   // BUILD UI
@@ -113,7 +113,7 @@ const CreatePostPage = () => {
         <PostInput
           title="Title"
           hintText="Please help me find the cat"
-          numberOfLetters={20}
+          numberOfLetters={40}
           register={register("title")}
           errorMessage={errors.title?.message}
         />
@@ -131,15 +131,16 @@ const CreatePostPage = () => {
                   className={
                     "input shadow-postInput w-full  mt-3 font-content pl-[10px] h-full py-2 resize-none"
                   }
-                  onChange={(e) => setdescription(e.target.value.length)}
                 />
               </div>
               {/* World counter */}
               <div className="flex justify-end w-full ">
                 <div className="flex justify-between w-full">
-                  <p className="text-warning">{errors.content?.message} </p>
+                  <p className="text-warning">
+                    {errors.content && errors.content?.message}{" "}
+                  </p>
                   <p className="text-hintText">
-                    {description}/{300}
+                    {content.length}/{300}
                   </p>
                 </div>
               </div>
@@ -156,7 +157,7 @@ const CreatePostPage = () => {
         <PostInput
           title="Location"
           hintText="Townhall station"
-          numberOfLetters={10}
+          numberOfLetters={30}
           register={register("location")}
           errorMessage={errors.location?.message}
         />
@@ -164,14 +165,14 @@ const CreatePostPage = () => {
           <MainButton
             text="Loading..."
             type="submit"
-            style="w-[40%] mt-5"
+            style="w-[30%] mt-5 mx-auto min-w-[200px]"
             isLoading={isSubmitting}
           />
         ) : (
           <MainButton
             text="Post"
             type="submit"
-            style="w-[50%] mt-5 mx-auto"
+            style="w-[30%] mt-5 mx-auto min-w-[200px]"
             isLoading={isSubmitting}
           />
         )}

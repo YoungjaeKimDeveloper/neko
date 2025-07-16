@@ -109,10 +109,10 @@ const PostCard = ({ post }: PostCardProps) => {
       <div className="px-2 py-2">
         {/* top */}
         <div className="flex justify-between items-center">
-          <p className="text-xl">{post.title}</p>
+          <p className="text-xl truncate">{post.title}</p>
           <div className="flex items-center text-sm">
             <MapPin className="size-4 text-red-500 stroke-[3]" />
-            <p>{post.location}</p>
+            <p className="truncate max-w-20 capitalize">{post.location}</p>
           </div>
         </div>
         {/* Date */}
