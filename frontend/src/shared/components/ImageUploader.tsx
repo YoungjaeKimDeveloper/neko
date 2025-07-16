@@ -4,6 +4,7 @@
 
 import ImageUpLoading, { type ImageListType } from "react-images-uploading";
 import { Plus } from "lucide-react";
+import toast from "react-hot-toast";
 
 // Interface - Capitalcase
 interface ImageUploderProps {
@@ -17,10 +18,23 @@ const ImageUploader = ({ images, onChange }: ImageUploderProps) => {
   return (
     <ImageUpLoading
       multiple
+      acceptType={["jpg", "gif", "png", "jpeg", "webp"]}
       value={images}
       onChange={onChange}
       maxNumber={5}
-      dataURLKey="data_url" //base64
+      maxFileSize={5 * 1024 * 1024} //5mb
+      dataURLKey="data_url" // image preview
+      onError={(errors) => {
+        if (errors?.maxNumber) {
+          toast.error("You can upload up to 5 images.");
+        }
+        if (errors?.maxFileSize) {
+          toast.error("File size is too larget. Maximum allowed is 5MB");
+        }
+        if (errors?.acceptType) {
+          toast.error("Please upload JPG,PNG,GIF or WEBP.");
+        }
+      }}
     >
       {/* Render Props */}
       {({ imageList, onImageUpload }) => (
