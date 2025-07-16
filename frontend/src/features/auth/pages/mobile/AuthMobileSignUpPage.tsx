@@ -39,7 +39,6 @@ const AuthMobileSignUpPage = () => {
       toast.success("Hello user");
     },
     onError: async (error) => {
-      console.log("에러가 여기 있습나다", error);
       setError("root", {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         message: (error as any).response.data.message || "Something went wrong",
@@ -96,7 +95,7 @@ const AuthMobileSignUpPage = () => {
             </p>
             {/* Login button */}
             <div className="w-[80%] mx-auto mt-3">
-              <MainButton text="Signup" type="submit" />
+              <MainButton text="sign up" type="submit" />
             </div>
           </form>
           {/* Sigm up message */}

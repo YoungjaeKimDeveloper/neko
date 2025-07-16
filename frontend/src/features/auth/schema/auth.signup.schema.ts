@@ -10,9 +10,12 @@ export const authSignupSchema = z
       .string()
       .email()
       .min(6, { message: "Email shoud be at least 6 characters" }),
-    userName: z.string().min(5, {
-      message: "User name should be at least 5 characters",
-    }),
+    userName: z
+      .string()
+      .min(5, {
+        message: "User name should be at least 5 characters",
+      })
+      .max(10, { message: "User name should be 10 characters or less." }),
     password: z
       .string()
       .min(6, { message: "Password should be at least 6 characters" }),

@@ -29,7 +29,7 @@ const ImageUploader = ({ images, onChange }: ImageUploderProps) => {
           toast.error("You can upload up to 5 images.");
         }
         if (errors?.maxFileSize) {
-          toast.error("File size is too larget. Maximum allowed is 5MB");
+          toast.error("File size is too large. Maximum allowed is 5MB");
         }
         if (errors?.acceptType) {
           toast.error("Please upload JPG,PNG,GIF or WEBP.");
@@ -40,8 +40,8 @@ const ImageUploader = ({ images, onChange }: ImageUploderProps) => {
       {({ imageList, onImageUpload }) => (
         <div className="flex gap-x-2">
           {/* Add Icon */}
-          {imageList.map((image) => (
-            <div className="size-10 relative">
+          {imageList.map((image, index) => (
+            <div className="size-10 relative" key={index}>
               <img
                 src={image.data_url}
                 alt="image"
