@@ -12,7 +12,7 @@ export const PostSchema = z.object({
     .min(5, { message: "Title should be at least 5 characters." })
     .max(20, { message: "Title should be 20 characters or less." }),
   image_urls: z
-    .array(z.any())
+    .array(z.any(), { required_error: "At least 1 image is required" })
     .min(1, { message: "At least 1 image is required." })
     .max(5, { message: "At most 5 images allowed." }),
   content: z
@@ -24,6 +24,7 @@ export const PostSchema = z.object({
     .nullable()
     .optional()
     // SuperRefine: add multiple error messages each case
+    // ctx -> context value and context 1:1
     .superRefine((number, ctx) => {
       // Validation -0 nullable
       if (number === null || number === undefined) return;

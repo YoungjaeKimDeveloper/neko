@@ -29,40 +29,43 @@ const CreatePostPage = () => {
   } = useForm<PostFormValues>({
     // Runtime Checker(Resolver)
     resolver: zodResolver(PostSchema),
+    // check the validation based on real time
+    // Based on user interaction
+    mode: "onChange",
   });
   // Track the number of description
   const [description, setdescription] = useState<number>(0);
 
-  // Image Tracker[S] -------------
-  // Todo - Double check
   // As image uploder is external libary,it is impossible to track using input,
   // So, track the value, manually.
   useEffect(() => {
     register("image_urls");
   }, [register]);
-  // Add "images" to register
-  register("image_urls");
+
   //   Save images in array
   const [images, setImages] = useState<ImageListType>([]);
   // onChange method
   const onChange = (imageList: ImageListType) => {
     // UI for user
     setImages(imageList);
-    // Track the image value manually
-    // images[key] : value[imageList.map((img)=>img.file)]
+    // As uploadingImage is external library, set the key,value manually.
     setValue(
       "image_urls",
       imageList.map((img) => img.data_url),
-      { shouldValidate: true } // base64
+      // Check the validation manually.
+      { shouldValidate: true }
     );
   };
-  // Image Tracker[E] ------------------
+
   const onSubmit: SubmitHandler<PostFormValues> = async (
     data: PostFormValues
   ) => {
     try {
       const result = await axiosInstance.post<ResponseDTO>("/posts", data);
-      if (result.status !== RESPONSE_HTTP.CREATED) {
+      if (
+        result.status !== RESPONSE_HTTP.CREATED ||
+        result.data.success !== true
+      ) {
         toast.error(`Failed to create new post ${result.data?.message}`);
       }
       await queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -79,6 +82,7 @@ const CreatePostPage = () => {
       return;
     }
   };
+
   // BUILD UI
   return (
     <div className="flex pb-20">
@@ -97,7 +101,7 @@ const CreatePostPage = () => {
           <p>Create post</p>
           {/* Image Uploader */}
           <ImageUploader images={images} onChange={onChange} />
-          {errors.image_urls?.message}
+          <p className="text-warning text-sm">{errors.image_urls?.message} </p>
         </div>
         {/* Title */}
         <PostInput
@@ -139,7 +143,7 @@ const CreatePostPage = () => {
         <PostInput
           title="Reward amount"
           hintText="$0"
-          numberOfLetters={10}
+          numberOfLetters={3}
           register={register("reward_amount")}
           errorMessage={errors.reward_amount?.message}
         />
