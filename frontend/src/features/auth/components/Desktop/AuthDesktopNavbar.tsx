@@ -76,7 +76,7 @@ const AuthNavbar = () => {
         {/* Right Home + Login */}
         <div className="flex gap-2 pr-5  items-center">
           <CommonLinkIcon link="profile" size={30} icon={UserIocn} />
-          <div className="hidden md:block sm:relative">
+          <div className="hidden lg:block sm:relative">
             <CommonLinkIcon link="notification" size={30} icon={Bell} />
             {unReadNotifications > 0 && (
               <div className="absolute bottom-5 left-3 bg-red-400 px-2 rounded-full">
