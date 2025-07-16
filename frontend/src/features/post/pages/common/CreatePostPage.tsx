@@ -9,11 +9,11 @@ import { PostSchema, type PostFormValues } from "../../schema/postSchema";
 import ImageUploader from "../../../../shared/components/ImageUploader";
 import { axiosInstance } from "../../../../shared/api/axios";
 import { RESPONSE_HTTP } from "../../../../../../shared/constants/http-status";
-import { errorLogV2 } from "../../../../../../shared/error/error.log";
+
 import toast from "react-hot-toast";
 import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto";
 import { useNavigate } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import AuthMobileSidebar from "../../../auth/components/mobile/AuthMobileSidebar";
 
 // Component
@@ -25,6 +25,7 @@ const CreatePostPage = () => {
     register,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<PostFormValues>({
     // Runtime Checker(Resolver)
@@ -56,32 +57,37 @@ const CreatePostPage = () => {
       { shouldValidate: true }
     );
   };
-
-  const onSubmit: SubmitHandler<PostFormValues> = async (
-    data: PostFormValues
-  ) => {
-    try {
+  // Create new Post
+  const { mutateAsync: createPost } = useMutation({
+    mutationFn: async (data: PostFormValues) => {
       const result = await axiosInstance.post<ResponseDTO>("/posts", data);
       if (
-        result.status !== RESPONSE_HTTP.CREATED ||
+        result.data.status !== RESPONSE_HTTP.CREATED ||
         result.data.success !== true
       ) {
-        toast.error(`Failed to create new post ${result.data?.message}`);
+        throw new Error(result.data.message || "Failed to create newpost");
       }
+      return true;
+    },
+    // Success
+    onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["posts"] });
-      await navigate("/home");
-      // Tood -Invalidate queirs
-      toast.success("Post created✅");
-    } catch (error) {
-      errorLogV2({
-        file: "CreatePostPage",
-        function: "onSutmib",
-        error: error,
-      });
-      toast.error("Failed to post");
-      return;
-    }
-  };
+      await navigate("/ ");
+      toast.success("New post created successfully");
+    },
+    onError: async (error) => {
+      if (error instanceof Error) {
+        setError("root", {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          message: (error as any).response.data.message,
+        });
+        toast.error("Failed to create new post");
+      }
+    },
+    // Error(fail)
+  });
+
+  const onSubmit: SubmitHandler<PostFormValues> = (data) => createPost(data);
 
   // BUILD UI
   return (
