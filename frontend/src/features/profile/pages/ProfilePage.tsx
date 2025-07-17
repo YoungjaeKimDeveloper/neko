@@ -104,7 +104,7 @@ const ProfilePage = () => {
     updateProfile();
   };
 
-  // BUILD UI
+  // BUILD UI - 
   return (
     <div className="flex lg:pl-[150px] w-screen h-screen">
       {/* Left */}
