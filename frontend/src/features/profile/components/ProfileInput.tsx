@@ -1,10 +1,8 @@
 /*
-
     Profile Input Component
-
 */
 
-import type React from "react";
+import type { UseFormRegisterReturn } from "react-hook-form";
 
 // Component
 interface ProfileInputProps {
@@ -14,7 +12,8 @@ interface ProfileInputProps {
   isEditable?: boolean;
   updatedValue?: string;
   maxNumberOfWord?: number;
-  onChangeValue?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  register?: UseFormRegisterReturn;
+  isUploading?: boolean;
 }
 const ProfileInput = ({
   htmlForLabel,
@@ -22,8 +21,9 @@ const ProfileInput = ({
   inputValue,
   isEditable = false,
   updatedValue,
-  onChangeValue,
   maxNumberOfWord,
+  register,
+  isUploading,
 }: ProfileInputProps) => {
   // BUILD UI
   return (
@@ -32,6 +32,7 @@ const ProfileInput = ({
         {htmlForLabel}
       </label>
       <input
+        {...register}
         maxLength={maxNumberOfWord}
         value={updatedValue ?? inputValue ?? "Earth"}
         id={htmlForLabel}
@@ -40,9 +41,8 @@ const ProfileInput = ({
           isEditable ? "" : "opacity-50"
         }`}
         placeholder={placeholder}
-        disabled={!isEditable}
+        disabled={!isEditable || isUploading}
         readOnly={!isEditable}
-        onChange={onChangeValue}
       />
     </div>
   );

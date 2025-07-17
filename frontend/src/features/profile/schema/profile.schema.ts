@@ -4,8 +4,8 @@
 import { z } from "zod";
 
 export const ProfileSchema = z.object({
-  location: z.string().optional(),
-  image_url: z.array(z.any()).optional(),
+  updated_location: z.string().optional(),
+  updated_profile_image_url: z.string().optional(),
 });
 
 export type ProfileFormValues = z.infer<typeof ProfileSchema>;

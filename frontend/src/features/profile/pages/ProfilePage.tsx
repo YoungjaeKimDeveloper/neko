@@ -11,16 +11,18 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import UserProfilePicture from "../../../shared/components/UserProfilePicture";
 import { AuthDesktopSidebar } from "../../auth/components/desktop/AuthDesktopSidebar";
 import ProfileInput from "../components/ProfileInput";
-import React, { useState } from "react";
-
+import { useState } from "react";
 import { format } from "date-fns";
 import MainButton from "../../../shared/components/MainButton";
 import { axiosInstance } from "../../../shared/api/axios";
 import toast from "react-hot-toast";
 import AuthMobileSidebar from "../../auth/components/mobile/AuthMobileSidebar";
 import { useNavigate } from "react-router-dom";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import type { ProfileFormValues } from "../schema/profile.schema";
+import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
 
-type ProfilePage = {
+type ProfileProps = {
   user_profile: string;
   email: string;
   user_name: string;
@@ -28,83 +30,81 @@ type ProfilePage = {
   created_at: Date;
   user_profile_image: string;
 };
-
+interface ProfilePayload {
+  updated_location?: string;
+  updated_profile_image_url?: string;
+}
 // Component
 const ProfilePage = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const currentUser = queryClient.getQueryData<ProfilePage>(["authUser"]);
-  // failed to fetch currentUser
+  const currentUser = queryClient.getQueryData<ProfileProps>(["authUser"]);
 
-  // Profile Image Url
-  const [uploadImageFile, setUploadImageFile] = useState<File>();
-  const [previewUrl, setPreviewUrl] = useState<string | null>(
-    currentUser!.user_profile_image
-  );
-  const [updatedLocation, setUpdatedLocation] = useState<string>(
-    currentUser!.location
-  );
-
-  // Helper Function convert the file to base 64
-  const fileToBase64 = (file: File): Promise<string> =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  // convert the data to base 64
-  let base64 = currentUser?.user_profile_image;
-  const { mutate: updateProfile, isLoading: isUpdating } = useMutation({
-    mutationFn: async () => {
-      // if there is something to update
-      if (uploadImageFile) {
-        base64 = await fileToBase64(uploadImageFile);
-        // throw new Error("Image file is required");
-      }
-      const result = await axiosInstance.put("/profile/", {
-        updated_profile_image_url: base64,
-        updated_location: updatedLocation,
-      });
-      return result;
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setError,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm<ProfileFormValues>({
+    defaultValues: {
+      updated_location: currentUser?.location || "",
+      updated_profile_image_url: currentUser?.user_profile_image || "",
     },
-    onSuccess: () => {
-      toast.success("User Profile updated successfully");
-      navigate("/");
+  });
+  // track the data based on real time
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
+    watch("updated_profile_image_url") || null
+  );
+  // handle Preview + Image File
+  const handleImageChange = (previewUrl: string, file: File) => {
+    // Show Preview
+    setPreviewUrl(previewUrl);
+    // File reader instance
+    const reader = new FileReader();
+    // reader setting
+    reader.onloadend = () => {
+      // setValue - manage value manually to RHF
+      setValue("updated_profile_image_url", reader.result as string, {
+        shouldValidate: true,
+      });
+    };
+    // call reader to upload file
+    reader.readAsDataURL(file);
+  };
+
+  // Send data to backend  - Action
+  const { mutateAsync: updateProfile } = useMutation({
+    mutationFn: async (data: ProfilePayload) => {
+      const result = await axiosInstance.put<ResponseDTO>("/profile", data);
+      if (result.data.success !== true) {
+        throw new Error(result.data.message || "Server error - update profile");
+      }
+      return "User profile updated successfully";
+    },
+    onSuccess: async () => {
+      // update invalid quries
+      await queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      await navigate("/");
+      toast.success("User profile has been updated successfully");
+      // navigate to homepage
     },
     onError: (error) => {
       if (error instanceof Error) {
-        toast.error(`Failed to update Profile ${error.message}`);
+        setError("root", {
+          type: "manual",
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          message: (error as any).response?.message || "Pleae try later.",
+        });
       }
     },
   });
-  // Failed to fetch current user
-  if (!currentUser) {
-    return navigate("/");
-  }
-  // Extract previous value
-  const {
-    email,
-    created_at,
-    location,
-    user_name: userName,
-    user_profile_image,
-  } = currentUser;
 
+  // Call API with registed data
+  const onSubmit: SubmitHandler<ProfileFormValues> = (data: ProfilePayload) =>
+    updateProfile(data);
   // formatted Date
-  const joinedDate = format(new Date(created_at), "dd/MM/yyyy");
-
-  const handleImageChange = (previewUrl: string, file: File) => {
-    setPreviewUrl(previewUrl);
-    setUploadImageFile(file);
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    updateProfile();
-  };
-
-  // BUILD UI -
   return (
     <div className="flex flex-col w-screen h-screen ">
       {/* Left */}
@@ -116,7 +116,7 @@ const ProfilePage = () => {
           {/* Component Container */}
           <div className="w-[100%] mx-auto ">
             {/* Heading + Image */}
-            <form onSubmit={(e) => handleSubmit(e)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               {/* Profile */}
 
               {/* Profile image */}
@@ -125,11 +125,15 @@ const ProfilePage = () => {
                   Profile
                 </h3>
                 <UserProfilePicture
-                  imageSrc={previewUrl ?? user_profile_image}
+                  imageSrc={
+                    previewUrl ||
+                    currentUser?.user_profile_image ||
+                    "/userProfile.png"
+                  }
                   imageSize="size-20"
                   isEditable={true}
+                  isLoading={isSubmitting}
                   onImageChange={handleImageChange}
-                  isLoading={isUpdating}
                 />
               </div>
               {/* Input Components*/}
@@ -138,34 +142,40 @@ const ProfilePage = () => {
                 <ProfileInput
                   htmlForLabel="Email"
                   placeholder="Email"
-                  inputValue={email}
+                  inputValue={currentUser?.email || ""}
                 />
                 <ProfileInput
                   htmlForLabel="Name"
                   placeholder="name"
-                  inputValue={userName}
+                  inputValue={currentUser?.user_name || ""}
                   isEditable={false}
                 />
                 <ProfileInput
                   htmlForLabel="Location"
-                  placeholder={location}
-                  inputValue={location}
+                  placeholder={currentUser?.location || ""}
+                  inputValue={watch("updated_location") || ""}
                   isEditable={true}
-                  onChangeValue={(e) => setUpdatedLocation(e.target.value)}
-                  updatedValue={updatedLocation}
+                  isUploading={isSubmitting}
+                  register={register("updated_location")}
                   maxNumberOfWord={15}
                 />
                 <ProfileInput
                   htmlForLabel="Since"
                   placeholder="Email"
-                  inputValue={joinedDate}
+                  inputValue={format(
+                    new Date(currentUser?.created_at || ""),
+                    "dd/MM/yyyy"
+                  )}
                 />
               </div>
+              <p className="text-center text-red-500 py-5">
+                {errors.root && errors.root.message}
+              </p>
               <div className="mt-10">
                 <MainButton
                   text="Save"
                   type="submit"
-                  isLoading={isUpdating}
+                  isLoading={isSubmitting}
                   style="p-4 w-[50%] mx-auto"
                 />
               </div>

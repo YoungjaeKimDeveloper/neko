@@ -24,11 +24,15 @@ const UserProfilePicture = ({
   // file -ref
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      // 첫 번쨰 파일 뽑기
       const file = e.target.files[0];
-      // 처음 받은 객체파일로 image Preview만들어주기
+      // Check file Size ( 5NB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert("File size must be less than 5MB.");
+        return;
+      }
+
+      // create previewUrl
       const previewImageUrl = URL.createObjectURL(file);
-      // FILE URL과  File 넣어주기
       onImageChange?.(previewImageUrl, file);
     }
   };
@@ -50,7 +54,7 @@ const UserProfilePicture = ({
               <input
                 id="image"
                 type="file"
-                accept="image/*"
+                accept="image/png,image/jpeg,image/webp"
                 className="hidden"
                 onChange={handleChange}
                 disabled={isLoading}

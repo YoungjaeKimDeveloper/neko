@@ -20,7 +20,7 @@ class NeonProfile implements ProfileRepo {
       user_profile_image = ${parameters.updated_profile_image_url},
       location = ${parameters.updated_location}
       WHERE id = ${parameters.user_id}
-      RETURNING *. 
+      RETURNING * 
     `;
       return users.length > 0 ? (users[0] as User) : null;
     } catch (error) {
