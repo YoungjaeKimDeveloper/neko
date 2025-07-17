@@ -35,7 +35,9 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   // Profile Image Url
   const [uploadImageFile, setUploadImageFile] = useState<File>();
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
+    currentUser!.user_profile_image
+  );
   const [updatedLocation, setUpdatedLocation] = useState<string>(
     currentUser!.location
   );

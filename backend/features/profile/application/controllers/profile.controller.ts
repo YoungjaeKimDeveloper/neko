@@ -27,7 +27,9 @@ export const updateUserProfile = async (
         message: "Userid is required to update profile",
       });
     }
-    
+    if(updated_profile_image_url){
+      
+    }
     const uploadImage = await cloudinary.uploader.upload(
       updated_profile_image_url
     );

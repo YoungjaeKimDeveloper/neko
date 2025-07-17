@@ -3,8 +3,13 @@
 */
 
 import User from "../../../auth/domain/entities/user";
-import { ProfileUpdateDto } from "../dto/profile.dto";
+import { ProfileUpdateDTO } from "../dto/profile.dto";
 
 export interface ProfileRepo {
-  updateProfile: (parameters: ProfileUpdateDto) => Promise<User | null>;
+  updateProfileWithImages: (
+    parameters: ProfileUpdateDTO
+  ) => Promise<User | null>;
+  updateProfileWithoutImages: (
+    parameters: ProfileUpdateDTO
+  ) => Promise<User | null>;
 }
