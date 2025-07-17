@@ -1,8 +1,6 @@
 /*
     Implement Profile repo using Neon(01/07/2025)
-     - update user porifle ß
-    
-    
+     - update user porifle - data layer
 */
 
 import User from "../../auth/domain/entities/user";
@@ -22,9 +20,9 @@ class NeonProfile implements ProfileRepo {
       user_profile_image = ${parameters.updated_profile_image_url},
       location = ${parameters.updated_location}
       WHERE id = ${parameters.user_id}
-      RETURNING * 
+      RETURNING *. 
     `;
-      return users[0] as User;
+      return users.length > 0 ? (users[0] as User) : null;
     } catch (error) {
       errorLogV2({
         error: error,

@@ -22,7 +22,7 @@ export const sendResponseV2 = (params: ResponseInterfaceV2) => {
   });
 };
 
-// Templates
+// Templates - exmaple
 
 // Version - 1
 // return sendResponse({

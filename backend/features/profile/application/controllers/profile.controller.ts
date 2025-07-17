@@ -1,5 +1,6 @@
 /*
     Profile Controller
+      - Feat: Update users' profile
 */
 import { Response, Request } from "express";
 import NeonProfile from "../../data/neon.profile.repo";
@@ -10,6 +11,7 @@ import { RESPONSE_HTTP } from "../../../../../shared/constants/http-status";
 import { errorLogV2 } from "../../../../../shared/error/error.log";
 import cloudinary from "../../../../lib/cloudinary/cloudinary.config";
 
+// neon Profile - neon instance
 const neonProfile = new NeonProfile();
 export const updateUserProfile = async (
   req: Request,
@@ -27,20 +29,25 @@ export const updateUserProfile = async (
         message: "Userid is required to update profile",
       });
     }
-    if(updated_profile_image_url){
-      
-    }
+    // upload user profile to cloudinary
     const uploadImage = await cloudinary.uploader.upload(
       updated_profile_image_url
     );
     const updatedImageUrl = uploadImage.secure_url;
+    // update user data - postgresql(neon) - data layer
     const result = await neonProfile.updateProfile({
       user_id: userId,
       updated_location: updated_location,
       updated_profile_image_url: updatedImageUrl,
     });
+    // failed to update user profile
     if (result == null) {
-      throw new Error("Failed to update Profile");
+      return sendResponseV2({
+        res: res,
+        success: false,
+        status: RESPONSE_HTTP.INTERNAL,
+        message: "Internal server error to update user profile",
+      });
     }
     return sendResponseV2({
       res: res,
