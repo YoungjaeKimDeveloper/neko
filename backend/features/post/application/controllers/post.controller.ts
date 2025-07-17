@@ -218,29 +218,29 @@ export const updatePost = async (
 
     // ✅ ---Add Image to Cloudinary
     // Variable for saving uploaded url
-    const updatedImage: string[] = [];
+    // const updatedImage: string[] = [];
     // Save image_urls to uploadedImageUrl array
-    if (updated_image_urls !== undefined) {
-      for (const base64 of updated_image_urls) {
-        try {
-          const result = await cloudinary.uploader.upload(base64);
-          updatedImage.push(result.secure_url);
-        } catch (error) {
-          errorLogV2({
-            file: "post.controller.ts",
-            function: "createPost",
-            error: error,
-          });
-          return sendResponseV2({
-            res,
-            status: RESPONSE_HTTP.INTERNAL,
-            success: false,
-            details: "Failed to update image",
-            message: RESPONSE_MESSAGES.INTERNAL,
-          });
-        }
-      }
-    }
+    // if (updated_image_urls !== undefined) {
+    //   for (const base64 of updated_image_urls) {
+    //     try {
+    //       const result = await cloudinary.uploader.upload(base64);
+    //       updatedImage.push(result.secure_url);
+    //     } catch (error) {
+    //       errorLogV2({
+    //         file: "post.controller.ts",
+    //         function: "createPost",
+    //         error: error,
+    //       });
+    //       return sendResponseV2({
+    //         res,
+    //         status: RESPONSE_HTTP.INTERNAL,
+    //         success: false,
+    //         details: "Failed to update image",
+    //         message: RESPONSE_MESSAGES.INTERNAL,
+    //       });
+    //     }
+    //   }
+    // }
     // Fetch post using sent postId
     const result = await neonPostRepo.fetchSinglePost({ postId });
     // 5.Validation - return false when failed to find the post
@@ -269,7 +269,7 @@ export const updatePost = async (
       result;
     const newTitle = updated_title ?? title;
     const newContent = updated_content ?? content;
-    const newImageUrl = updated_image_urls ? updatedImage : image_urls;
+    const newImageUrl = updated_image_urls;
     const newRewardAmount = updated_reward_amount ?? reward_amount;
     const newlLcation = updated_location ?? location;
     const newIsFound = updated_is_found ?? is_found;
