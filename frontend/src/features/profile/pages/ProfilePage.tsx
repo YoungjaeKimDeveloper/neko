@@ -28,6 +28,7 @@ type ProfilePage = {
   created_at: Date;
   user_profile_image: string;
 };
+
 // Components
 const ProfilePage = () => {
   const queryClient = useQueryClient();
@@ -104,28 +105,26 @@ const ProfilePage = () => {
     updateProfile();
   };
 
-  // BUILD UI - 
+  // BUILD UI -
   return (
-    <div className="flex lg:pl-[150px] w-screen h-screen">
+    <div className="flex flex-col w-screen h-screen ">
       {/* Left */}
       <AuthMobileSidebar />
       <AuthDesktopSidebar />
       {/* Right */}
-      <div className=" w-full h-full  pt-10 rounded-sm ">
-        <div className="rounded-card mx-auto ">
+      <div className=" w-[60%] mt-10 rounded-xl mx-auto lg:pl-[100px]  bg-gray-50 shadow-xl">
+        <div className="rounded-card  mx-auto flex-1 items-center justify-center flex-row">
           {/* Component Container */}
-          <div className="flex flex-col items-center h-full max-w-[800px] bg-gray-50 shadow-sm rounded-xl mx-auto">
+          <div className="w-[100%] mx-auto ">
             {/* Heading + Image */}
-            <form
-              className="mt-5 flex flex-col items-center justify-between w-full h-fit"
-              onSubmit={(e) => handleSubmit(e)}
-            >
+            <form onSubmit={(e) => handleSubmit(e)}>
               {/* Profile */}
 
               {/* Profile image */}
-              <div className="py-4">
-                <h3 className="text-2xl font-bold tracking-wider">Profile</h3>
-
+              <div className="py-4 w-[100%] mx-auto">
+                <h3 className="text-2xl font-bold tracking-wider mx-auto text-center">
+                  Profile
+                </h3>
                 <UserProfilePicture
                   imageSrc={previewUrl ?? user_profile_image}
                   imageSize="size-20"
@@ -135,7 +134,7 @@ const ProfilePage = () => {
                 />
               </div>
               {/* Input Components*/}
-              <div className="w-fit mx-auto flex flex-col  items-start justify-between gap-10 mt-10">
+              <div className="w-[60%] mx-auto flex flex-col  items-start justify-between gap-10 mt-10">
                 {/* Input Component*/}
                 <ProfileInput
                   htmlForLabel="Email"

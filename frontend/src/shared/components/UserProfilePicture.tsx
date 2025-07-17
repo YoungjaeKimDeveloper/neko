@@ -34,29 +34,31 @@ const UserProfilePicture = ({
   };
   // BUILD UI
   return (
-    <div className="relative">
-      <img
-        src={imageSrc ?? "/userProfile.png"}
-        alt="user-profile-image"
-        className={`${imageSize ?? "size-12"} rounded-full relative`}
-      />
-      {isEditable && (
-        <>
-          <label htmlFor="image">
-            <div className="bg-gray-200 size-10 flex absolute items-center justify-center rounded-full bottom-[-10px] left-14 hover:bg-white duration-200 cursor-pointer">
-              <Pencil className="size-5" />
-            </div>
-            <input
-              id="image"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleChange}
-              disabled={isLoading}
-            />
-          </label>
-        </>
-      )}
+    <div className="mx-auto flex flex-col items-center justify-center relative">
+      <div className="bg-gray-100 px-5  pt-5 pb-0 rounded-xl">
+        <img
+          src={imageSrc ?? "/userProfile.png"}
+          alt="user-profile-image"
+          className={`${imageSize ?? "size-12"} rounded-full`}
+        />
+        {isEditable && (
+          <>
+            <label htmlFor="image">
+              <div className="bg-gray-200 size-10 rounded-full flex items-center justify-center translate-x-14 -translate-y-8">
+                <Pencil className="size-5" />
+              </div>
+              <input
+                id="image"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleChange}
+                disabled={isLoading}
+              />
+            </label>
+          </>
+        )}
+      </div>
     </div>
   );
 };
