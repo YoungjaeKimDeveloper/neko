@@ -18,6 +18,7 @@ export const updateUserProfile = async (
   try {
     const { updated_location, updated_profile_image_url } = req.body;
     const userId = (req as VerifiedUserRequest).user.id;
+    // Validation - Authenticated user
     if (!userId) {
       return sendResponseV2({
         res: res,
@@ -26,6 +27,7 @@ export const updateUserProfile = async (
         message: "Userid is required to update profile",
       });
     }
+    
     const uploadImage = await cloudinary.uploader.upload(
       updated_profile_image_url
     );

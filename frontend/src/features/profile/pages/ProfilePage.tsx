@@ -1,8 +1,10 @@
 /*
-
     01/07/2025
     Edit Profile Page
-
+    
+    users are allowed to change
+      1. Profile Picture
+      2. Location
 */
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -38,7 +40,7 @@ const ProfilePage = () => {
     currentUser!.location
   );
 
-  // Helper Function convert the file to Base 64
+  // Helper Function convert the file to base 64
   const fileToBase64 = (file: File): Promise<string> =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
