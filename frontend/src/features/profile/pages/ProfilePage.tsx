@@ -29,11 +29,12 @@ type ProfilePage = {
   user_profile_image: string;
 };
 
-// Components
+// Component
 const ProfilePage = () => {
   const queryClient = useQueryClient();
-  const currentUser = queryClient.getQueryData<ProfilePage>(["authUser"]);
   const navigate = useNavigate();
+  const currentUser = queryClient.getQueryData<ProfilePage>(["authUser"]);
+
   // Profile Image Url
   const [uploadImageFile, setUploadImageFile] = useState<File>();
   const [previewUrl, setPreviewUrl] = useState<string | null>(
@@ -112,7 +113,7 @@ const ProfilePage = () => {
       <AuthMobileSidebar />
       <AuthDesktopSidebar />
       {/* Right */}
-      <div className=" w-[60%] mt-10 rounded-xl mx-auto lg:pl-[100px]  bg-gray-50 shadow-xl">
+      <div className=" w-[60%] mt-10 rounded-xl mx-auto lg:pl-[100px]  bg-gray-50 shadow-xl pb-10">
         <div className="rounded-card  mx-auto flex-1 items-center justify-center flex-row">
           {/* Component Container */}
           <div className="w-[100%] mx-auto ">
@@ -167,7 +168,7 @@ const ProfilePage = () => {
                   text="Save"
                   type="submit"
                   isLoading={isUpdating}
-                  style="p-4"
+                  style="p-4 w-[50%] mx-auto"
                 />
               </div>
             </form>
