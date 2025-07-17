@@ -19,6 +19,7 @@ interface PostInputProps {
   register: UseFormRegisterReturn; // from register Q - Need to deep study Track the value
   errorMessage?: string;
   value?: string;
+  isSubmitting: boolean;
 }
 
 // Component
@@ -30,6 +31,7 @@ const PostInput = ({
   register, // Q - register return type
   errorMessage,
   value,
+  isSubmitting,
 }: PostInputProps) => {
   useEffect(() => {
     if (value) {
@@ -48,6 +50,7 @@ const PostInput = ({
           <div className="flex flex-col itmes-start w-full h-full">
             <p>{title}</p>
             <input
+              disabled={isSubmitting}
               {...register}
               placeholder={hintText ?? value}
               type="text"

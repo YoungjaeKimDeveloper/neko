@@ -1,19 +1,20 @@
 /*
-
     Edit post page - Responsive Size - (Mobile + Desktop)
     Features
-    - 1. Fetch Existed Post image
+    - 1. fetch existed Post data
     - 2. User can Update
+      - Title
+      - Description
+      - Reward amount
+      - Location
+
     Validation
     1. Zod + RHF
-
     Always Searpate
     - UI
     - Main Logic
     - Side Effect
-    
 */
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PostInput from "../../components/common/PostInput";
@@ -54,7 +55,6 @@ const EditPostPage = () => {
       if (result.data.success !== true) {
         throw new Error("Failed to fetch single Post with postId");
       }
-
       return result.data.data;
     },
     onError: (error) => {
@@ -63,6 +63,7 @@ const EditPostPage = () => {
         function: "Fetch existed post",
         file: "EditPostPage.tsx",
       });
+      navigate("/");
     },
   });
 
@@ -70,30 +71,13 @@ const EditPostPage = () => {
   const {
     register,
     handleSubmit,
-    // Catch the check the error manually
-    // Set the value manually
     setValue,
     setError,
     reset,
-    // Show erros || isSubmitting
-    formState: { errors },
-    // Accpet the Filed mathcing schema
-    // Check the type based on Shcema
+    formState: { errors, isSubmitting },
   } = useForm<UpdatePostValues>({
-    // Runtime Checker(Resolver)
     resolver: zodResolver(UpdatePostSchema),
   });
-  // As image uploder is external libary,it is impossible to track using input,
-
-  // const onChange = (imageList: ImageListType) => {
-  //   setImageList(imageList);
-  //   setValue(
-  //     "image_urls",
-  //     imageList.map((img) => img.data_url),
-  //     { shouldValidate: true }
-  //   );
-  // };
-  // Set the default values when data fetched
   useEffect(() => {
     register("updated_image_urls");
     setValue("updated_image_urls", fetchedPost?.image_urls, {
@@ -116,8 +100,6 @@ const EditPostPage = () => {
   }, [setValue, fetchedPost, reset, isFetchedData]);
   // Submit the new from to update post
   const { mutateAsync: updatePost, isPending: isUpdating } = useMutation({
-    // useMutation에서는 외부에서 직접적으로 데이터를 받아와서 사용해줘야함
-    // 실제 function 자체를 의미함
     mutationFn: async (data: UpdatePostValues) => {
       const result = await axiosInstance.put<ResponseDTO>(
         `posts/${postId}`,
@@ -129,8 +111,8 @@ const EditPostPage = () => {
     },
     onSuccess: async () => {
       toast.success("Post Editted successfully");
-      await queryClient.invalidateQueries({ queryKey: ["posts"] });
       await queryClient.invalidateQueries({ queryKey: ["posts", postId] });
+      await queryClient.invalidateQueries({ queryKey: ["posts"] });
       await navigate("/home");
     },
     onError: (error) => {
@@ -198,10 +180,11 @@ const EditPostPage = () => {
         <PostInput
           title="Title"
           hintText={title}
-          numberOfLetters={20}
+          numberOfLetters={40}
           register={register("updated_title")}
           errorMessage={errors.updated_title?.message}
           value={title}
+          isSubmitting={isSubmitting}
         />
         {/* Text area - Description */}
         <div className="w-[100%] mx-auto h-[200px] mt-5 max-w-[600px]">
@@ -241,34 +224,36 @@ const EditPostPage = () => {
         <PostInput
           title="Reward amount"
           hintText={`$${reward_amount}`}
-          numberOfLetters={10}
+          numberOfLetters={3}
           register={register("updated_reward_amount")}
           errorMessage={errors.updated_reward_amount?.message}
           value={reward_amount}
+          isSubmitting={isSubmitting}
         />
         {/* Location */}
         <PostInput
           title="Location"
           hintText={location}
-          numberOfLetters={10}
+          numberOfLetters={30}
           register={register("updated_location")}
           errorMessage={errors.updated_location?.message}
           value={location}
+          isSubmitting={isSubmitting}
         />
         {/* Submit BTN */}
         {isUpdating ? (
           <MainButton
             text="Loading..."
             type="submit"
-            style="w-[40%] mt-5"
-            isLoading={isUpdating}
+            style="w-[30%] mt-5 mx-auto min-w-[200px]"
+            isLoading={isSubmitting}
           />
         ) : (
           <MainButton
-            text="Edit"
+            text="Post"
             type="submit"
-            style="w-[40%] mt-5"
-            isLoading={isUpdating}
+            style="w-[30%] mt-5 mx-auto min-w-[200px]"
+            isLoading={isSubmitting}
           />
         )}
       </form>

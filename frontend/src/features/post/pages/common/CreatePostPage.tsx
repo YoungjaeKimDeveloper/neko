@@ -100,82 +100,93 @@ const CreatePostPage = () => {
         className="flex flex-col items-start w-[80%] mx-auto lg:w-screen gap-y-4"
         onSubmit={handleSubmit(onSubmit)}
       >
-        {/* Image Preview */}
-        <div
-          className={`w-[100%] mx-auto h-20 mt-10 max-w-[600px]  flex flex-col justify-between`}
+        <fieldset
+          className="flex flex-col items-start w-[80%] mx-auto lg:w-screen gap-y-4"
+          disabled={isSubmitting}
         >
-          <p>Create post</p>
-          {/* Image Uploader */}
-          <ImageUploader images={images} onChange={onChange} />
-          <p className="text-warning text-sm">{errors.image_urls?.message} </p>
-        </div>
-        {/* Title */}
-        <PostInput
-          title="Title"
-          hintText="Please help me find the cat"
-          numberOfLetters={40}
-          register={register("title")}
-          errorMessage={errors.title?.message}
-        />
-        {/* Text area - Description */}
-        <div className="w-[100%] mx-auto h-[200px] mt-5 max-w-[600px]">
-          <div className="flex mx-auto h-full">
-            {/* Title and Input */}
-            <div className="flex flex-col w-full items-start h-full">
-              <div className="flex flex-col w-full h-full">
-                <p>Description</p>
-                <textarea
-                  {...register("content")}
-                  maxLength={300}
-                  placeholder="I lost my cute cat near Townhall station"
-                  className={
-                    "input shadow-postInput w-full  mt-3 font-content pl-[10px] h-full py-2 resize-none"
-                  }
-                />
-              </div>
-              {/* World counter */}
-              <div className="flex justify-end w-full ">
-                <div className="flex justify-between w-full">
-                  <p className="text-warning">
-                    {errors.content && errors.content?.message}{" "}
-                  </p>
-                  <p className="text-hintText">
-                    {content.length}/{300}
-                  </p>
+          {/* Image Preview */}
+          <div
+            className={`w-[100%] mx-auto h-20 mt-10 max-w-[600px]  flex flex-col justify-between`}
+          >
+            <p>Create post</p>
+            {/* Image Uploader */}
+            <ImageUploader images={images} onChange={onChange} />
+            <p className="text-warning text-sm">
+              {errors.image_urls?.message}{" "}
+            </p>
+          </div>
+          {/* Title */}
+          <PostInput
+            title="Title"
+            hintText="Please help me find the cat"
+            numberOfLetters={40}
+            register={register("title")}
+            errorMessage={errors.title?.message}
+            isSubmitting={isSubmitting}
+          />
+          {/* Text area - Description */}
+          <div className="w-[100%] mx-auto h-[200px] mt-5 max-w-[600px]">
+            <div className="flex mx-auto h-full">
+              {/* Title and Input */}
+              <div className="flex flex-col w-full items-start h-full">
+                <div className="flex flex-col w-full h-full">
+                  <p>Description</p>
+                  <textarea
+                    disabled={isSubmitting}
+                    {...register("content")}
+                    maxLength={300}
+                    placeholder="I lost my cute cat near Townhall station"
+                    className={
+                      "input shadow-postInput w-full  mt-3 font-content pl-[10px] h-full py-2 resize-none"
+                    }
+                  />
+                </div>
+                {/* World counter */}
+                <div className="flex justify-end w-full ">
+                  <div className="flex justify-between w-full">
+                    <p className="text-warning">
+                      {errors.content && errors.content?.message}{" "}
+                    </p>
+                    <p className="text-hintText">
+                      {content.length}/{300}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <PostInput
-          title="Reward amount"
-          hintText="$0"
-          numberOfLetters={3}
-          register={register("reward_amount")}
-          errorMessage={errors.reward_amount?.message}
-        />
-        <PostInput
-          title="Location"
-          hintText="Townhall station"
-          numberOfLetters={30}
-          register={register("location")}
-          errorMessage={errors.location?.message}
-        />
-        {isSubmitting ? (
-          <MainButton
-            text="Loading..."
-            type="submit"
-            style="w-[30%] mt-5 mx-auto min-w-[200px]"
-            isLoading={isSubmitting}
+          <PostInput
+            title="Reward amount"
+            hintText="$0"
+            numberOfLetters={3}
+            register={register("reward_amount")}
+            errorMessage={errors.reward_amount?.message}
+            isSubmitting={isSubmitting}
           />
-        ) : (
-          <MainButton
-            text="Post"
-            type="submit"
-            style="w-[30%] mt-5 mx-auto min-w-[200px]"
-            isLoading={isSubmitting}
+          <PostInput
+            title="Location"
+            hintText="Townhall station"
+            numberOfLetters={30}
+            register={register("location")}
+            errorMessage={errors.location?.message}
+            isSubmitting={isSubmitting}
           />
-        )}
+          {isSubmitting ? (
+            <MainButton
+              text="Loading..."
+              type="submit"
+              style="w-[30%] mt-5 mx-auto min-w-[200px]"
+              isLoading={isSubmitting}
+            />
+          ) : (
+            <MainButton
+              text="Post"
+              type="submit"
+              style="w-[30%] mt-5 mx-auto min-w-[200px]"
+              isLoading={isSubmitting}
+            />
+          )}
+        </fieldset>
       </form>
     </div>
   );
