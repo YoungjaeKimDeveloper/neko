@@ -34,6 +34,7 @@ const ProfilePage = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const currentUser = queryClient.getQueryData<ProfilePage>(["authUser"]);
+  // failed to fetch currentUser
 
   // Profile Image Url
   const [uploadImageFile, setUploadImageFile] = useState<File>();
@@ -77,10 +78,11 @@ const ProfilePage = () => {
       }
     },
   });
+  // Failed to fetch current user
   if (!currentUser) {
-    return null;
+    return navigate("/");
   }
-  // Extract the values
+  // Extract previous value
   const {
     email,
     created_at,
@@ -89,12 +91,8 @@ const ProfilePage = () => {
     user_profile_image,
   } = currentUser;
 
-  // Side Effect
-
   // formatted Date
   const joinedDate = format(new Date(created_at), "dd/MM/yyyy");
-  // preview
-  // image file for uploading to cloudinary
 
   const handleImageChange = (previewUrl: string, file: File) => {
     setPreviewUrl(previewUrl);
