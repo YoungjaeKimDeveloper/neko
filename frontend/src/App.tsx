@@ -20,9 +20,9 @@ import SinglePostPage from "./features/post/pages/common/SinglePostPage";
 import ProfilePage from "./features/profile/pages/ProfilePage";
 import NotificationPage from "./features/notification/pages/NotificationPage";
 import EditPostPage from "./features/post/pages/common/EditPostPage";
-import NewsPage from "./features/news/pages/NewsPage";
 import NotFoundPage from "./shared/pages/common/NotFoundPage";
 import HelpPage from "./features/help/pages/HelpPage";
+import FoundPage from "./features/found/FoundPage";
 
 const App = () => {
   // fetch current User
@@ -95,10 +95,10 @@ const App = () => {
           path="/notification"
           element={currentUser ? <NotificationPage /> : <Navigate to="/" />}
         />
-        {/* NEWS API */}
+        {/* found-cat */}
         <Route
-          path="/news-api"
-          element={currentUser ? <NewsPage /> : <Navigate to="/" />}
+          path="/found-cat"
+          element={currentUser ? <FoundPage /> : <Navigate to="/" />}
         />
         {/* Help Page */}
         <Route
