@@ -65,7 +65,6 @@ const AuthNavbar = () => {
       {/* Layout */}
       <div className="flex justify-between items-center ">
         {/* Left Logo + Neko */}
-
         <Link to={"/"}>
           <div className="flex items-center">
             <img src="/neko_logo.png" alt="logo_img" className="h-20" />

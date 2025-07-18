@@ -4,9 +4,12 @@
     1. Opend
     2. Closed
     3. Link should be always kebab case
+    
+    18/07/2025
+    - Decided to delete news page as it was not suitable for Neko
  */
 
-import { CirclePlus, CircleQuestionMark, Home, Newspaper } from "lucide-react";
+import { Cat, CirclePlus, CircleQuestionMark, Home } from "lucide-react";
 import AuthDesktopSidebarListTitle from "./AuthDesktopSidebarListTitle";
 
 export const AuthDesktopSidebar = () => {
@@ -29,8 +32,8 @@ export const AuthDesktopSidebar = () => {
               label="create"
             />
             <AuthDesktopSidebarListTitle
-              icon={Newspaper}
-              link="news-api"
+              icon={Cat}
+              link="found-cat"
               size={25}
               label="news"
             />

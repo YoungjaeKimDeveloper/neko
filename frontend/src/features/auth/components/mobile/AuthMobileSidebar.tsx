@@ -1,17 +1,19 @@
 /*
 
     Auth Navbar - mobile
+    18/07/2025
+    - Decided to delete news page as it was not suitable for Neko
 
 */
 import { useState } from "react";
 import {
   Bell,
+  Cat,
   CircleArrowRight,
   CirclePlus,
   CircleQuestionMark,
   Home,
   Menu,
-  Newspaper,
 } from "lucide-react";
 import AuthMobileSideListTitle from "./AuthMobileSidebarListTitle";
 import HoverEffectedIcon from "./HoverEffectedIcon";
@@ -97,8 +99,8 @@ const AuthMobileSidebar = () => {
             label="CREATE"
           />
           <AuthMobileSideListTitle
-            icon={Newspaper}
-            link="news-api"
+            icon={Cat}
+            link="found-cat"
             size={25}
             label="NEWS"
           />
