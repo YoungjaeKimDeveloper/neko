@@ -61,40 +61,45 @@ const PostCard = ({ post }: PostCardProps) => {
   // BUILD UI
   return (
     <div className="card w-[275px] h-fit shadow-md bg-gray-50 ">
-      {/* Top */}
-      <div className="flex items-center justify-between py-2 relative ">
-        <div className="flex items-center justify-between gap-x-2 py-2 px-3 ">
-          <img
-            className="size-8 rounded-full object-cover"
-            src={post.user_profile_image ?? "/userProfile.png"}
-            alt="user-profile"
-          />
-          {/* username */}
-          <p>{post.user_name}</p>
+      <fieldset disabled={isDeletingPost}>
+        {/* Top */}
+        <div className="flex items-center justify-between py-2 relative ">
+          <div className="flex items-center justify-between gap-x-2 py-2 px-3 ">
+            <img
+              className="size-8 rounded-full object-cover"
+              src={post.user_profile_image ?? "/userProfile.png"}
+              alt="user-profile"
+            />
+            {/* username */}
+            <p>{post.user_name}</p>
+          </div>
+          {currentUserId == post.user_id && (
+            <EllipsisVertical
+              className="size-4 mr-2 cursor-pointer"
+              onClick={() => setIsShowMenubar((prev) => !prev)}
+            />
+          )}
+          {/* Menu bar...focus */}
+          {isShowMenubar && (
+            <ul className="menu menu-horizontal lg:menu-horizontal bg-base-200 rounded-box absolute  right-[30px] gap-x-4">
+              <button
+                disabled={isDeletingPost}
+                onClick={() => deletePost()}
+                className={`${isDeletingPost && "opacity-50"}`}
+              >
+                <Trash2 className="size-5" />
+              </button>
+              <Link
+                className={isDeletingPost ? "pointer-events-none" : ""}
+                to={`/posts/${postId}/edit `}
+              >
+                <Pencil className="size-5" />
+              </Link>
+            </ul>
+          )}
         </div>
-        {currentUserId == post.user_id && (
-          <EllipsisVertical
-            className="size-4 mr-2 cursor-pointer"
-            onClick={() => setIsShowMenubar((prev) => !prev)}
-          />
-        )}
-        {/* Menu bar...focus */}
-        {isShowMenubar && (
-          <ul className="menu menu-horizontal  lg:menu-horizontal bg-base-200 rounded-box absolute  right-[30px] gap-x-4">
-            <button
-              disabled={isDeletingPost}
-              onClick={() => deletePost()}
-              className={`${isDeletingPost && "opacity-50"}`}
-            >
-              <Trash2 className="size-5" />
-            </button>
-            <Link to={`/posts/${postId}/edit`}>
-              <Pencil className="size-5" />
-            </Link>
-          </ul>
-        )}
-      </div>
-      {/* Middle -image */}
+        {/* Middle -image */}
+      </fieldset>
 
       <img
         src={

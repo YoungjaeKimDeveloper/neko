@@ -9,7 +9,7 @@ import MainButton from "../../components/MainButton";
 const Landingpage = () => {
   return (
     // Outer - Position
-    <div className="px-10 mb-10">
+    <div className="px-10 mb-10 mt-5">
       {/* Container*/}
       <div className="w-full h-[100%] lg:h-[700px] rounded-card bg-red-50 flex flex-col items-center lg:justify-center py-4 lg:flex-row lg:gap-10 shadow-xl">
         {/* Loayout */}
