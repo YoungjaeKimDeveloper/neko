@@ -278,7 +278,6 @@ const SinglePostPage = () => {
   };
   // -------------------------------------
   const isLiked = likes.some((like) => like.user_id == currentUserId);
-
   // BUILD UI
   return (
     <div className="flex pb-10">
