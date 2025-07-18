@@ -477,6 +477,7 @@ export const fetchFoundPosts = async (
   req: Request,
   res: Response<ResponseDTO>
 ): Promise<any> => {
+  console.log("You called me anyway");
   try {
     // verify user
     if (!(req as VerifiedUserRequest).user) {
@@ -488,7 +489,7 @@ export const fetchFoundPosts = async (
         message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
       });
     }
-    const result = await neonPostRepo.fetchAllPosts();
+    const result = await neonPostRepo.fetchFoundPosts();
     return res.status(200).json({
       success: true,
       message: "fetch all posts successfully",
@@ -524,7 +525,7 @@ export const fetchMissingPosts = async (
         message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
       });
     }
-    const result = await neonPostRepo.fetchAllPosts();
+    const result = await neonPostRepo.fetchMissingPosts();
     return res.status(200).json({
       success: true,
       message: "fetch all posts successfully",

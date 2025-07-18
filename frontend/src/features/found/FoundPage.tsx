@@ -25,10 +25,11 @@ const FoundPage = () => {
   // Auth user
   const authUser = queryClient.getQueryData<User>(["authUser"]);
   const { data: posts, isLoading } = useQuery({
-    queryKey: ["posts"],
+    queryKey: ["posts-found"],
     queryFn: async () => {
       try {
-        const result = await axiosInstance.get<ResponseDTO>("/posts/all");
+        const result = await axiosInstance.get<ResponseDTO>("/posts/found");
+        console.log("Results are here - ", result);
         toast.success(result.data.message);
         return result.data.data;
       } catch (error) {

@@ -38,7 +38,6 @@ postRouter.get("/all", fetchAllPosts);
 postRouter.get("/found", fetchFoundPosts);
 // fetch missing post
 postRouter.get("/missing", fetchMissingPosts);
-
 // fetch single post with postID - (update post - fetch existed Info)
 postRouter.get("/:postId", fetchSinglePost);
 // fetch single post with comments - (full information)

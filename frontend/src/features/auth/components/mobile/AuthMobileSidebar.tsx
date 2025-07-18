@@ -102,7 +102,7 @@ const AuthMobileSidebar = () => {
             icon={Cat}
             link="found-cat"
             size={25}
-            label="NEWS"
+            label="Found"
           />
           <AuthMobileSideListTitle
             icon={Bell}

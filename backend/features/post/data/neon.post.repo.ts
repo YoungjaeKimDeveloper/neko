@@ -149,7 +149,7 @@ class NeonPostRepo implements PostRepo {
         posts.*,
         users.id AS user_id, 
         users.user_name,
-        users.user_profile_image,
+        users.user_profile_image
 
         FROM posts 
         INNER JOIN users

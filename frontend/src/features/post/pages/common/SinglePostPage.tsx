@@ -42,6 +42,7 @@ const SinglePostPage = () => {
   const queryClient = useQueryClient();
   const [isShowComment, setIsShowComment] = useState<boolean>(true);
   const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [commentLength, setCommentLength] = useState(0);
   // Fetch Post
   const {
     data: res,
@@ -121,6 +122,7 @@ const SinglePostPage = () => {
       if (commentRef.current) {
         commentRef.current.value = "";
       }
+      setCommentLength(0);
       toast.success("Comment created");
     },
     onError: (error, newComment: Comment) => {
@@ -178,7 +180,7 @@ const SinglePostPage = () => {
       toast.success("UnLiked the post successfully");
     },
     // 백엔드에서 실패함 롤백해줘야함
-    onError: (error, variables: Like) => {
+    onError: (variables: Like) => {
       // setLikes((prev) => [...prev, newLike]);
       setLikes((prev) => [...prev, variables]);
       toast.error("Failed to unlike posts");
@@ -278,6 +280,12 @@ const SinglePostPage = () => {
   };
   // -------------------------------------
   const isLiked = likes.some((like) => like.user_id == currentUserId);
+
+  const handleInputChange = () => {
+    if (commentRef.current) {
+      setCommentLength(commentRef.current.value.length);
+    }
+  };
   // BUILD UI
   return (
     <div className="flex pb-10">
@@ -294,7 +302,7 @@ const SinglePostPage = () => {
             <img
               src={res?.data?.post?.image_urls[immageNumber]}
               alt="hero_image"
-              className="w-full aspect-video rounded-t-lg "
+              className="w-full aspect-video rounded-t-lg"
             />
             {/* Left btn */}
             <CircleChevronLeftIcon
@@ -394,25 +402,32 @@ const SinglePostPage = () => {
           </div>
         </div>
         {/* Comments bar */}
-        <form
-          className=" flex items-center rounded-tr-lg rounded-lg  bg-gray-50"
-          onSubmit={(e) => handleComment(e)}
-        >
-          <input
-            ref={commentRef}
-            type="text"
-            className="input w-full bg-gray-200"
-          />
-          <div className="font-content ">
-            <button
-              type="submit"
-              className={`rounded-lg px-4 ${isCommenting && "opacity-50"}`}
+        <div>
+          <form
+            className=" flex items-center rounded-tr-lg rounded-lg  bg-gray-50"
+            onSubmit={(e) => handleComment(e)}
+          >
+            <input
+              ref={commentRef}
+              type="text"
+              className="input w-full bg-gray-200 font-content"
+              maxLength={200}
+              onChange={handleInputChange}
               disabled={isCommenting}
-            >
-              <span>Comment</span>
-            </button>
-          </div>
-        </form>
+            />
+            <div className="font-content ">
+              <button
+                type="submit"
+                className={`rounded-lg px-4 ${isCommenting && "opacity-50"}`}
+                disabled={isCommenting}
+              >
+                <span>Comment</span>
+              </button>
+            </div>
+          </form>
+
+          <p className="text-right pr-2 text-hintText">{commentLength}/200</p>
+        </div>
         {/* Comments */}
         {isShowComment &&
           optimisticComment.map((comment) => (

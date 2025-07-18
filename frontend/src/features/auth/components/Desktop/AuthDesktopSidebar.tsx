@@ -35,7 +35,7 @@ export const AuthDesktopSidebar = () => {
               icon={Cat}
               link="found-cat"
               size={25}
-              label="news"
+              label="found"
             />
             <AuthDesktopSidebarListTitle
               icon={CircleQuestionMark}

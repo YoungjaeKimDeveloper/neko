@@ -43,6 +43,7 @@ const PostCard = ({ post }: PostCardProps) => {
     onSuccess: async () => {
       toast.success("Posts deleted success fully");
       await queryClient.invalidateQueries({ queryKey: ["posts"] });
+      await queryClient.invalidateQueries({ queryKey: ["posts-found"] });
       setIsDeletingPost(false);
     },
     onError: (error) => {
@@ -61,6 +62,13 @@ const PostCard = ({ post }: PostCardProps) => {
   // BUILD UI
   return (
     <div className="card w-[275px] h-fit shadow-md bg-gray-50 ">
+      {post.is_found && (
+        <div className="absolute inset-0 bg-gray-200 bg-opacity-60 flex items-center justify-center z-10 rounded-xl">
+          <p className="text-sm font-bold bg-gray-100 w-full text-center p-">
+            Back to family
+          </p>
+        </div>
+      )}
       <fieldset disabled={isDeletingPost}>
         {/* Top */}
         <div className="flex items-center justify-between py-2 relative ">
@@ -146,11 +154,15 @@ const PostCard = ({ post }: PostCardProps) => {
               </span>
             </p>
           </div>
-          <Link to={`/posts/${post.id}`}>
-            <button className="px-2 text-sm bg-white font-content h-[30px] rounded-md">
-              View
-            </button>
-          </Link>
+          {post.is_found ? (
+            ""
+          ) : (
+            <Link to={`/posts/${post.id}`}>
+              <button className="px-2 text-sm bg-white font-content h-[30px] rounded-md">
+                View
+              </button>
+            </Link>
+          )}
         </div>
       </div>
     </div>

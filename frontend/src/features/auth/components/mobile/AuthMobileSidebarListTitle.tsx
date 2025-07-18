@@ -20,7 +20,7 @@ const AuthMobileSideListTitle = ({
       <Link to={`/${link}`}>
         <div className=" sm:justify-start w-full h-full gap-1  flex justify-start items-center relative">
           <Icon size={size ?? 10} />
-          <p className="text-[16px] pl-2">{label}</p>
+          <p className=" uppercase text-[16px] pl-2">{label}</p>
           {numberOfNotification !== undefined && numberOfNotification > 0 && (
             <div className="absolute bottom-4 left-3 bg-red-400  rounded-full px-2">
               <span className="text-white font-content text-sm">
