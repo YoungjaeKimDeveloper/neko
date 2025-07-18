@@ -142,6 +142,56 @@ class NeonPostRepo implements PostRepo {
       return [];
     }
   };
+  fetchFoundPosts = async (): Promise<PostWithWriter[] | []> => {
+    try {
+      const result = await sql`
+        SELECT 
+        posts.*,
+        users.id AS user_id, 
+        users.user_name,
+        users.user_profile_image,
+
+        FROM posts 
+        INNER JOIN users
+        ON posts.user_id = users.id
+        WHERE posts.is_found = true
+        ORDER BY posts.created_at DESC
+      `;
+      return result as PostWithWriter[];
+    } catch (error) {
+      errorLogV2({
+        error,
+        function: "Fetch found Posts",
+        file: "Neon.post.repo.ts",
+      });
+      return [];
+    }
+  };
+  fetchMissingPosts = async (): Promise<PostWithWriter[] | []> => {
+    try {
+      const result = await sql`
+        SELECT 
+        posts.*,
+        users.id AS user_id, 
+        users.user_name,
+        users.user_profile_image,
+
+        FROM posts 
+        INNER JOIN users
+        ON posts.user_id = users.id
+        WHERE posts.is_found = false
+        ORDER BY posts.created_at DESC
+      `;
+      return result as PostWithWriter[];
+    } catch (error) {
+      errorLogV2({
+        error,
+        function: "Fetch Missing Posts",
+        file: "Neon.post.repo.ts",
+      });
+      return [];
+    }
+  };
   // Alias Singular
   // Single - Row
   fetchSinglePostWithComments = async (params: {

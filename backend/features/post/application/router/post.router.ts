@@ -7,6 +7,8 @@ import {
   fetchSinglePost,
   fetchSinglePostWithComments,
   updatePost,
+  fetchFoundPosts,
+  fetchMissingPosts,
 } from "../controllers/post.controller";
 /*
  - Express is singleton but rotuer is not single
@@ -32,6 +34,11 @@ postRouter.put("/:postId", updatePost);
 postRouter.delete("/:postId", deletePost);
 // fetch Allposts
 postRouter.get("/all", fetchAllPosts);
+// fetch found post
+postRouter.get("/found", fetchFoundPosts);
+// fetch missing post
+postRouter.get("/missing", fetchMissingPosts);
+
 // fetch single post with postID - (update post - fetch existed Info)
 postRouter.get("/:postId", fetchSinglePost);
 // fetch single post with comments - (full information)

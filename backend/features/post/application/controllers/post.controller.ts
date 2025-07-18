@@ -472,6 +472,79 @@ export const fetchAllPosts = async (
     });
   }
 };
+// fetch All posts
+export const fetchFoundPosts = async (
+  req: Request,
+  res: Response<ResponseDTO>
+): Promise<any> => {
+  try {
+    // verify user
+    if (!(req as VerifiedUserRequest).user) {
+      return sendResponseV2({
+        res: res,
+        status: RESPONSE_HTTP.UNAUTHORIZED,
+        success: false,
+        details: "Invalid user",
+        message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
+      });
+    }
+    const result = await neonPostRepo.fetchAllPosts();
+    return res.status(200).json({
+      success: true,
+      message: "fetch all posts successfully",
+      data: result,
+    });
+  } catch (error) {
+    errorLogV2({
+      error,
+      function: "fetchAllPosts",
+      file: "post.controller.ts",
+    });
+    return sendResponseV2({
+      res: res,
+      status: 500,
+      success: false,
+      message: "Failed to fetch all posts",
+      details: "Internal error to fetch all posts",
+    });
+  }
+};
+export const fetchMissingPosts = async (
+  req: Request,
+  res: Response<ResponseDTO>
+): Promise<any> => {
+  try {
+    // verify user
+    if (!(req as VerifiedUserRequest).user) {
+      return sendResponseV2({
+        res: res,
+        status: RESPONSE_HTTP.UNAUTHORIZED,
+        success: false,
+        details: "Invalid user",
+        message: `${RESPONSE_MESSAGES.UNAUTHORIZED}`,
+      });
+    }
+    const result = await neonPostRepo.fetchAllPosts();
+    return res.status(200).json({
+      success: true,
+      message: "fetch all posts successfully",
+      data: result,
+    });
+  } catch (error) {
+    errorLogV2({
+      error,
+      function: "fetchAllPosts",
+      file: "post.controller.ts",
+    });
+    return sendResponseV2({
+      res: res,
+      status: 500,
+      success: false,
+      message: "Failed to fetch all posts",
+      details: "Internal error to fetch all posts",
+    });
+  }
+};
 // fetch SinglePostWithComments
 export const fetchSinglePostWithComments = async (
   req: Request,
