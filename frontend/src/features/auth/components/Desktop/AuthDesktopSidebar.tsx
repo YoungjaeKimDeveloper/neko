@@ -26,17 +26,18 @@ export const AuthDesktopSidebar = () => {
               label="Home"
             />
             <AuthDesktopSidebarListTitle
-              icon={CirclePlus}
-              link="create-post"
-              size={25}
-              label="create"
-            />
-            <AuthDesktopSidebarListTitle
               icon={Cat}
               link="found-cat"
               size={25}
               label="found"
             />
+            <AuthDesktopSidebarListTitle
+              icon={CirclePlus}
+              link="create-post"
+              size={25}
+              label="create"
+            />
+
             <AuthDesktopSidebarListTitle
               icon={CircleQuestionMark}
               link="help"

@@ -85,7 +85,7 @@ const AuthMobileSidebar = () => {
           isShowingSidebar && "translate-x-[-400px]"
         }`}
       >
-        <div className="flex flex-col gap-y-2 justify-center  mx-auto mt-14 ">
+        <div className="flex flex-col gap-y-2 justify-center  mx-auto mt-20 ">
           <AuthMobileSideListTitle
             icon={Home}
             link="home"
@@ -93,17 +93,18 @@ const AuthMobileSidebar = () => {
             label="HOME"
           />
           <AuthMobileSideListTitle
-            icon={CirclePlus}
-            link="create-post"
-            size={35}
-            label="CREATE"
-          />
-          <AuthMobileSideListTitle
             icon={Cat}
             link="found-cat"
             size={25}
             label="Found"
           />
+          <AuthMobileSideListTitle
+            icon={CirclePlus}
+            link="create-post"
+            size={35}
+            label="CREATE"
+          />
+
           <AuthMobileSideListTitle
             icon={Bell}
             link="notification"

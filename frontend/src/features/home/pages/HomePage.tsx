@@ -20,10 +20,10 @@ const HomePage = () => {
   // Auth user
   const authUser = queryClient.getQueryData<User>(["authUser"]);
   const { data: posts, isLoading } = useQuery({
-    queryKey: ["posts"],
+    queryKey: ["posts-missing"],
     queryFn: async () => {
       try {
-        const result = await axiosInstance.get<ResponseDTO>("/posts/all");
+        const result = await axiosInstance.get<ResponseDTO>("/posts/missing");
         toast.success(result.data.message);
         return result.data.data;
       } catch (error) {
@@ -54,11 +54,13 @@ const HomePage = () => {
         {isLoading ? (
           <LoadingPage />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-fit lg:w-full mx-auto mt-4 lg:mx-4 lg:pl-[200px] gap-5 gap-y-10 pb-32">
-            {/* Mapping posts */}
-            {posts?.map((post: PostWithWriter) => (
-              <PostCard key={post.id} post={post} />
-            ))}
+          <div className="flex-col flex-grow justify-end ">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-fit lg:w-full mx-auto mt-4 lg:mx-4 lg:pl-[200px] gap-5 gap-y-10 pb-32 pt-10">
+              {/* Mapping posts */}
+              {posts?.map((post: PostWithWriter) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </div>
           </div>
         )}
       </div>

@@ -29,7 +29,6 @@ const FoundPage = () => {
     queryFn: async () => {
       try {
         const result = await axiosInstance.get<ResponseDTO>("/posts/found");
-        console.log("Results are here - ", result);
         toast.success(result.data.message);
         return result.data.data;
       } catch (error) {
