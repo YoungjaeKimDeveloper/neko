@@ -1,6 +1,6 @@
 /*
 
-    Authorized user - Homepage
+    Authorized user - HomePage
 
 */
 import { useQuery, useQueryClient } from "@tanstack/react-query";
