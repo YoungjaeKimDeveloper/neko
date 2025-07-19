@@ -1,4 +1,7 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
+import type { UserProfile } from "../../../../../../shared/dto/profile/profile.dto";
+import { Link } from "react-router-dom";
 
 /*
     Comment Component
@@ -14,8 +17,10 @@ interface CommentProps {
   };
 }
 const Comment = ({ comment }: CommentProps) => {
+  const queryClient = useQueryClient();
+  const currentUser = queryClient.getQueryData<UserProfile>(["authUser"]);
+  const isCurrentUserProfile = currentUser?.user_name == comment.user_name;
   // BUILD UI
-
   return (
     <div className="pb-2">
       <div className="flex flex-col rounded-xl bg-gray-50 shadow-sm">
@@ -23,11 +28,16 @@ const Comment = ({ comment }: CommentProps) => {
         <div className="p-2 rounded-xl ">
           <div className="flex w-full gap-x-2 flex-col">
             <div className="flex items-center gap-x-2">
-              <img
-                src={comment.user_profile_image ?? "/userProfile.png"}
-                alt="writer_user"
-                className="size-12 rounded-full"
-              />
+              <Link
+                to={isCurrentUserProfile ? "/profile" : `/${comment.user_name}`}
+              >
+                <img
+                  src={comment.user_profile_image ?? "/userProfile.png"}
+                  alt="writer_user"
+                  className="size-12 rounded-full"
+                />
+              </Link>
+
               <div className="w-full rounded-xl ">
                 <p>{comment.user_name}</p>
                 <p className="text-[10px] text-hintText">
