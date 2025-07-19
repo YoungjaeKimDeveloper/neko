@@ -1,3 +1,4 @@
+import { UserProfile } from "./../../../../shared/dto/profile/profile.dto";
 /*
     Implement Profile repo using Neon(01/07/2025)
      - 1.update user porifle - data layer
@@ -5,7 +6,7 @@
 */
 
 import User from "../../auth/domain/entities/user";
-import { UserProfile } from "../../auth/domain/entities/user";
+
 import { ProfileRepo } from "../domain/repo/profile.repo";
 import {
   ProfileUpdateDTO,
@@ -59,3 +60,6 @@ class NeonProfile implements ProfileRepo {
 }
 
 export default NeonProfile;
+
+
+

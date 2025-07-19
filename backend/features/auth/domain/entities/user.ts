@@ -15,10 +15,3 @@ export default interface User {
 
 // Searched User profile
 // 19-07-2025
-export interface UserProfile {
-  email: string;
-  user_name: string;
-  user_profile_image?: string;
-  location?: string;
-  created_at?: Date;
-}

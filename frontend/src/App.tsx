@@ -23,6 +23,7 @@ import EditPostPage from "./features/post/pages/common/EditPostPage";
 import NotFoundPage from "./shared/pages/common/NotFoundPage";
 import HelpPage from "./features/help/pages/HelpPage";
 import FoundPage from "./features/found/FoundPage";
+import OtherUserProfile from "./features/profile/pages/OtherUserProfile";
 
 const App = () => {
   // fetch current User
@@ -99,6 +100,11 @@ const App = () => {
         <Route
           path="/found-cat"
           element={currentUser ? <FoundPage /> : <Navigate to="/" />}
+        />
+        {/* Other user */}
+        <Route
+          path="/:userName"
+          element={currentUser ? <OtherUserProfile /> : <Navigate to="/" />}
         />
         {/* Help Page */}
         <Route
