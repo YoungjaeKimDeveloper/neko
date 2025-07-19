@@ -119,7 +119,7 @@ const PostCard = ({ post }: PostCardProps) => {
       />
 
       {/* Bottom Details */}
-      <div className="px-2 py-2">
+      <div className="px-2 py-1">
         {/* top */}
         <div className="flex justify-between items-center">
           <p className="text-xl truncate w-[65%]">{post.title}</p>

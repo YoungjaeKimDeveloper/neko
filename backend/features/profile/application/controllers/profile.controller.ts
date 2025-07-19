@@ -64,3 +64,19 @@ export const updateUserProfile = async (
     });
   }
 };
+
+export const fetchUserProfile = async (
+  req: Request,
+  res: Response<ResponseDTO>
+): Promise<any> => {
+  const { userName } = req.params;
+  // Validation 0 - no userName
+  if (!userName) {
+    return sendResponseV2({
+      res: res,
+      message: "User name is required to search user profile",
+      status: RESPONSE_HTTP.BAD_REQUEST,
+      success: false,
+    });
+  }
+};

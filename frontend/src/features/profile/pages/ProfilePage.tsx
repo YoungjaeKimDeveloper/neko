@@ -121,7 +121,7 @@ const ProfilePage = () => {
 
               {/* Profile image */}
               <div className="py-4 w-[100%] mx-auto">
-                <h3 className="text-2xl font-bold tracking-wider mx-auto text-center">
+                <h3 className="text-2xl font-bold tracking-wider mx-auto text-center mb-4">
                   Profile
                 </h3>
                 <UserProfilePicture

@@ -1,18 +1,21 @@
 /*
     Implement Profile repo using Neon(01/07/2025)
-     - update user porifle - data layer
+     - 1.update user porifle - data layer
+     - 2.fetch user Profile
 */
 
 import User from "../../auth/domain/entities/user";
+import { UserProfile } from "../../auth/domain/entities/user";
 import { ProfileRepo } from "../domain/repo/profile.repo";
-import { ProfileUpdateDTO } from "../domain/dto/profile.dto";
+import {
+  ProfileUpdateDTO,
+  SearchUserProfileDTO,
+} from "../domain/dto/profile.dto";
 import sql from "../../../db/config/db";
 import { errorLogV2 } from "../../../../shared/error/error.log";
-// Class
+
 class NeonProfile implements ProfileRepo {
-  updateProfile = async (
-    parameters: ProfileUpdateDTO
-  ): Promise<User | null> => {
+  updateProfile = async (parameters: ProfileUpdateDTO): Promise<any> => {
     try {
       const users = await sql`
       UPDATE users
@@ -28,6 +31,26 @@ class NeonProfile implements ProfileRepo {
         error: error,
         file: "neon.profile.repo.ts",
         function: "NeonProfile",
+      });
+    }
+    return null;
+  };
+  // fetch user profile
+  fetchUserProfile = async ({
+    userName,
+  }: SearchUserProfileDTO): Promise<UserProfile | null> => {
+    try {
+      const user = await sql`
+        SELECT email,user_name,user_profile_image,location,created_at
+        FROM users
+        WHERE user_name = ${userName}
+      `;
+      return user.length > 0 ? (user[0] as UserProfile) : null;
+    } catch (error) {
+      errorLogV2({
+        error: error,
+        function: "fetchUserProfile",
+        file: "neon.profile.repo.ts",
       });
     }
     return null;
