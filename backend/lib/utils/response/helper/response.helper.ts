@@ -13,16 +13,25 @@ export const sendResponse = (params: ResponseInterface) => {
 };
 
 // Version - 2
+// export const sendResponseV2 = (params: ResponseInterfaceV2) => {
+//   return params.res.status(params.status).json({
+//     success: params.success,
+//     message: `${params.message}`,
+//     details: `${params.details}`,
+//     data: params.data ?? null,
+//   });
+// };
+// Version - 3
 export const sendResponseV2 = (params: ResponseInterfaceV2) => {
   return params.res.status(params.status).json({
     success: params.success,
-    message: `${params.message}`,
-    details: `${params.details}`,
+    message: params.message,
+    details: params.details,
     data: params.data ?? null,
   });
 };
 
-// Templates - exmaple
+// Templates
 
 // Version - 1
 // return sendResponse({

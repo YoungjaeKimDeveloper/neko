@@ -36,6 +36,7 @@ class NeonProfile implements ProfileRepo {
     return null;
   };
   // fetch user profile
+  // Data layer
   fetchUserProfile = async ({
     userName,
   }: SearchUserProfileDTO): Promise<UserProfile | null> => {

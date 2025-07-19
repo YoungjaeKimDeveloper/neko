@@ -1,3 +1,4 @@
+import { SearchUserProfileDTO } from "./../../domain/dto/profile.dto";
 /*
     Profile Controller
       - Feat: Update users' profile
@@ -10,6 +11,7 @@ import { sendResponseV2 } from "../../../../lib/utils/response/helper/response.h
 import { RESPONSE_HTTP } from "../../../../../shared/constants/http-status";
 import { errorLogV2 } from "../../../../../shared/error/error.log";
 import cloudinary from "../../../../lib/cloudinary/cloudinary.config";
+import { RESPONSE_MESSAGES } from "../../../../lib/utils/constants/messages";
 
 // neon Profile - neon instance
 const neonProfile = new NeonProfile();
@@ -69,14 +71,43 @@ export const fetchUserProfile = async (
   req: Request,
   res: Response<ResponseDTO>
 ): Promise<any> => {
-  const { userName } = req.params;
-  // Validation 0 - no userName
-  if (!userName) {
+  // Extract the value
+  try {
+    const { userName } = req.params;
+    // Validation 0 - no userName
+    if (!userName) {
+      return sendResponseV2({
+        res: res,
+        message: "User name is required to search user profile",
+        status: RESPONSE_HTTP.BAD_REQUEST,
+        success: false,
+      });
+    }
+    // fetch user Profile - neon(DB)
+    const userProfile = await neonProfile.fetchUserProfile({ userName });
+    // Validation - 1 cannot find the userProfile from DB
+    if (!userProfile) {
+      return sendResponseV2({
+        res: res,
+        message: "Failed to find the user profile from DB",
+        status: RESPONSE_HTTP.NOT_FOUND,
+        success: false,
+      });
+    }
+    // return data
     return sendResponseV2({
       res: res,
-      message: "User name is required to search user profile",
-      status: RESPONSE_HTTP.BAD_REQUEST,
-      success: false,
+      data: userProfile,
+      message: "Fetched User Profile Successfully",
+      status: RESPONSE_HTTP.OK,
+      success: true,
     });
+  } catch (error) {
+    errorLogV2({
+      error: error,
+      function: "fetchUserProfile",
+      file: "profile.controller.ts",
+    });
+    return null;
   }
 };
