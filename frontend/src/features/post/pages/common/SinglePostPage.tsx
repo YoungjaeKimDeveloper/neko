@@ -32,6 +32,8 @@ import type User from "../../../../../../backend/features/auth/domain/entities/u
 import type Like from "../../../../../../backend/features/like/domain/entity/like";
 import type { Comment } from "../../../../../../backend/features/comment/domain/entity/comment";
 import AuthMobileSidebar from "../../../auth/components/mobile/AuthMobileSidebar";
+import type { UserProfile } from "../../../../../../shared/dto/profile/profile.dto";
+import { Link } from "react-router-dom";
 
 // Component -
 const SinglePostPage = () => {
@@ -43,6 +45,7 @@ const SinglePostPage = () => {
   const [isShowComment, setIsShowComment] = useState<boolean>(true);
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [commentLength, setCommentLength] = useState(0);
+
   // Fetch Post
   const {
     data: res,
@@ -280,12 +283,14 @@ const SinglePostPage = () => {
   };
   // -------------------------------------
   const isLiked = likes.some((like) => like.user_id == currentUserId);
-
   const handleInputChange = () => {
     if (commentRef.current) {
       setCommentLength(commentRef.current.value.length);
     }
   };
+  const postUserName = res?.data.post.user_name;
+  const isCurrentUserProfile =
+    (currentUser as UserProfile)?.user_name == postUserName;
   // BUILD UI
   return (
     <div className="flex pb-10">
@@ -363,14 +368,16 @@ const SinglePostPage = () => {
           <div className="flex justify-between items-center mb-4 ">
             {/* User-info */}
             <div className="flex items-center gap-x-2">
-              <img
-                src={
-                  res?.data?.post?.user_profile_image ??
-                  "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"
-                }
-                alt="writer_user"
-                className="size-10 rounded-full"
-              />
+              <Link to={isCurrentUserProfile ? "/profile" : `/${postUserName}`}>
+                <img
+                  src={
+                    res?.data?.post?.user_profile_image ??
+                    "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"
+                  }
+                  alt="writer_user"
+                  className="size-10 rounded-full"
+                />
+              </Link>
               {/* Details */}
               <div>
                 <p className="text-base">{res?.data?.post?.user_name}</p>
