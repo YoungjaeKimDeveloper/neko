@@ -19,11 +19,13 @@ import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto"
 import toast from "react-hot-toast";
 import type { UserProfile } from "../../../../../shared/dto/profile/profile.dto";
 import { errorLogV2 } from "../../../../../shared/error/error.log";
+import LoadingPage from "../../../shared/pages/common/LoadingPage";
 
 // Component
 const OtherUserProfile = () => {
   const { userName } = useParams();
-  const { data: fetchedUser } = useQuery({
+
+  const { data: fetchedUser, isLoading } = useQuery({
     queryKey: ["userProfile", userName],
     queryFn: async () => {
       const result = await axiosInstance.get<ResponseDTO>(
@@ -45,6 +47,9 @@ const OtherUserProfile = () => {
       }
     },
   });
+  if (isLoading) {
+    return <LoadingPage />;
+  }
   return (
     <div className="flex flex-col w-screen h-screen ">
       {/* Left */}
@@ -67,7 +72,7 @@ const OtherUserProfile = () => {
               <UserProfilePicture
                 imageSrc={fetchedUser?.user_profile_image || "/userProfile.png"}
                 imageSize="size-20"
-                isEditable={true}
+                isEditable={false}
               />
             </div>
             {/* Input Components*/}
@@ -93,10 +98,11 @@ const OtherUserProfile = () => {
               <ProfileInput
                 htmlForLabel="Since"
                 placeholder="Email"
-                inputValue={format(
-                  new Date(fetchedUser?.created_at || ""),
-                  "dd/MM/yyyy"
-                )}
+                inputValue={
+                  fetchedUser?.created_at
+                    ? format(new Date(fetchedUser.created_at), "dd/MM/yyyy")
+                    : ""
+                }
               />
             </div>
           </div>

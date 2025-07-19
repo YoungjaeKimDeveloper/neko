@@ -12,6 +12,7 @@ import { axiosInstance } from "../../../shared/api/axios";
 import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
 import toast from "react-hot-toast";
 import { errorLogV2 } from "../../../../../shared/error/error.log";
+import type { UserProfile } from "../../../../../shared/dto/profile/profile.dto";
 // Interface
 interface PostCardProps {
   post: PostWithWriter;
@@ -22,7 +23,7 @@ type CurrentUser = User;
 // Component
 const PostCard = ({ post }: PostCardProps) => {
   const queryClient = useQueryClient();
-  const currentUser = queryClient.getQueryData(["authUser"]);
+  const currentUser = queryClient.getQueryData<UserProfile>(["authUser"]);
   const currentUserId = (currentUser as CurrentUser).id;
   const postId = post.id;
 
@@ -58,7 +59,7 @@ const PostCard = ({ post }: PostCardProps) => {
       }
     },
   });
-
+  const isCurrentUserProfile = currentUser?.user_name == post.user_name;
   // BUILD UI
   return (
     <div className="card w-[275px] h-fit shadow-md bg-gray-50 ">
@@ -72,15 +73,17 @@ const PostCard = ({ post }: PostCardProps) => {
       <fieldset disabled={isDeletingPost}>
         {/* Top */}
         <div className="flex items-center justify-between py-2 relative ">
-          <div className="flex items-center justify-between gap-x-2 py-2 px-3 ">
-            <img
-              className="size-8 rounded-full object-cover"
-              src={post.user_profile_image ?? "/userProfile.png"}
-              alt="user-profile"
-            />
-            {/* username */}
-            <p>{post.user_name}</p>
-          </div>
+          <Link to={isCurrentUserProfile ? "/profile" : `/${post.user_name}`}>
+            <div className="flex items-center justify-between gap-x-2 py-2 px-3">
+              <img
+                className="size-8 rounded-full object-cover"
+                src={post.user_profile_image ?? "/userProfile.png"}
+                alt="user-profile"
+              />
+              {/* username */}
+              <p>{post.user_name}</p>
+            </div>
+          </Link>
           {currentUserId == post.user_id && (
             <EllipsisVertical
               className="size-4 mr-2 cursor-pointer"

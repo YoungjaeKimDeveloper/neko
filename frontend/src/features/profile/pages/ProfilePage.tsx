@@ -86,6 +86,9 @@ const ProfilePage = () => {
     onSuccess: async () => {
       // update invalid quries
       await queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      await queryClient.invalidateQueries({
+        queryKey: ["userProfile", currentUser?.user_name],
+      });
       await navigate("/");
       toast.success("User profile has been updated successfully");
       // navigate to homepage
