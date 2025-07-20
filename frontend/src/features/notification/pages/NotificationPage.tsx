@@ -112,9 +112,9 @@ const NotificationPage = () => {
       {/* Right - main - margin-l -150px */}
       <div className=" pl-5 lg:pl-[150px]  w-full h-full">
         {/* SubContainer - main content container */}
-        <div className=" mt-10 mx-auto rounded-xl shadow-xl border-solid border w-[80%] min-h-[600px] h-fit">
+        <div className=" mt-10 mx-auto rounded-xl shadow-xl border-solid border w-[85%]  sm:w-[80%] min-h-[600px] h-fit">
           {/* Notification */}
-          <h3 className="font-content text-2xl py-4 shadow-lg px-4 rounded-sm  ">
+          <h3 className="font-content text-2xl py-4 shadow-sm  tracking-wide px-4 rounded-sm ">
             Notificaiton
           </h3>
           {/* Notification - Component */}

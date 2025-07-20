@@ -53,9 +53,7 @@ const NotificationComponent = ({
   // BUILD UI
   return (
     <div
-      className={`relative mt-5 shadow-xl min-h-[120px] rounded-xl w-[90%] mx-auto z-50  ${
-        notification.notifications_is_read && "bg-gray-200"
-      }`}
+      className={`relative mt-5  min-h-[120px] rounded-xl w-[90%] mx-auto text-sm `}
     >
       <div className=" w-full h-full">
         {/* Userimg -top */}
@@ -64,10 +62,14 @@ const NotificationComponent = ({
             notification.users_user_profile_image ?? "/userProfile.png"
           } `}
           alt="user_profile_img"
-          className="size-14 rounded-full z-0 absolute bottom-12"
+          className="size-14 rounded-full z-0 translate-y-2 bottom-12"
         />
         {/* Details - bottom */}
-        <div className="flex items-center gap-x-4 mb-4 top-12 -z-10  absolute left-2 w-[99%] rounded-xl">
+        <div
+          className={`flex items-center gap-x-4 mb-4 top-12 -z-10   left-2 w-[99%] rounded-xl py-2 px-2 border-gray-200 border shadow-sm ${
+            notification.notifications_is_read && "bg-gray-200"
+          }`}
+        >
           {/* postimg */}
           <Link to={`${postLinkUrl}`}>
             <img
@@ -79,14 +81,23 @@ const NotificationComponent = ({
           <div className="flex justify-between w-full items-center rounded-xl">
             <div>
               <p>
-                <span className="text-xl text-primary pr-1">
+                <span className=" text-sm sm:text-xl text-primary pr-1">
                   {notification.user_user_name}
                 </span>
+                {/* Text for Tablet && Desktop */}
+                <span className="hidden sm:block">
+                  {notification.notifications_type == "COMMENT"
+                    ? "left a comment on your post."
+                    : "reacted to your post"}
+                </span>
+              </p>
+              {/* Text for mobile*/}
+              <p className="sm:hidden text-[10px]">
                 {notification.notifications_type == "COMMENT"
                   ? "left a comment on your post."
                   : "reacted to your post"}
               </p>
-              <p className="text-sm text-hi">
+              <p className="text-sm ">
                 {formatDistanceToNow(
                   new Date(notification.notifications_created_at!)
                 )}
