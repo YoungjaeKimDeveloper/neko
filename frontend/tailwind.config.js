@@ -17,6 +17,7 @@ export default {
         title: ["Pacifico"],
         content: ["Monomaniac One"],
         banner: ["Handlee"],
+        help: ["Montserrat"],
       },
       // Border Radius
       borderRadius: { card: "20px" },

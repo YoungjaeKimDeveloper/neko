@@ -31,7 +31,7 @@ const HelpPage = () => {
           {/* Top - title */}
           <h3 className="text-2xl font-content">Frequently asked questions</h3>
           {/* Top - Subtitle */}
-          <p className="text-sm text-hintText mb-5">
+          <p className="text-xl mt-2 text-hintText mb-5">
             These are the most commonly asked questions about Neko
           </p>
 
