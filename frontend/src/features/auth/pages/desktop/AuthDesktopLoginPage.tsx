@@ -22,7 +22,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { LoginDTO } from "../../../../../../shared/dto/auth/auth.request.dto";
 
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+
 import loginAPI from "../../services/auth.login.service";
 // Component
 const AuthDesktopLoginPage = () => {
@@ -44,13 +44,11 @@ const AuthDesktopLoginPage = () => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["authUser"] });
       await navigate("/home");
-      toast.success("Welcome Back");
     },
     onError: async (error) => {
       if (error instanceof Error) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setError("root", { message: (error as any).response.data.message });
-        toast.error("Please double-check ID and PW");
       }
     },
   });

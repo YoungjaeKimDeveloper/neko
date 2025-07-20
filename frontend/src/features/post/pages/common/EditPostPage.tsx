@@ -74,6 +74,7 @@ const EditPostPage = () => {
     setValue,
     setError,
     reset,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<UpdatePostValues>({
     resolver: zodResolver(UpdatePostSchema),
@@ -110,7 +111,6 @@ const EditPostPage = () => {
       }
     },
     onSuccess: async () => {
-      toast.success("Post Editted successfully");
       await queryClient.invalidateQueries({ queryKey: ["posts", postId] });
       await queryClient.invalidateQueries({ queryKey: ["posts"] });
       await navigate("/home");
@@ -136,6 +136,8 @@ const EditPostPage = () => {
   }
   const { title, content, is_found, image_urls, location, reward_amount } =
     fetchedPost;
+  // Start to track the value as soon as updated_reward_amount is registered to RHF
+  const rewardValue = watch("updated_reward_amount")?.toString() ?? "";
   // BUILD UI
   return (
     <div className="flex pb-20">
@@ -144,7 +146,7 @@ const EditPostPage = () => {
       {/* Right - main */}
       {/* Check final values before submitting forms */}
       <form
-        className="flex flex-col items-start w-screen  gap-y-4"
+        className="flex flex-col items-start w-[80%] mx-auto lg:w-screen gap-y-4"
         onSubmit={handleSubmit((data: UpdatePostValues) => {
           updatePost(data);
         })}
@@ -210,7 +212,7 @@ const EditPostPage = () => {
               <div className="flex justify-end w-full ">
                 <div className="flex justify-between w-full">
                   <p className="text-warning">
-                    {errors.updated_content?.message}{" "}
+                    {errors.updated_content?.message}
                   </p>
                   <p className="text-hintText">
                     {description.length}/{300}
@@ -227,7 +229,7 @@ const EditPostPage = () => {
           numberOfLetters={3}
           register={register("updated_reward_amount")}
           errorMessage={errors.updated_reward_amount?.message}
-          value={reward_amount}
+          value={rewardValue}
           isSubmitting={isSubmitting}
         />
         {/* Location */}
@@ -250,7 +252,7 @@ const EditPostPage = () => {
           />
         ) : (
           <MainButton
-            text="Post"
+            text="Edit"
             type="submit"
             style="w-[30%] mt-5 mx-auto min-w-[200px]"
             isLoading={isSubmitting}

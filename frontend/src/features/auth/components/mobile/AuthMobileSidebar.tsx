@@ -21,7 +21,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import type User from "../../../../../../backend/features/auth/domain/entities/user";
 import { axiosInstance } from "../../../../shared/api/axios";
 import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto";
-import toast from "react-hot-toast";
+
 import { errorLogV2 } from "../../../../../../shared/error/error.log";
 import type { NotificationAPIResponse } from "../../../../../../backend/features/notification/domain/dto/notification.dto";
 
@@ -41,7 +41,6 @@ const AuthMobileSidebar = () => {
       return result.data;
     },
     onSuccess: (notification) => {
-      toast.success("Notifications fetched successfully");
       return notification;
     },
     onError: (error) => {
@@ -50,7 +49,6 @@ const AuthMobileSidebar = () => {
         function: "Fetch notification",
         file: "NotificationPage.tsx",
       });
-      toast.error("Failed to fetch notifications");
     },
     staleTime: 1000 * 60 * 3,
     refetchOnWindowFocus: false,
@@ -65,7 +63,7 @@ const AuthMobileSidebar = () => {
 
   // BUILD UI
   return (
-    <div className="relative block lg:hidden z-50">
+    <div className="relative block lg:hidden z-50 ">
       <div className="fixed z-50 left-[20px] ">
         {/* Toggle Menu BTN */}
         {isShowingSidebar ? (

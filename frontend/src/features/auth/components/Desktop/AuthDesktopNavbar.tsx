@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { Bell, LogOut, User as UserIocn } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../../../../shared/api/axios";
-import toast from "react-hot-toast";
 import CommonLinkIcon from "../../../../shared/components/CommonLinkIcon";
 import type User from "../../../../../../backend/features/auth/domain/entities/user";
 import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto";
@@ -21,12 +20,9 @@ const AuthNavbar = () => {
       await axiosInstance.delete("/auth/auth-tokens");
     },
     onSuccess: () => {
-      toast.success("See you next time");
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
     },
-    onError: () => {
-      toast.error("Failed to logout");
-    },
+    onError: () => {},
   });
   // Auth user
   const authUser = queryClient.getQueryData<User>(["authUser"]);
@@ -39,7 +35,6 @@ const AuthNavbar = () => {
       return result.data;
     },
     onSuccess: (notification) => {
-      toast.success("Notifications fetched successfully");
       return notification;
     },
     onError: (error) => {
@@ -48,7 +43,6 @@ const AuthNavbar = () => {
         function: "Fetch notification",
         file: "NotificationPage.tsx",
       });
-      toast.error("Failed to fetch notifications");
     },
     enabled: !!authUser?.id,
   });

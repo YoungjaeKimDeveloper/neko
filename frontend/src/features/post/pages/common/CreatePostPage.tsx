@@ -72,7 +72,6 @@ const CreatePostPage = () => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["posts"] });
       await navigate("/");
-      toast.success("New post created successfully");
     },
     onError: async (error) => {
       if (error instanceof Error) {
@@ -91,7 +90,7 @@ const CreatePostPage = () => {
 
   // BUILD UI
   return (
-    <div className="flex pb-20">
+    <div className="flex pb-40">
       {/* Left Sidebar */}
       <AuthMobileSidebar />
       <AuthDesktopSidebar />

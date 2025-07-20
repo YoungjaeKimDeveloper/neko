@@ -8,7 +8,6 @@ import { AuthDesktopSidebar } from "../../auth/components/desktop/AuthDesktopSid
 import { axiosInstance } from "../../../shared/api/axios";
 import { errorLogV2 } from "../../../../../shared/error/error.log";
 import PostCard from "../components/PostCard";
-import toast from "react-hot-toast";
 import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
 import type { PostWithWriter } from "../../../../../backend/features/post/domain/entities/post";
 import LoadingPage from "../../../shared/pages/common/LoadingPage";
@@ -24,7 +23,7 @@ const HomePage = () => {
     queryFn: async () => {
       try {
         const result = await axiosInstance.get<ResponseDTO>("/posts/missing");
-        toast.success(result.data.message);
+
         return result.data.data;
       } catch (error) {
         errorLogV2({

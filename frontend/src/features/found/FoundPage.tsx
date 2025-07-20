@@ -11,7 +11,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { errorLogV2 } from "../../../../shared/error/error.log";
 import PostCard from "../home/components/PostCard";
-import toast from "react-hot-toast";
+
 import type { ResponseDTO } from "../../../../shared/dto/common/response.dto";
 import type { PostWithWriter } from "../../../../backend/features/post/domain/entities/post";
 import LoadingPage from "../../shared/pages/common/LoadingPage";
@@ -29,7 +29,7 @@ const FoundPage = () => {
     queryFn: async () => {
       try {
         const result = await axiosInstance.get<ResponseDTO>("/posts/found");
-        toast.success(result.data.message);
+
         return result.data.data;
       } catch (error) {
         errorLogV2({

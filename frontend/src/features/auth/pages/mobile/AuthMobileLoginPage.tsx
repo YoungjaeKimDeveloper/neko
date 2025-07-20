@@ -37,7 +37,6 @@ const AuthMobileLoginPage = () => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["authUser"] });
       await navigate("/home");
-      toast.success("Welcome Back");
     },
     onError: (error) => {
       if (error instanceof Error) {

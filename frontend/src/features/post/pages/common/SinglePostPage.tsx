@@ -19,7 +19,6 @@ import { AuthDesktopSidebar } from "../../../auth/components/desktop/AuthDesktop
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../../../../shared/api/axios";
-import toast from "react-hot-toast";
 
 import { errorLogV2 } from "../../../../../../shared/error/error.log";
 import LoadingPage from "../../../../shared/pages/common/LoadingPage";
@@ -58,7 +57,7 @@ const SinglePostPage = () => {
       const result = await axiosInstance.get<{ data: DenormalisedPost }>(
         `/posts/${postId}/full`
       );
-      toast.success("Data fetched successfully");
+
       return result.data;
     },
     onError: (error) => {
@@ -97,7 +96,6 @@ const SinglePostPage = () => {
     mutationFn: async () => {
       // Create Comment
       if (commentRef.current?.value == null) {
-        toast.error("Please write something");
         return;
       }
       const newComment: Comment = {
@@ -126,16 +124,12 @@ const SinglePostPage = () => {
         commentRef.current.value = "";
       }
       setCommentLength(0);
-      toast.success("Comment created");
     },
-    onError: (error, newComment: Comment) => {
+    onError: (_error, newComment: Comment) => {
       // Roallback
       setOptimisticComment((prev) =>
         prev.filter((comment) => comment.id !== newComment.id)
       );
-      if (error instanceof Error) {
-        toast.error(error?.message);
-      }
     },
   });
   // Like Post
@@ -150,15 +144,13 @@ const SinglePostPage = () => {
       // 여기에서 반환되는 값이 onSuccess/onERROR의 첫번쨰 인자로 들어가게됨
       return newLike;
     },
-    onSuccess: () => {
-      toast.success("Liked the post successfully");
-    },
+    onSuccess: () => {},
     onError: (error, variables: Like) => {
       // ROLLBACK - Cancel Like
       setLikes((prev) =>
         prev.filter((like) => like.user_id !== variables.user_id)
       );
-      toast.error("ROLLBACK : failed to like");
+
       errorLogV2({
         file: "SinglePostPage.tsx",
         function: "LikePost - usemutation",
@@ -179,14 +171,11 @@ const SinglePostPage = () => {
       return newLike;
     },
     // 실제로 백엔드에서 결과가 제대로진행됨 setLikes 업데이트해주기 -> useOptimistic이 의존하고있음으로 setLikes가 변경되면 자동으로 같이 변경됨
-    onSuccess: () => {
-      toast.success("UnLiked the post successfully");
-    },
+    onSuccess: () => {},
     // 백엔드에서 실패함 롤백해줘야함
     onError: (variables: Like) => {
       // setLikes((prev) => [...prev, newLike]);
       setLikes((prev) => [...prev, variables]);
-      toast.error("Failed to unlike posts");
     },
   });
   // HandleComment
@@ -268,11 +257,10 @@ const SinglePostPage = () => {
     try {
       const currentUrl = window.location.href;
       await navigator.clipboard.writeText(currentUrl);
-      toast.success("Link copied🍀");
+
       setIsCopied(true);
     } catch (error) {
       if (error instanceof Error) {
-        toast.error("Failed to copy address");
         errorLogV2({
           file: "SinglePostPage.tsx",
           function: "HandleShare",

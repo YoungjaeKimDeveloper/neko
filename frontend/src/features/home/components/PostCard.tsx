@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { axiosInstance } from "../../../shared/api/axios";
 import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
-import toast from "react-hot-toast";
+
 import { errorLogV2 } from "../../../../../shared/error/error.log";
 import type { UserProfile } from "../../../../../shared/dto/profile/profile.dto";
 // Interface
@@ -42,13 +42,11 @@ const PostCard = ({ post }: PostCardProps) => {
       }
     },
     onSuccess: async () => {
-      toast.success("Posts deleted success fully");
       await queryClient.invalidateQueries({ queryKey: ["posts"] });
       await queryClient.invalidateQueries({ queryKey: ["posts-found"] });
       setIsDeletingPost(false);
     },
     onError: (error) => {
-      toast.error("Failed to delete Post");
       setIsDeletingPost(false);
       if (error instanceof Error) {
         errorLogV2({

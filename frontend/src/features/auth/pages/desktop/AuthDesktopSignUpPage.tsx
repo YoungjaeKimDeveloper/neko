@@ -4,7 +4,7 @@
 
 */
 // External
-import toast from "react-hot-toast";
+
 // Components
 import MainButton from "../../../../shared/components/MainButton";
 import AuthFooter from "../../components/common/AuthFooter";
@@ -44,8 +44,6 @@ const AuthDesktopSignUpPage = () => {
     mutationFn: (userData: SignUpDTO) => signupAPI(userData),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["authUser"] });
-
-      await toast.success("User signup");
       naviagte("/home");
     },
     onError: (error: unknown) => {
@@ -56,7 +54,6 @@ const AuthDesktopSignUpPage = () => {
       if (error instanceof Error) {
         console.log("Failed to signup", error?.message);
       }
-      toast.error("Failed to signup");
     },
   });
   // Submit to API

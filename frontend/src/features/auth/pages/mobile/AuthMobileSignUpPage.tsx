@@ -13,7 +13,7 @@ import {
   type AuthSignupFormValues,
 } from "../../schema/auth.signup.schema";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import signupAPI from "../../services/auth.signup.service";
 
@@ -36,7 +36,6 @@ const AuthMobileSignUpPage = () => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["authUser"] });
       await navigate("/home");
-      toast.success("Hello user");
     },
     onError: async (error) => {
       setError("root", {

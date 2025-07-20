@@ -64,7 +64,9 @@ const PostInput = ({
             />
             {/* error message */}
             {errorMessage && (
-              <p className="text-warning text-sm">{errorMessage}</p>
+              <p className="text-warning text-[12px] md:text-sm">
+                {errorMessage}
+              </p>
             )}
           </div>
           {/* World counter */}

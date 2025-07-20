@@ -15,7 +15,6 @@ import { useState } from "react";
 import { format } from "date-fns";
 import MainButton from "../../../shared/components/MainButton";
 import { axiosInstance } from "../../../shared/api/axios";
-import toast from "react-hot-toast";
 import AuthMobileSidebar from "../../auth/components/mobile/AuthMobileSidebar";
 import { useNavigate } from "react-router-dom";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -90,7 +89,7 @@ const ProfilePage = () => {
         queryKey: ["userProfile", currentUser?.user_name],
       });
       await navigate("/");
-      toast.success("User profile has been updated successfully");
+
       // navigate to homepage
     },
     onError: (error) => {
@@ -114,75 +113,76 @@ const ProfilePage = () => {
       <AuthMobileSidebar />
       <AuthDesktopSidebar />
       {/* Right */}
-      <div className=" w-[90%] md:w-[60%] mt-10 rounded-xl mx-auto lg:pl-[100px] bg-gray-50 shadow-xl pb-10">
-        <div className="rounded-card  mx-auto flex-1 items-center justify-center flex-row">
-          {/* Component Container */}
-          <div className="w-[100%] mx-auto ">
-            {/* Heading + Image */}
-            <form onSubmit={handleSubmit(onSubmit)}>
-              {/* Profile */}
-
-              {/* Profile image */}
-              <div className="py-4 w-[100%] mx-auto">
-                <h3 className="text-2xl font-bold tracking-wider mx-auto text-center mb-4">
-                  Profile
-                </h3>
-                <UserProfilePicture
-                  imageSrc={
-                    previewUrl ||
-                    currentUser?.user_profile_image ||
-                    "/userProfile.png"
-                  }
-                  imageSize="size-20"
-                  isEditable={true}
-                  isLoading={isSubmitting}
-                  onImageChange={handleImageChange}
-                />
-              </div>
-              {/* Input Components*/}
-              <div className=" w-[90%] md:w-[60%] mx-auto flex flex-col  items-start justify-between gap-10 mt-10">
-                {/* Input Component*/}
-                <ProfileInput
-                  htmlForLabel="Email"
-                  placeholder="Email"
-                  inputValue={currentUser?.email || ""}
-                />
-                <ProfileInput
-                  htmlForLabel="Name"
-                  placeholder="name"
-                  inputValue={currentUser?.user_name || ""}
-                  isEditable={false}
-                />
-                <ProfileInput
-                  htmlForLabel="Location"
-                  placeholder={currentUser?.location || ""}
-                  inputValue={watch("updated_location") || ""}
-                  isEditable={true}
-                  isUploading={isSubmitting}
-                  register={register("updated_location")}
-                  maxNumberOfWord={15}
-                />
-                <ProfileInput
-                  htmlForLabel="Since"
-                  placeholder="Email"
-                  inputValue={format(
-                    new Date(currentUser?.created_at || ""),
-                    "dd/MM/yyyy"
-                  )}
-                />
-              </div>
-              <p className="text-center text-red-500 py-5">
-                {errors.root && errors.root.message}
-              </p>
-              <div className="mt-10">
-                <MainButton
-                  text="Save"
-                  type="submit"
-                  isLoading={isSubmitting}
-                  style="p-4 w-[50%] mx-auto"
-                />
-              </div>
-            </form>
+      <div className="lg:pl-[150px] mt-5">
+        <div className=" w-[90%] md:w-[60%] rounded-xl mx-auto shadow-md border border-gray-200 pb-10 md:mt-10 ">
+          <div className="rounded-card  mx-auto flex-1 items-center justify-center flex-row">
+            {/* Component Container */}
+            <div className="w-[100%] mx-auto pt-10 ">
+              {/* Heading + Image */}
+              <form onSubmit={handleSubmit(onSubmit)}>
+                {/* Profile */}
+                {/* Profile image */}
+                <div className="py-4 w-[100%] mx-auto">
+                  <h3 className="text-2xl font-bold tracking-wider mx-auto text-center mb-4">
+                    Profile
+                  </h3>
+                  <UserProfilePicture
+                    imageSrc={
+                      previewUrl ||
+                      currentUser?.user_profile_image ||
+                      "/userProfile.png"
+                    }
+                    imageSize="size-20"
+                    isEditable={true}
+                    isLoading={isSubmitting}
+                    onImageChange={handleImageChange}
+                  />
+                </div>
+                {/* Input Components*/}
+                <div className=" w-[90%] md:w-[60%] mx-auto flex flex-col  items-start justify-between gap-10 mt-10">
+                  {/* Input Component*/}
+                  <ProfileInput
+                    htmlForLabel="Email"
+                    placeholder="Email"
+                    inputValue={currentUser?.email || ""}
+                  />
+                  <ProfileInput
+                    htmlForLabel="Name"
+                    placeholder="name"
+                    inputValue={currentUser?.user_name || ""}
+                    isEditable={false}
+                  />
+                  <ProfileInput
+                    htmlForLabel="Location"
+                    placeholder={currentUser?.location || ""}
+                    inputValue={watch("updated_location") || ""}
+                    isEditable={true}
+                    isUploading={isSubmitting}
+                    register={register("updated_location")}
+                    maxNumberOfWord={15}
+                  />
+                  <ProfileInput
+                    htmlForLabel="Since"
+                    placeholder="Email"
+                    inputValue={format(
+                      new Date(currentUser?.created_at || ""),
+                      "dd/MM/yyyy"
+                    )}
+                  />
+                </div>
+                <p className="text-center text-red-500 py-5">
+                  {errors.root && errors.root.message}
+                </p>
+                <div className="mt-10">
+                  <MainButton
+                    text="Save"
+                    type="submit"
+                    isLoading={isSubmitting}
+                    style="p-4 w-[50%] mx-auto"
+                  />
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
