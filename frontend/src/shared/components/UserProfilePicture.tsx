@@ -14,6 +14,7 @@ interface ProfilePicture {
   onImageChange?: (previewUrl: string, file: File) => void; // transfer the data to the parent
   isLoading?: boolean;
 }
+// Component
 const UserProfilePicture = ({
   imageSrc,
   imageSize,
@@ -36,6 +37,7 @@ const UserProfilePicture = ({
       onImageChange?.(previewImageUrl, file);
     }
   };
+
   // BUILD UI
   return (
     <div className="mx-auto flex flex-col items-center justify-center relative">

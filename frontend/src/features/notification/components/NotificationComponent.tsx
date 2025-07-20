@@ -57,13 +57,15 @@ const NotificationComponent = ({
     >
       <div className=" w-full h-full">
         {/* Userimg -top */}
-        <img
-          src={`${
-            notification.users_user_profile_image ?? "/userProfile.png"
-          } `}
-          alt="user_profile_img"
-          className="size-14 rounded-full z-0 translate-y-2 bottom-12"
-        />
+        <Link to={`/${notification.user_user_name}`}>
+          <img
+            src={`${
+              notification.users_user_profile_image ?? "/userProfile.png"
+            } `}
+            alt="user_profile_img"
+            className="size-14 rounded-full z-0 translate-y-2 bottom-12"
+          />
+        </Link>
         {/* Details - bottom */}
         <div
           className={`flex items-center gap-x-4 mb-4 top-12 -z-10   left-2 w-[99%] rounded-xl py-2 px-2 border-gray-200 border shadow-sm ${
@@ -124,7 +126,11 @@ const NotificationComponent = ({
               <button
                 className="cursor-pointer"
                 onClick={() => handleReadNotification()}
-                disabled={isDeletingNotification || isReadingComment}
+                disabled={
+                  isDeletingNotification ||
+                  isReadingComment ||
+                  notification.notifications_is_read
+                }
               >
                 {isReadingComment ? (
                   <Loader2 className="animate-spin " />

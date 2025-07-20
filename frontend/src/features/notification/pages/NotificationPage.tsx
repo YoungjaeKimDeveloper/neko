@@ -23,10 +23,10 @@ import AuthMobileSidebar from "../../auth/components/mobile/AuthMobileSidebar";
 const NotificationPage = () => {
   const queryClient = useQueryClient();
   // Get current user - Caching
-  const currentUserId = queryClient.getQueryData<User>(["authUser"])?.id;
+  const currentUser = queryClient.getQueryData<User>(["authUser"]);
   // - 1. Fetch all notifications by currentUserId
   const { data: notifications, isLoading } = useQuery({
-    queryKey: ["notifications", currentUserId],
+    queryKey: ["notifications", currentUser?.id],
     queryFn: async () => {
       // Data type axios.get<Date Type>
       const result = await axiosInstance.get<ResponseDTO>("/notifications");
@@ -60,7 +60,7 @@ const NotificationPage = () => {
     onSuccess: async () => {
       toast.success("Notification read successfully!");
       await queryClient.invalidateQueries({
-        queryKey: ["notifications", currentUserId],
+        queryKey: ["notifications", currentUser?.id],
       });
     },
     onError: (error) => {
@@ -85,7 +85,7 @@ const NotificationPage = () => {
     onSuccess: async () => {
       toast.success("Delete notification successfully");
       await queryClient.invalidateQueries({
-        queryKey: ["notifications", currentUserId],
+        queryKey: ["notifications", currentUser?.id],
       });
     },
 
@@ -103,6 +103,7 @@ const NotificationPage = () => {
   if (isLoading) {
     return <LoadingPage />;
   }
+
   // BUILD UI
   return (
     <div>
@@ -112,7 +113,7 @@ const NotificationPage = () => {
       {/* Right - main - margin-l -150px */}
       <div className=" pl-5 lg:pl-[150px]  w-full h-full">
         {/* SubContainer - main content container */}
-        <div className=" mt-10 mx-auto rounded-xl shadow-xl border-solid border w-[85%]  sm:w-[80%] min-h-[600px] h-fit">
+        <div className=" mt-10 mx-auto rounded-xl shadow-sm border-solid border w-[85%]  sm:w-[80%]  pb-10 h-fit">
           {/* Notification */}
           <h3 className="font-content text-2xl py-4 shadow-sm  tracking-wide px-4 rounded-sm ">
             Notificaiton
