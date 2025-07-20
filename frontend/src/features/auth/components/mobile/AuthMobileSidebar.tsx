@@ -65,7 +65,7 @@ const AuthMobileSidebar = () => {
 
   // BUILD UI
   return (
-    <div className="relative block lg:hidden">
+    <div className="relative block lg:hidden z-50">
       <div className="fixed z-50 left-[20px] ">
         {/* Toggle Menu BTN */}
         {isShowingSidebar ? (
