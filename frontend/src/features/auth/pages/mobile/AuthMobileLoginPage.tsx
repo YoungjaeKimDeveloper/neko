@@ -59,7 +59,7 @@ const AuthMobileLoginPage = () => {
     // Outer Container
     <div className="px-10 mb-10 pt-10 md:pt-20 lg:hidden flex h-screen w-full">
       {/* Inner Container */}
-      <div className="w-[90%] md:w-[60%] shadow-md  mx-auto rounded-xl border-gray-200  md:h-fit border  h-fit">
+      <div className="w-[90%] md:w-[60%] shadow-md  mx-auto rounded-xl border-gray-200  md:h-fit border  h-fit  py-4">
         {/* Main Content */}
         <div
           className=" flex flex-col items-center h-fit 
@@ -108,7 +108,7 @@ const AuthMobileLoginPage = () => {
             </div>
           </form>
           {/* Sigm up message */}
-          <div className="md:mt-10 py-4">
+          <div className="md:mt-4 py-4">
             <AuthFooter
               description="Already have an account with Neko?."
               text="Sign up"

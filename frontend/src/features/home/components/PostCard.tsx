@@ -31,7 +31,7 @@ const PostCard = ({ post }: PostCardProps) => {
   const [isShowMenubar, setIsShowMenubar] = useState<boolean>(false);
   const [isDeletingPost, setIsDeletingPost] = useState<boolean>(false);
   // DELETE POST
-  const { mutate: deletePost } = useMutation({
+  const { mutateAsync: deletePost } = useMutation({
     mutationFn: async () => {
       setIsDeletingPost(true);
       const result = await axiosInstance.delete<ResponseDTO>(
@@ -58,9 +58,20 @@ const PostCard = ({ post }: PostCardProps) => {
     },
   });
   const isCurrentUserProfile = currentUser?.user_name == post.user_name;
+
+  const handleDeletePost = async () => {
+    setIsDeletingPost(true);
+    try {
+      await deletePost();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      setIsDeletingPost(false);
+    }
+  };
+
   // BUILD UI
   return (
-    <div className="card w-[275px] h-fit shadow-md bg-gray-50 ">
+    <div className="card w-[275px] h-fit shadow-md bg-gray-50 border-1 border-gray-200">
       {post.is_found && (
         <div className="absolute inset-0 bg-gray-200 bg-opacity-60 flex items-center justify-center z-10 rounded-xl">
           <p className="text-sm font-bold bg-gray-100 w-full text-center p-">
@@ -90,10 +101,13 @@ const PostCard = ({ post }: PostCardProps) => {
           )}
           {/* Menu bar...focus */}
           {isShowMenubar && (
-            <ul className="menu menu-horizontal lg:menu-horizontal bg-base-200 rounded-box absolute  right-[30px] gap-x-4">
+            <fieldset
+              disabled={isDeletingPost}
+              className="menu menu-horizontal lg:menu-horizontal bg-base-200 rounded-box absolute  right-[30px] gap-x-4"
+            >
               <button
                 disabled={isDeletingPost}
-                onClick={() => deletePost()}
+                onClick={() => handleDeletePost()}
                 className={`${isDeletingPost && "opacity-50"}`}
               >
                 <Trash2 className="size-5" />
@@ -104,7 +118,7 @@ const PostCard = ({ post }: PostCardProps) => {
               >
                 <Pencil className="size-5" />
               </Link>
-            </ul>
+            </fieldset>
           )}
         </div>
         {/* Middle -image */}

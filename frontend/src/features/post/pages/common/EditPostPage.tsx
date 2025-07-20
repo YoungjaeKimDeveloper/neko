@@ -151,113 +151,118 @@ const EditPostPage = () => {
           updatePost(data);
         })}
       >
-        {/* Image Preview */}
-        <div
-          className={`w-[100%] mx-auto h-20 mt-10 max-w-[600px]  flex flex-col justify-between`}
+        <fieldset
+          className="flex flex-col items-start w-[80%] mx-auto lg:w-screen gap-y-4"
+          disabled={isUpdating}
         >
-          <p>Edit post</p>
-          {/* Image Uploader images */}
+          {/* Image Preview */}
+          <div
+            className={`w-[100%] mx-auto h-20 mt-10 max-w-[600px]  flex flex-col justify-between`}
+          >
+            <p>Edit post</p>
+            {/* Image Uploader images */}
 
-          <div className="flex gap-x-2 rounded-x  items-center justify-between">
-            <div className="flex gap-x-2">
-              {image_urls?.map((url: string) => (
-                <div className="size-10">
-                  <img src={url} alt="image" className="size-10 rounded-sm" />
-                </div>
-              ))}
-            </div>
-            <label className="flex flex-col items-center">
-              <input
-                type="checkbox"
-                className="checkbox"
-                {...register("updated_is_found")}
-                defaultChecked={is_found}
-              />
-              <span className="font-content text-sm">I found my cat</span>
-            </label>
-          </div>
-          {errors.updated_image_urls?.message}
-        </div>
-        {/* Title */}
-        <PostInput
-          title="Title"
-          hintText={title}
-          numberOfLetters={40}
-          register={register("updated_title")}
-          errorMessage={errors.updated_title?.message}
-          value={title}
-          isSubmitting={isSubmitting}
-        />
-        {/* Text area - Description */}
-        <div className="w-[100%] mx-auto h-[200px] mt-5 max-w-[600px]">
-          <div className="flex mx-auto h-full">
-            {/* Title and Input */}
-            <div className="flex flex-col w-full items-start h-full">
-              {/* DESCRIPTION */}
-              <div className="flex flex-col w-full h-full">
-                <p>Description</p>
-                <textarea
-                  {...register("updated_content", {
-                    onChange: (e) => setDescription(e.target.value),
-                  })}
-                  value={description}
-                  maxLength={300}
-                  placeholder={content}
-                  className={
-                    "input shadow-postInput w-full  mt-3 font-content pl-[10px] h-full py-2 resize-none"
-                  }
+            <div className="flex gap-x-2 rounded-x  items-center justify-between">
+              <div className="flex gap-x-2">
+                {image_urls?.map((url: string) => (
+                  <div className="size-10">
+                    <img src={url} alt="image" className="size-10 rounded-sm" />
+                  </div>
+                ))}
+              </div>
+              <label className="flex flex-col items-center">
+                <input
+                  type="checkbox"
+                  className="checkbox"
+                  {...register("updated_is_found")}
+                  defaultChecked={is_found}
                 />
-              </div>
-              {/* World counter */}
-              <div className="flex justify-end w-full ">
-                <div className="flex justify-between w-full">
-                  <p className="text-warning">
-                    {errors.updated_content?.message}
-                  </p>
-                  <p className="text-hintText">
-                    {description.length}/{300}
-                  </p>
+                <span className="font-content text-sm">I found my cat</span>
+              </label>
+            </div>
+            {errors.updated_image_urls?.message}
+          </div>
+          {/* Title */}
+          <PostInput
+            title="Title"
+            hintText={title}
+            numberOfLetters={40}
+            register={register("updated_title")}
+            errorMessage={errors.updated_title?.message}
+            value={title}
+            isSubmitting={isSubmitting}
+          />
+          {/* Text area - Description */}
+          <div className="w-[100%] mx-auto h-[200px] mt-5 max-w-[600px]">
+            <div className="flex mx-auto h-full">
+              {/* Title and Input */}
+              <div className="flex flex-col w-full items-start h-full">
+                {/* DESCRIPTION */}
+                <div className="flex flex-col w-full h-full">
+                  <p>Description</p>
+                  <textarea
+                    {...register("updated_content", {
+                      onChange: (e) => setDescription(e.target.value),
+                    })}
+                    value={description}
+                    maxLength={300}
+                    placeholder={content}
+                    className={
+                      "input shadow-postInput w-full  mt-3 font-content pl-[10px] h-full py-2 resize-none"
+                    }
+                  />
+                </div>
+                {/* World counter */}
+                <div className="flex justify-end w-full ">
+                  <div className="flex justify-between w-full">
+                    <p className="text-warning">
+                      {errors.updated_content?.message}
+                    </p>
+                    <p className="text-hintText">
+                      {description.length}/{300}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        {/* Reward amount*/}
-        <PostInput
-          title="Reward amount"
-          hintText={`$${reward_amount}`}
-          numberOfLetters={3}
-          register={register("updated_reward_amount")}
-          errorMessage={errors.updated_reward_amount?.message}
-          value={rewardValue}
-          isSubmitting={isSubmitting}
-        />
-        {/* Location */}
-        <PostInput
-          title="Location"
-          hintText={location}
-          numberOfLetters={30}
-          register={register("updated_location")}
-          errorMessage={errors.updated_location?.message}
-          value={location}
-          isSubmitting={isSubmitting}
-        />
-        {/* Submit BTN */}
-        {isUpdating ? (
-          <MainButton
-            text="Loading..."
-            type="submit"
-            style="w-[30%] mt-5 mx-auto min-w-[200px]"
-            isLoading={isSubmitting}
+          {/* Reward amount*/}
+          <PostInput
+            title="Reward amount"
+            hintText={`$${reward_amount}`}
+            numberOfLetters={3}
+            register={register("updated_reward_amount")}
+            errorMessage={errors.updated_reward_amount?.message}
+            value={rewardValue}
+            isSubmitting={isSubmitting}
           />
-        ) : (
-          <MainButton
-            text="Edit"
-            type="submit"
-            style="w-[30%] mt-5 mx-auto min-w-[200px]"
-            isLoading={isSubmitting}
+          {/* Location */}
+          <PostInput
+            title="Location"
+            hintText={location}
+            numberOfLetters={30}
+            register={register("updated_location")}
+            errorMessage={errors.updated_location?.message}
+            value={location}
+            isSubmitting={isSubmitting}
           />
-        )}
+          {/* Submit BTN */}
+          {isUpdating ? (
+            <MainButton
+              text="Loading..."
+              type="submit"
+              style="w-[30%] mt-5 mx-auto min-w-[200px]"
+              isLoading={isUpdating}
+            />
+          ) : (
+            <MainButton
+              text="Edit"
+              type="submit"
+              style="w-[30%] mt-5 mx-auto min-w-[200px]"
+              isLoading={isUpdating}
+            />
+          )}
+        </fieldset>
       </form>
     </div>
   );
