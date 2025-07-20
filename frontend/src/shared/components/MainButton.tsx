@@ -30,7 +30,7 @@ const MainButton = ({
     <button
       disabled={isLoading}
       type={type}
-      className={`flex justify-center items-center px-20 py-1 rounded-xl shadow-sm hover:bg-gray-100 duration-200 cursor-pointer font-content text-sm w-[${
+      className={` p-4 text-sm flex justify-center items-center px-20 rounded-xl shadow-sm hover:bg-gray-100 duration-200 cursor-pointer font-content  w-[${
         width ?? 100
       }%] ${style}`}
     >

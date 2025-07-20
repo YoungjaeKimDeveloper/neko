@@ -21,12 +21,12 @@ const Navbar = () => {
         </Link>
 
         {/* Right Home + Login */}
-        <div className="flex gap-2 pr-4">
+        <div className="flex gap-2 pr-10">
           <Link to={"/"}>
-            <Home />
+            <Home className="text-gray-400 font-bold hover:text-black duration-300" />
           </Link>
           <Link to={"/login"}>
-            <LogIn />
+            <LogIn className="text-gray-400 font-bold hover:text-black duration-300" />
           </Link>
         </div>
       </div>
