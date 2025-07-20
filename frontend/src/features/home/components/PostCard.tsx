@@ -59,7 +59,7 @@ const PostCard = ({ post }: PostCardProps) => {
       }
     },
   });
-  const isCurrentUserProfile = currentUser?.user_name == post.user_name
+  const isCurrentUserProfile = currentUser?.user_name == post.user_name;
   // BUILD UI
   return (
     <div className="card w-[275px] h-fit shadow-md bg-gray-50 ">

@@ -58,13 +58,17 @@ const AuthMobileLoginPage = () => {
   // BUILD UI
   return (
     // Outer Container
-    <div className="px-10 mb-10 pt-20 lg:hidden flex h-screen w-full">
+    <div className="px-10 mb-10 pt-10 md:pt-20 lg:hidden flex h-screen w-full">
       {/* Inner Container */}
-      <div className="w-[90%] md:w-[60%] shadow-md  mx-auto rounded-xl border-gray-200 h-fit">
+      <div className="w-[90%] md:w-[60%] shadow-md  mx-auto rounded-xl border-gray-200  md:h-fit border  h-fit">
         {/* Main Content */}
-        <div className=" flex flex-col items-center justify-center  h-full rounded-xl">
+        <div
+          className=" flex flex-col items-center h-fit 
+        
+        rounded-xl"
+        >
           {/* Welcome Message */}
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center py-2">
             <p>Welcome back!</p>
             <p>We've missed you.</p>
           </div>
