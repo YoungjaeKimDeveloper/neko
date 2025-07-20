@@ -54,13 +54,11 @@ const HomePage = () => {
         {isLoading ? (
           <LoadingPage />
         ) : (
-          <div className="flex-col flex-grow justify-end ">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-fit lg:w-full mx-auto mt-4 lg:mx-4 lg:pl-[200px] gap-5 gap-y-10 pb-32 pt-4">
-              {/* Mapping posts */}
-              {posts?.map((post: PostWithWriter) => (
-                <PostCard key={post.id} post={post} />
-              ))}
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-fit lg:w-full mx-auto mt-4 lg:mx-4 lg:pl-[200px] gap-5 gap-y-10 pb-32 pt-4">
+            {/* Mapping posts */}
+            {posts?.map((post: PostWithWriter) => (
+              <PostCard key={post.id} post={post} />
+            ))}
           </div>
         )}
       </div>
