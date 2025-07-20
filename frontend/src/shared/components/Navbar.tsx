@@ -9,25 +9,27 @@ const Navbar = () => {
   // BUILD UI
   return (
     // Size
-    <div className="w-screen shadow-lg h-[75px] ">
-      {/* Layout */}
-      <div className="flex justify-between items-center ">
-        {/* Left Logo + Neko */}
-        <Link to={"/"}>
-          <div className="flex items-center">
-            <img src="/neko_logo.png" alt="logo_img" className="h-20" />
-            <h3 className="font-title text-primary text-2xl">Neko</h3>
-          </div>
-        </Link>
-
-        {/* Right Home + Login */}
-        <div className="flex gap-2 pr-10">
+    <div className="py-1 border-b-gray-100 shadow-sm border">
+      <div className="w-screen h-[75p]">
+        {/* Layout */}
+        <div className="flex justify-between items-center ">
+          {/* Left Logo + Neko */}
           <Link to={"/"}>
-            <Home className="text-gray-400 font-bold hover:text-black duration-300" />
+            <div className="flex items-center">
+              <img src="/neko_logo.png" alt="logo_img" className="h-20" />
+              <h3 className="font-title text-primary text-2xl">Neko</h3>
+            </div>
           </Link>
-          <Link to={"/login"}>
-            <LogIn className="text-gray-400 font-bold hover:text-black duration-300" />
-          </Link>
+
+          {/* Right Home + Login */}
+          <div className="flex gap-2 pr-10">
+            <Link to={"/"}>
+              <Home className="text-gray-400 font-bold hover:text-black duration-300" />
+            </Link>
+            <Link to={"/login"}>
+              <LogIn className="text-gray-400 font-bold hover:text-black duration-300" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>
