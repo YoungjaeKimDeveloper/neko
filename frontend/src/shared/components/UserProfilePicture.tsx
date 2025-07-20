@@ -39,7 +39,7 @@ const UserProfilePicture = ({
   // BUILD UI
   return (
     <div className="mx-auto flex flex-col items-center justify-center relative">
-      <div className="bg-gray-100 px-5  pt-5 pb-0 rounded-xl">
+      <div>
         <img
           src={imageSrc ?? "/userProfile.png"}
           alt="user-profile-image"

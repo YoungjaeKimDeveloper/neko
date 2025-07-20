@@ -56,7 +56,7 @@ const OtherUserProfile = () => {
       <AuthMobileSidebar />
       <AuthDesktopSidebar />
       {/* Right */}
-      <div className=" w-[60%] mt-10 rounded-xl mx-auto lg:pl-[100px]  bg-gray-50 shadow-xl pb-10">
+      <div className=" w-[90%] md:w-[60%] mt-10 rounded-xl mx-auto lg:pl-[100px] bg-gray-50 shadow-xl pb-10">
         <div className="rounded-card  mx-auto flex-1 items-center justify-center flex-row">
           {/* Component Container */}
           <div className="w-[100%] mx-auto ">
@@ -76,7 +76,7 @@ const OtherUserProfile = () => {
               />
             </div>
             {/* Input Components*/}
-            <div className="w-[60%] mx-auto flex flex-col  items-start justify-between gap-10 mt-10">
+            <div className=" w-[90%] md:w-[60%] mx-auto flex flex-col  items-start justify-between gap-10 mt-10">
               {/* Input Component*/}
               <ProfileInput
                 htmlForLabel="Email"
