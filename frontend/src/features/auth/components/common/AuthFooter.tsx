@@ -8,7 +8,7 @@ interface AuthFooter {
 const AuthFooter = ({ text, description, path }: AuthFooter) => {
   // BUILD UI
   return (
-    <div className="mt-4 flex items-center gap-x-2 text-sm">
+    <div className="mt-4 flex items-center gap-x-2 text-sm ">
       <p className="text-hintText">{description}</p>
       <Link to={`/${path}`}>
         <p className="underline">{text}</p>

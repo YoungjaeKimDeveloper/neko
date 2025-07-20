@@ -9,14 +9,14 @@ import MainButton from "../../components/MainButton";
 const Landingpage = () => {
   return (
     // Outer - Position
-    <div className="px-10 mb-10 mt-12  h-screen">
+    <div className="px-10 mb-10 mt-12 h-screen">
       {/* Container*/}
       <div className="w-full h-fit lg:h-[80%] rounded-card  flex flex-col items-center lg:justify-center py-4 lg:flex-row lg:gap-10 shadow-xl">
         {/* Loayout */}
         <img
           src={"/landing_page.jpg"}
           alt="landing_image"
-          className="rounded-card w-[90%] max-h-[80%] mt-5 shadow-lg lg:w-[33%] lg:h-[66%]"
+          className="rounded-card w-[90%] max-h-[80%] mt-5 shadow-sm lg:w-[33%] lg:h-[66%]"
         />
         {/* Small Text */}
         <div className="mt-5 lg:w-[33%] lg:flex lg:flex-col lg:items-center lg:text-center lg:shadow-md lg:h-[66%] lg:py-4 lg:rounded-card flex  flex-col items-center justify-center lg:border lg:border-gray-200">

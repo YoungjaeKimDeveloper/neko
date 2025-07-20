@@ -58,9 +58,9 @@ const AuthMobileLoginPage = () => {
   // BUILD UI
   return (
     // Outer Container
-    <div className="px-10 mb-10 pt-20 lg:hidden flex items-center">
+    <div className="px-10 mb-10 pt-20 lg:hidden flex h-screen w-full">
       {/* Inner Container */}
-      <div className="w-[300px] shadow-lg  h-[500px] mx-auto rounded-xl">
+      <div className="w-[90%] md:w-[60%] shadow-md  mx-auto rounded-xl border-gray-200 h-fit">
         {/* Main Content */}
         <div className=" flex flex-col items-center justify-center  h-full rounded-xl">
           {/* Welcome Message */}
@@ -105,11 +105,13 @@ const AuthMobileLoginPage = () => {
             </div>
           </form>
           {/* Sigm up message */}
-          <AuthFooter
-            description="Already have an account with Neko?."
-            text="Sign up"
-            path="signup"
-          />
+          <div className="md:mt-10 py-4">
+            <AuthFooter
+              description="Already have an account with Neko?."
+              text="Sign up"
+              path="signup"
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -29,7 +29,7 @@ const AuthInputText = ({
           {...register}
           type="text"
           placeholder={hintText ?? "Email@gmail.com"}
-          className="input w-full [text-indent:1rem] shadow-md font-content placeholder:text-hintText placeholder:text-sm"
+          className="input w-full [text-indent:1rem] shadow-sm border border-gray-200 font-content placeholder:text-hintText placeholder:text-sm"
         />
       </div>
       {errorMessage && (

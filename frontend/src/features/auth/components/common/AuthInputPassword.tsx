@@ -31,7 +31,7 @@ const AuthInputPassword = ({
           {...register}
           type={isShowPassword ? "text" : "password"}
           placeholder={hintText}
-          className="input w-full [text-indent:1rem] shadow-md font-content placeholder:text-hintText placeholder:text-sm"
+          className="input w-full [text-indent:1rem] shadow-sm border-gray-200 font-content placeholder:text-hintText placeholder:text-sm"
         />
         {/* Show password */}
         {isShowPassword ? (

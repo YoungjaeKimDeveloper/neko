@@ -57,14 +57,14 @@ const AuthDesktopLoginPage = () => {
   const onSubmit: SubmitHandler<AuthLoginFormValues> = (data) => login(data);
   // Build Ui
   return (
-    <div className="w-full -full flex items-center justify-center ">
+    <div className="w-full -full flex items-center justify-center pb-10">
       <div className="px-10 hidden lg:block mt-20 ">
         <div className="w-[100%] bg-gray-50-50 h-[700px] rounded-lg border border-gray-300 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-2 w-full h-full rounded-lg">
             {/* Left - Login Input */}
             <div className="col-span-1 w-full h-full flex flex-col items-center pt-20 rounded-l-lg">
               {/* Left - Welcome Message */}
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center text-xl">
                 <p>Welcome back!</p>
                 <p>We've missed you.</p>
               </div>

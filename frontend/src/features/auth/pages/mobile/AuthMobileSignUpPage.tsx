@@ -51,13 +51,13 @@ const AuthMobileSignUpPage = () => {
   // BUILD UI
   return (
     // Outer Container
-    <div className="px-10 mb-10 mt-20">
+    <div className="px-10 mb-20 pt-4 md:mt-10 lg:hidden flex h-screen w-full">
       {/* Inner Container */}
-      <div className="w-[80%] h-fit  bg-grayr-50  mx-auto rounded-xl shadow-lg">
+      <div className="w-[90%] md:w-[60%] shadow-md h-fit mx-auto rounded-xl border-gray-200 ">
         {/* Main Content */}
-        <div className=" flex flex-col items-center justify-center bg-grey-50 h-full rounded-xl">
+        <div className=" flex flex-col items-center justify-center  h-full rounded-xl">
           {/* Welcome Message */}
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center py-4">
             <p>Welcome to the Neko family</p>
             <p>we're glad you're here</p>
           </div>
@@ -94,7 +94,7 @@ const AuthMobileSignUpPage = () => {
               {errors.root && errors.root.message}
             </p>
             {/* Login button */}
-            <div className="w-[80%] mx-auto mt-3">
+            <div className="w-[80%] mx-auto mt-1">
               <MainButton text="sign up" type="submit" />
             </div>
           </form>

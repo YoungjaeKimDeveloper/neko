@@ -11,9 +11,7 @@ const AuthLoginPage = () => {
   // Build Ui
   return (
     <>
-      {/* Mobile */}
       <AuthMobileLoginPage />
-      {/* Desktop */}
       <AuthDesktopLoginPage />
     </>
   );

@@ -10,12 +10,8 @@ import AuthMobileSignUpPage from "./mobile/AuthMobileSignUpPage";
 const AuthSignUpPage = () => {
   return (
     <>
-      <div className="block lg:hidden">
-        <AuthMobileSignUpPage />
-      </div>
-      <div className="hidden lg:block">
-        <AuthDesktopSignUpPage />
-      </div>
+      <AuthMobileSignUpPage />
+      <AuthDesktopSignUpPage />
     </>
   );
 };
