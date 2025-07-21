@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build:backend": "tsc",
     "dev": "ts-node-dev --respawn --transpile-only backend/server.ts",
     "test": "jest",
-    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend && npm run build:backend",
+    "start": "node dist/backend/server.js"
   },
   "repository": {
     "type": "git",
