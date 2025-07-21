@@ -21,12 +21,14 @@ import notificationRouter from "./features/notification/application/router/notif
 import likeRouter from "./features/like/application/routers/like.router";
 import commentRouter from "./features/comment/application/router/comment.router";
 import profileRouter from "./features/profile/application/router/profile.router";
+import path from "path";
 
 dotenv.config();
 const PORT = process.env.PORT || 8011;
-
+// const __dirname = path.resolve();
 // SERVER SINGLETON
 const app = express();
+const frontendPath = path.resolve(__dirname, "../../frontend/dist");
 
 // middleware
 
@@ -56,6 +58,16 @@ app.use("/api/likes", likeRouter);
 app.use("/api/comments", commentRouter);
 // comment
 app.use("/api/profile", profileRouter);
+
+if (process.env.NODE_ENV === "production") {
+  // Serve React file
+  app.use(express.static(frontendPath));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(frontendPath, "index.html"));
+  });
+}
+
 // Server
 app.listen(PORT, async () => {
   try {
