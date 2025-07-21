@@ -1,7 +1,11 @@
 /*
 
   Show error message based on PostSchema
-
+  regex -> regular expression
+  / / regular literal
+  ^ start $ end
+  [a-z] allowed character
+  + at least one character
 */
 import { z } from "zod";
 
@@ -10,7 +14,10 @@ export const PostSchema = z.object({
   title: z
     .string()
     .min(5, { message: "Title should be at least 5 characters." })
-    .max(40, { message: "Title should be 40 characters or less." }),
+    .max(40, { message: "Title should be 40 characters or less." })
+    .regex(/^[^!@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?`~]+$/, {
+      message: "Special characters are not allowed",
+    }),
   image_urls: z
     .array(z.any(), { required_error: "At least 1 image is required" })
     .min(1, { message: "At least 1 image is required." })
@@ -18,7 +25,10 @@ export const PostSchema = z.object({
   content: z
     .string()
     .min(10, { message: "Description should be at least 10 characters." })
-    .max(300, { message: "Description should be 300 characters or less." }),
+    .max(300, { message: "Description should be 300 characters or less." })
+    .regex(/^[^!@#$%^&*()_+<>]+$/, {
+      message: "Special characters are not allowed",
+    }),
   reward_amount: z.coerce
     .number()
     .nullable()
@@ -46,7 +56,10 @@ export const PostSchema = z.object({
   location: z
     .string()
     .min(3, { message: "Location should be at least 3 characters." })
-    .max(30, { message: "Location should be 20 characters or less." }),
+    .max(30, { message: "Location should be 20 characters or less." })
+    .regex(/^[^!@#$%^&*()_+./?<>]+$/, {
+      message: "Special characters are not allowed",
+    }),
 });
 
 // complie type

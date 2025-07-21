@@ -107,10 +107,10 @@ const CreatePostPage = () => {
           <div
             className={`w-[100%] mx-auto h-20 mt-10 max-w-[600px]  flex flex-col justify-between`}
           >
-            <p>Create post</p>
+            <p className="pb-4">Create post</p>
             {/* Image Uploader */}
             <ImageUploader images={images} onChange={onChange} />
-            <p className="text-warning text-sm">
+            <p className="text-warning text-sm py-2">
               {errors.image_urls?.message}{" "}
             </p>
           </div>
@@ -143,7 +143,7 @@ const CreatePostPage = () => {
                 {/* World counter */}
                 <div className="flex justify-end w-full ">
                   <div className="flex justify-between w-full">
-                    <p className="text-warning">
+                    <p className="text-warning text-[12px] md:text-sm">
                       {errors.content && errors.content?.message}{" "}
                     </p>
                     <p className="text-hintText">
