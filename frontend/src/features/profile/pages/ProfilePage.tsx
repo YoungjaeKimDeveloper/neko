@@ -113,7 +113,7 @@ const ProfilePage = () => {
       <AuthMobileSidebar />
       <AuthDesktopSidebar />
       {/* Right */}
-      <div className="lg:pl-[150px] mt-5">
+      <div className=" sm:pl-2 lg:pl-[150px] mt-5">
         <div className=" w-[90%] md:w-[60%] rounded-xl mx-auto shadow-md border border-gray-200 pb-10 md:mt-10 ">
           <div className="rounded-card  mx-auto flex-1 items-center justify-center flex-row">
             {/* Component Container */}

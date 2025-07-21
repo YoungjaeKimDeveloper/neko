@@ -106,37 +106,39 @@ const NotificationPage = () => {
 
   // BUILD UI
   return (
-    <div>
+    <div className="min-h-screen relative">
       {/* Left - Sidebar */}
       <AuthMobileSidebar />
       <AuthDesktopSidebar />
       {/* Right - main - margin-l -150px */}
-      <div className=" pl-5 lg:pl-[150px]  w-full h-full">
-        {/* SubContainer - main content container */}
-        <div className=" mt-10 mx-auto rounded-xl shadow-sm border-solid border w-[85%]  sm:w-[80%]  pb-10 h-fit">
-          {/* Notification */}
-          <h3 className="font-content text-2xl py-4 shadow-sm  tracking-wide px-4 rounded-sm ">
-            Notificaiton
-          </h3>
-          {/* Notification - Component */}
-          {notifications?.data?.length > 0 ? (
-            <div>
-              {notifications?.data.map(
-                (notification: NotificationAPIResponse) => (
-                  <NotificationComponent
-                    key={notification.notifications_id}
-                    notification={notification}
-                    onReadNotification={readNotification}
-                    onDeleteNotification={deleteNotification}
-                  />
-                )
-              )}
-            </div>
-          ) : (
-            <div className=" w-full min-h-[600px] flex items-center justify-center">
-              <p>No notifications yet.</p>
-            </div>
-          )}
+      <div className="">
+        <div className=" pl-5 lg:pl-[150px] w-full h-full">
+          {/* SubContainer - main content container */}
+          <div className=" mx-auto rounded-xl shadow-sm border-solid border w-[85%]  sm:w-[80%]  pb-10 h-fit  mt-10">
+            {/* Notification */}
+            <h3 className="font-content text-2xl py-4 shadow-sm  tracking-wide px-4 rounded-sm ">
+              Notificaiton
+            </h3>
+            {/* Notification - Component */}
+            {notifications?.data?.length > 0 ? (
+              <div>
+                {notifications?.data.map(
+                  (notification: NotificationAPIResponse) => (
+                    <NotificationComponent
+                      key={notification.notifications_id}
+                      notification={notification}
+                      onReadNotification={readNotification}
+                      onDeleteNotification={deleteNotification}
+                    />
+                  )
+                )}
+              </div>
+            ) : (
+              <div className=" w-full min-h-[400px] flex items-center justify-center">
+                <p>No notifications yet.</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

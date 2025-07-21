@@ -63,8 +63,8 @@ const AuthMobileSidebar = () => {
 
   // BUILD UI
   return (
-    <div className="relative block lg:hidden z-50 ">
-      <div className="fixed z-50 left-[20px] ">
+    <div className=" block lg:hidden z-50 ">
+      <div className="fixed z-50 left-[20px] top-20">
         {/* Toggle Menu BTN */}
         {isShowingSidebar ? (
           <HoverEffectedIcon
