@@ -41,7 +41,7 @@ const SinglePostPage = () => {
   const [immageNumber, setImmageNumber] = useState<number>(0);
   const { postId } = useParams();
   const queryClient = useQueryClient();
-  const [isShowComment, setIsShowComment] = useState<boolean>(true);
+  const [isShowComment, setIsShowComment] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [commentLength, setCommentLength] = useState(0);
 
@@ -378,16 +378,18 @@ const SinglePostPage = () => {
               </div>
             </div>
             {/* Price + Location */}
-            <div className="flex flex-col justify-between h-[50px]">
+            <div className="flex flex-col justify-between h-[50px] gap-y-2">
               {/* Price +Icon */}
               <div className="flex items-center gap-x-1">
                 <Gift />
-                <p>${res?.data?.post?.reward_amount}</p>
+                <p className="text-gray-400">
+                  ${res?.data?.post?.reward_amount}
+                </p>
               </div>
               {/* Icon + Location */}
               <div className="flex items-center justify-center">
                 <MapPin className="text-warning" />
-                <p>{res?.data?.post?.location}</p>
+                <p className="text-gray-400">{res?.data?.post?.location}</p>
               </div>
             </div>
           </div>

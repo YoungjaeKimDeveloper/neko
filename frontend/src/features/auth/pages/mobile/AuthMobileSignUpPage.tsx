@@ -26,7 +26,7 @@ const AuthMobileSignUpPage = () => {
     register,
     handleSubmit,
     setError,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<AuthSignupFormValues>({
     resolver: zodResolver(authSignupSchema),
   });
@@ -94,7 +94,11 @@ const AuthMobileSignUpPage = () => {
             </p>
             {/* Login button */}
             <div className="w-[80%] mx-auto mt-1">
-              <MainButton text="sign up" type="submit" />
+              <MainButton
+                text="sign up"
+                type="submit"
+                isLoading={isSubmitting}
+              />
             </div>
           </form>
           {/* Sigm up message */}
