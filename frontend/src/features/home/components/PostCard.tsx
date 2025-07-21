@@ -11,7 +11,7 @@ import { useState } from "react";
 import { axiosInstance } from "../../../shared/api/axios";
 import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
 
-import { errorLogV2 } from "../../../../../shared/error/error.log";
+import { errorLogV2 } from "../../../../../shared/error/error.log.ts";
 import type { UserProfile } from "../../../../../shared/dto/profile/profile.dto";
 // Interface
 interface PostCardProps {

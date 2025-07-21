@@ -8,8 +8,8 @@
 import sql from "../../../db/config/db";
 import { errorLog } from "../../../../shared/error/error.log";
 import { LikeDto, UnLikeDTO } from "../domain/dto/like.dto";
-import Like from "../domain/entity/like";
-import LikeRepo from "../domain/repo/like.repo";
+import type Like from "../domain/entity/like";
+import type LikeRepo from "../domain/repo/like.repo";
 
 class NeonLikeRepo implements LikeRepo {
   likePost = async (params: LikeDto): Promise<Like | null> => {

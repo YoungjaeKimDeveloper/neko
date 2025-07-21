@@ -1,6 +1,6 @@
 // External
 import bcrypt from "bcrypt";
-import { Response, Request } from "express";
+import type { Response, Request } from "express";
 // Internal
 import AuthNeonRepo from "../../data/auth.neon.repo";
 import { generateToken } from "../token/generateToken";

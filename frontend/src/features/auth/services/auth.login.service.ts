@@ -2,7 +2,7 @@
     Auth Login Service
 */
 import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
-import { RESPONSE_HTTP } from "../../../../../shared/constants/http-status";
+import { RESPONSE_HTTP } from "../../../../../shared/constants/http-status.ts";
 import type { LoginDTO } from "../../../../../shared/dto/auth/auth.request.dto";
 import { axiosInstance } from "../../../shared/api/axios";
 

@@ -6,7 +6,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AuthDesktopSidebar } from "../../auth/components/desktop/AuthDesktopSidebar";
 import { axiosInstance } from "../../../shared/api/axios";
-import { errorLogV2 } from "../../../../../shared/error/error.log";
+import { errorLogV2 } from "../../../../../shared/error/error.log.ts";
 import PostCard from "../components/PostCard";
 import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
 import type { PostWithWriter } from "../../../../../backend/features/post/domain/entities/post";

@@ -9,7 +9,7 @@
 */
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { errorLogV2 } from "../../../../shared/error/error.log";
+import { errorLogV2 } from "../../../../shared/error/error.log.ts";
 import PostCard from "../home/components/PostCard";
 
 import type { ResponseDTO } from "../../../../shared/dto/common/response.dto";

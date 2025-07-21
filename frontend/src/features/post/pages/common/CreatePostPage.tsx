@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { PostSchema, type PostFormValues } from "../../schema/postSchema";
 import ImageUploader from "../../../../shared/components/ImageUploader";
 import { axiosInstance } from "../../../../shared/api/axios";
-import { RESPONSE_HTTP } from "../../../../../../shared/constants/http-status";
+import { RESPONSE_HTTP } from "../../../../../../shared/constants/http-status.ts";
 
 import toast from "react-hot-toast";
 import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto";

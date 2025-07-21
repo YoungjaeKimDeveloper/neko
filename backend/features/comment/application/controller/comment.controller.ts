@@ -4,7 +4,7 @@
         1.1 Create Notification
     2. Delete Comment  
 */
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
 import { VerifiedUserRequest } from "../../../post/application/controllers/post.controller";
 import NeonCommentRepo from "../../data/neon.comment.repo";

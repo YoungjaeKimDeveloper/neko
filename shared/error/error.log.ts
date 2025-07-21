@@ -2,8 +2,6 @@
     ERROR MESSAGE AND ERROR STACK
 */
 
-import { error } from "console";
-
 interface ErrorDTO {
   file?: string;
   location: string;

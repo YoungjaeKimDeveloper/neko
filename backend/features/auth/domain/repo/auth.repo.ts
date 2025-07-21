@@ -13,7 +13,7 @@
             - getCurrentUser
  */
 
-import User from "../entities/user";
+import type User from "../entities/user";
 
 export interface AuthRepo {
   // Signup

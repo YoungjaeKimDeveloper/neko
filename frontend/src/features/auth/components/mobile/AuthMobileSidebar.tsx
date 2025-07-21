@@ -22,7 +22,7 @@ import type User from "../../../../../../backend/features/auth/domain/entities/u
 import { axiosInstance } from "../../../../shared/api/axios";
 import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto";
 
-import { errorLogV2 } from "../../../../../../shared/error/error.log";
+import { errorLogV2 } from "../../../../../../shared/error/error.log.ts";
 import type { NotificationAPIResponse } from "../../../../../../backend/features/notification/domain/dto/notification.dto";
 
 // Component..

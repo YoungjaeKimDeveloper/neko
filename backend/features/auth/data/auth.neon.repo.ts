@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 */
 
 import sql from "../../../db/config/db";
-import User from "../domain/entities/user";
+import type User from "../domain/entities/user";
 import { AuthRepo } from "../domain/repo/auth.repo";
 import { errorLog } from "../../../../shared/error/error.log";
 

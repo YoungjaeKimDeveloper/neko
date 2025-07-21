@@ -18,7 +18,7 @@ import { axiosInstance } from "../../../shared/api/axios";
 import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
 import toast from "react-hot-toast";
 import type { UserProfile } from "../../../../../shared/dto/profile/profile.dto";
-import { errorLogV2 } from "../../../../../shared/error/error.log";
+import { errorLogV2 } from "../../../../../shared/error/error.log.ts";
 import LoadingPage from "../../../shared/pages/common/LoadingPage";
 
 // Component

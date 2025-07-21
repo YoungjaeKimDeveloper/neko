@@ -1,5 +1,5 @@
 // OCP(Open-Close Principle)
-import { Response } from "express";
+import type { Response } from "express";
 
 // Version - 1
 export interface ResponseInterface {

@@ -6,9 +6,9 @@ import sql from "../db/config/db";
     Signned with user email
 
 */
-import { Request, Response, NextFunction } from "express";
+import  type { Request, Response, NextFunction } from "express";
 import { ResponseDTO } from "../../shared/dto/common/response.dto";
-import User from "../features/auth/domain/entities/user";
+import type User from "../features/auth/domain/entities/user";
 import { sendResponse } from "../lib/utils/response/helper/response.helper";
 import { RESPONSE_HTTP } from "../../shared/constants/http-status";
 import { RESPONSE_MESSAGES } from "../lib/utils/constants/messages";

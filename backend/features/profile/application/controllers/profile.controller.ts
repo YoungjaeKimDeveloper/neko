@@ -3,7 +3,7 @@ import { SearchUserProfileDTO } from "./../../domain/dto/profile.dto";
     Profile Controller
       - Feat: Update users' profile
 */
-import { Response, Request } from "express";
+import type { Response, Request } from "express";
 import NeonProfile from "../../data/neon.profile.repo";
 import { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
 import { VerifiedUserRequest } from "../../../post/application/controllers/post.controller";

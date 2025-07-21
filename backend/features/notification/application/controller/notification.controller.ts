@@ -1,4 +1,4 @@
-import { Response, Request } from "express";
+import type { Response, Request } from "express";
 import { VerifiedUserRequest } from "../../../post/application/controllers/post.controller";
 import { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
 import { errorLog } from "../../../../../shared/error/error.log";

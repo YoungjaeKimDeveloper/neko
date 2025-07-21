@@ -20,7 +20,7 @@ import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../../../../shared/api/axios";
 
-import { errorLogV2 } from "../../../../../../shared/error/error.log";
+import { errorLogV2 } from "../../../../../../shared/error/error.log.ts";
 import LoadingPage from "../../../../shared/pages/common/LoadingPage";
 import type { DenormalisedPost } from "../../../../../../backend/features/post/domain/entities/post";
 import { formatDistanceToNow } from "date-fns";

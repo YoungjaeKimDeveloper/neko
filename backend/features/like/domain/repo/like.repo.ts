@@ -8,7 +8,7 @@
 
 import { LikeDto } from "../dto/like.dto";
 import { UnLikeDTO } from "../dto/like.dto";
-import Like from "../entity/like";
+import type Like from "../entity/like";
 
 export default interface LikeRepo {
   likePost(params: LikeDto): Promise<Like | null>;

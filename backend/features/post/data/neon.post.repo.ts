@@ -20,7 +20,7 @@ import {
   SinglePostWithComments,
 } from "../domain/entities/post";
 import PostRepo from "../domain/repo/post.repo";
-import Like from "../../like/domain/entity/like";
+import type Like from "../../like/domain/entity/like";
 import { Comment } from "../../comment/domain/entity/comment";
 
 class NeonPostRepo implements PostRepo {

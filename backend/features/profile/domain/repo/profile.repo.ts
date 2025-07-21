@@ -4,7 +4,7 @@
     - DDD
     */
 
-import User from "../../../auth/domain/entities/user";
+import type User from "../../../auth/domain/entities/user";
 import { ProfileUpdateDTO, SearchUserProfileDTO } from "../dto/profile.dto";
 
 export interface ProfileRepo {

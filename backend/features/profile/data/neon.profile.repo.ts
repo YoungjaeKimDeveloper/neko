@@ -5,7 +5,7 @@ import { UserProfile } from "./../../../../shared/dto/profile/profile.dto";
      - 2.fetch user Profile
 */
 
-import User from "../../auth/domain/entities/user";
+import type User from "../../auth/domain/entities/user";
 
 import { ProfileRepo } from "../domain/repo/profile.repo";
 import {

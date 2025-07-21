@@ -1,5 +1,5 @@
-import { Comment } from "../../../comment/domain/entity/comment";
-import Like from "../../../like/domain/entity/like";
+import type { Comment } from "../../../comment/domain/entity/comment";
+import type Like from "../../../like/domain/entity/like";
 
 /*
 

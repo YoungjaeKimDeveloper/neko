@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import User from "../../../auth/domain/entities/user";
+import type { Request, Response } from "express";
+import type User from "../../../auth/domain/entities/user";
 import cloudinary from "../../../../lib/cloudinary/cloudinary.config";
 import {
   CreatePostDTO,
