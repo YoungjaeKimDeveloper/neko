@@ -56,7 +56,7 @@ const AuthDesktopLoginPage = () => {
   // Build Ui
   return (
     <div className="w-full h-fit flex items-center justify-center pb-10">
-      <div className="px-10 hidden lg:block mt-20 ">
+      <div className="px-10 hidden lg:block mt-10 ">
         <div className="w-[100%] bg-gray-50-50 h-[700px] rounded-lg border border-gray-300 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-2 w-full h-full rounded-lg">
             {/* Left - Login Input */}
@@ -82,14 +82,14 @@ const AuthDesktopLoginPage = () => {
                   register={register("password")}
                   errorMessage={errors.password?.message}
                 />
-                <div className="w-[30%] mx-auto mt-5">
+                <div className="w-[40%] mx-auto mt-5">
                   <MainButton
                     text="Login"
                     isLoading={isSubmitting}
                     type="submit"
                   />
                   {errors.root && (
-                    <p className="text-center text-sm text-red-500 mt-5">
+                    <p className="text-center text-sm text-red-500 mt-5 bg-red-300 ">
                       {errors.root.message}
                     </p>
                   )}

@@ -147,7 +147,7 @@ const PostCard = ({ post }: PostCardProps) => {
         </div>
         {/* Date */}
         <p className="text-sm">
-          <span className="text-[12px] text-gray-500">
+          <span className=" text-gray-500">
             {post.created_at
               ? formatDistanceToNow(new Date(post.created_at!), {
                   addSuffix: true,
@@ -160,7 +160,7 @@ const PostCard = ({ post }: PostCardProps) => {
           {post.content}
         </p>
         {/* Last Bottom */}
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center bg-red">
           {/* Icons + price */}
           <div className="flex py-4 items-endr gap-x-1">
             <Gift className="size-6 text-gray-600 " />
@@ -175,7 +175,7 @@ const PostCard = ({ post }: PostCardProps) => {
             ""
           ) : (
             <Link to={`/posts/${post.id}`}>
-              <button className=" w-20 h-10 bg-gray-200 p-4 flex items-center justify-center rounded-2xl text-white hover:text-black duration-200">
+              <button className="bg-gray-200  px-4 py-2 rounded-full text-sm text-gray-500 hover:text-black duration-300">
                 <p>View</p>
               </button>
             </Link>
