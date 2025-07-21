@@ -110,8 +110,8 @@ const CreatePostPage = () => {
             <p className="pb-4">Create post</p>
             {/* Image Uploader */}
             <ImageUploader images={images} onChange={onChange} />
-            <p className="text-warning text-sm py-2">
-              {errors.image_urls?.message}{" "}
+            <p className="text-warning text-[12px] md:text-sm py-2">
+              {errors.image_urls?.message}
             </p>
           </div>
           {/* Title */}

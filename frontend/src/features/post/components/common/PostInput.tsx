@@ -64,7 +64,7 @@ const PostInput = ({
             />
             {/* error message */}
             {errorMessage && (
-              <p className="text-warning text-[12px] md:text-sm">
+              <p className="text-warning text-[12px] md:text-sm py-2">
                 {errorMessage}
               </p>
             )}

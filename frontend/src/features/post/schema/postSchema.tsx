@@ -15,7 +15,7 @@ export const PostSchema = z.object({
     .string()
     .min(5, { message: "Title should be at least 5 characters." })
     .max(40, { message: "Title should be 40 characters or less." })
-    .regex(/^[^!@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?`~]+$/, {
+    .regex(/^[^@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?`~]+$/, {
       message: "Special characters are not allowed",
     }),
   image_urls: z
@@ -26,11 +26,13 @@ export const PostSchema = z.object({
     .string()
     .min(10, { message: "Description should be at least 10 characters." })
     .max(300, { message: "Description should be 300 characters or less." })
-    .regex(/^[^!@#$%^&*()_+<>]+$/, {
+    .regex(/^[^#$%^&*()_+<>]+$/, {
       message: "Special characters are not allowed",
     }),
   reward_amount: z.coerce
-    .number()
+    .number({
+      invalid_type_error: "Reward amount must be a number",
+    })
     .nullable()
     .optional()
     // SuperRefine: add multiple error messages each case

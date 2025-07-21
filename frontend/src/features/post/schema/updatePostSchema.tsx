@@ -7,7 +7,10 @@ export const UpdatePostSchema = z.object({
   updated_title: z
     .string()
     .min(5, { message: "Title should be at least 5 characters." })
-    .max(40, { message: "Title should be 40 characters or less." }),
+    .max(40, { message: "Title should be 40 characters or less." })
+    .regex(/^[^@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?`~]+$/, {
+      message: "Special characters are not allowed",
+    }),
   updated_image_urls: z
     .array(z.any(), { required_error: "At least 1 image is required" })
     .min(1, { message: "At least 1 image is required." })
@@ -16,9 +19,14 @@ export const UpdatePostSchema = z.object({
   updated_content: z
     .string()
     .min(10, { message: "Description should be at least 10 characters." })
-    .max(300, { message: "Description should be 300 characters or less." }),
+    .max(300, { message: "Description should be 300 characters or less." })
+    .regex(/^[^#$%^&*()_+<>]+$/, {
+      message: "Special characters are not allowed",
+    }),
   updated_reward_amount: z.coerce
-    .number()
+    .number({
+      invalid_type_error: "Reward amount must be a number",
+    })
     .nullable()
     .optional()
     // SuperRefine: add multiple error messages each case
@@ -44,7 +52,10 @@ export const UpdatePostSchema = z.object({
   updated_location: z
     .string()
     .min(3, { message: "Location should be at least 3 characters." })
-    .max(30, { message: "Location should be 20 characters or less." }),
+    .max(30, { message: "Location should be 20 characters or less." })
+    .regex(/^[^!@#$%^&*()_+./?<>]+$/, {
+      message: "Special characters are not allowed",
+    }),
 });
 
 // complie type
