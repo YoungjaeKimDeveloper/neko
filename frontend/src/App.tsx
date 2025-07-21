@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import "./index.css";
-// Components
+// Components - 
 import Navbar from "./shared/components/Navbar";
 import { Toaster } from "react-hot-toast";
 // Pages
