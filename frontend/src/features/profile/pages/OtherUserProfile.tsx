@@ -7,7 +7,7 @@
       2. Location
 */
 import UserProfilePicture from "../../../shared/components/UserProfilePicture";
-import { AuthDesktopSidebar } from "../../auth/components/desktop/AuthDesktopSidebar.tsx";
+import { AuthDesktopSidebar } from "../../auth/components/Desktop/AuthDesktopSidebar.tsx";
 import ProfileInput from "../components/ProfileInput";
 import { format } from "date-fns";
 import AuthMobileSidebar from "../../auth/components/mobile/AuthMobileSidebar";

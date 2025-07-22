@@ -10,7 +10,7 @@ import axios from "axios";
 import type { NewsResponse } from "../types/news.type";
 import LoadingPage from "../../../shared/pages/common/LoadingPage";
 import { errorLogV2 } from "../../../../../shared/error/error.log";
-import { AuthDesktopSidebar } from "../../auth/components/desktop/AuthDesktopSidebar";
+import { AuthDesktopSidebar } from "../../auth/components/Desktop/AuthDesktopSidebar";
 import NewsCard from "../components/NewsCard";
 import AuthMobileSidebar from "../../auth/components/mobile/AuthMobileSidebar";
 // BUILD COMPONENT

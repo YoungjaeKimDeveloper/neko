@@ -17,7 +17,7 @@ import type { PostWithWriter } from "../../../../backend/features/post/domain/en
 import LoadingPage from "../../shared/pages/common/LoadingPage";
 import type User from "../../../../backend/features/auth/domain/entities/user";
 import AuthMobileSidebar from "../auth/components/mobile/AuthMobileSidebar";
-import { AuthDesktopSidebar } from "../auth/components/desktop/AuthDesktopSidebar.tsx";
+import { AuthDesktopSidebar } from "../auth/components/Desktop/AuthDesktopSidebar.tsx";
 import { axiosInstance } from "../../shared/api/axios";
 // Component
 const FoundPage = () => {

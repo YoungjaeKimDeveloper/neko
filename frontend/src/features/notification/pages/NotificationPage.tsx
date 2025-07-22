@@ -8,7 +8,7 @@
 */
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AuthDesktopSidebar } from "../../auth/components/desktop/AuthDesktopSidebar.tsx";
+import { AuthDesktopSidebar } from "../../auth/components/Desktop/AuthDesktopSidebar.tsx";
 import { axiosInstance } from "../../../shared/api/axios";
 import toast from "react-hot-toast";
 import { errorLogV2 } from "../../../../../shared/error/error.log.ts";

@@ -9,7 +9,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import UserProfilePicture from "../../../shared/components/UserProfilePicture";
-import { AuthDesktopSidebar } from "../../auth/components/desktop/AuthDesktopSidebar";
+import { AuthDesktopSidebar } from "../../auth/components/Desktop/AuthDesktopSidebar";
 import ProfileInput from "../components/ProfileInput";
 import { useState } from "react";
 import { format } from "date-fns";

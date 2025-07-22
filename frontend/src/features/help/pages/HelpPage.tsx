@@ -4,7 +4,7 @@
 
 */
 
-import { AuthDesktopSidebar } from "../../auth/components/desktop/AuthDesktopSidebar";
+import { AuthDesktopSidebar } from "../../auth/components/Desktop/AuthDesktopSidebar";
 import AuthMobileSidebar from "../../auth/components/mobile/AuthMobileSidebar";
 import FAQItem, { type ICONTYPE } from "../components/FAQItem";
 import FAQLists from "../data/help.data.json";

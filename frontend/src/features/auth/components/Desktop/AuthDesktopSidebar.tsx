@@ -10,7 +10,7 @@
  */
 
 import { Cat, CirclePlus, CircleQuestionMark, Home } from "lucide-react";
-import AuthDesktopSidebarListTitle from "./AuthDesktopSidebarListTitle";
+import AuthDesktopSidebarListTitle from "../Desktop/./AuthDesktopSidebarListTitle";
 
 export const AuthDesktopSidebar = () => {
   return (
