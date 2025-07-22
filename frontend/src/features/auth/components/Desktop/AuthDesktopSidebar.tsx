@@ -6,7 +6,7 @@
     3. Link should be always kebab case
     
     18/07/2025
-    - Decided to delete news page as it was not suitable for Neko
+    - Decided to delete news page as it was not suitable for Neko - 
  */
 
 import { Cat, CirclePlus, CircleQuestionMark, Home } from "lucide-react";
