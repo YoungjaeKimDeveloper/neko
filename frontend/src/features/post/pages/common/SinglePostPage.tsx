@@ -351,9 +351,9 @@ const SinglePostPage = () => {
           </div>
           {/* Details */}
         </div>
-        <div className="w-full rounded-card gap-x-10 flex flex-col p-4 shadow-md">
+        <div className="w-full rounded-card gap-x-10 flex flex-col p-4 shadow-md  border border-gray-200">
           {/* Top - userinfo + details */}
-          <div className="flex justify-between items-center mb-4 ">
+          <div className="flex justify-between items-center mb-4">
             {/* User-info */}
             <div className="flex items-center gap-x-2">
               <Link to={isCurrentUserProfile ? "/profile" : `/${postUserName}`}>
@@ -378,7 +378,7 @@ const SinglePostPage = () => {
               </div>
             </div>
             {/* Price + Location */}
-            <div className="flex flex-col justify-between h-[50px] gap-y-2">
+            <div className="flex flex-col justify-between h-[50px] gap-y-2 items-start w-fit">
               {/* Price +Icon */}
               <div className="flex items-center gap-x-1">
                 <Gift />
@@ -389,15 +389,18 @@ const SinglePostPage = () => {
               {/* Icon + Location */}
               <div className="flex items-center justify-center">
                 <MapPin className="text-warning" />
-                <p className="text-gray-400 text-[10px] sm:text-sm ">
+                <p className="text-gray-400 text-[11px]">
                   {res?.data?.post?.location}
                 </p>
               </div>
             </div>
           </div>
           {/* Bottom - Description */}
-          <div>
-            <p className="px-2">{res?.data?.post?.content}</p>
+          <div className="flex flex-col items-stars">
+            <h1 className="text-xl font-bold py-2 border-b border-b-gray-200">
+              {res?.data.post.title}
+            </h1>
+            <p className="pt-2 text-gray-400">{res?.data?.post?.content}</p>
           </div>
         </div>
         {/* Comments bar */}

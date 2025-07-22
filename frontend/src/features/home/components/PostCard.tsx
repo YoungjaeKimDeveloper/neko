@@ -137,7 +137,7 @@ const PostCard = ({ post }: PostCardProps) => {
       <div className="px-4 py-2">
         {/* top */}
         <div className="flex justify-between items-center py-1">
-          <p className="text-xl truncate capitalize h-[30px] w-[50%] ">
+          <p className="text-xl truncate capitalize h-[30px] w-[50%] font-bold">
             {post.title}
           </p>
           <div className="flex items-center max-w-[40%]">
