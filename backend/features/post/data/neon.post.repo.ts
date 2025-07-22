@@ -1,4 +1,3 @@
-import { unLikePost } from "./../../like/application/controllers/like.controller";
 /*
 
     Implement core functionality with Neon
@@ -266,13 +265,22 @@ class NeonPostRepo implements PostRepo {
           user_name: row.comment_user_user_name,
           user_profile_image: row.comment_user_user_profile_image,
         }));
+      // Array, Removed Duplicate like
+      const likeMap = new Map<string, Like>();
+
+      result.forEach((row) => {
+        if (row.like_user_id && row.like_post_id) {
+          const key = `${row.like_user_id}-${row.like_post_id}`;
+          if (!likeMap.has(key)) {
+            likeMap.set(key, {
+              user_id: row.like_user_id,
+              post_id: row.like_post_id,
+            });
+          }
+        }
+      });
       // Likes denormalisation - Follow alias
-      const likes: Like[] = result
-        .filter((row) => row?.like_user_id != null)
-        .map((row) => ({
-          user_id: row.like_user_id,
-          post_id: row.like_post_id,
-        }));
+      const likes: Like[] = Array.from(likeMap.values());
       return { post, comments, likes };
     } catch (error) {
       errorLogV2({

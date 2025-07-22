@@ -16,3 +16,5 @@ router.post("/post/:postId", likePost);
 // UnLike post
 router.delete("/post/:postId", unLikePost);
 export default router;
+
+

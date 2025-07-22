@@ -14,6 +14,7 @@ import type LikeRepo from "../domain/repo/like.repo";
 class NeonLikeRepo implements LikeRepo {
   likePost = async (params: LikeDto): Promise<Like | null> => {
     try {
+      console.log("Like Post +Neon function called from like.controller.ts");
       const result = await sql`
             INSERT INTO likes
             VALUES (${params.user_id},${params.post_id})
@@ -23,11 +24,14 @@ class NeonLikeRepo implements LikeRepo {
       return result.length > 0 ? (result[0] as Like) : null;
     } catch (error: any) {
       errorLog({ location: "NeonLikeRepo - like", error });
+      console.log("Did you call me - LikePost - error?");
       return null;
     }
   };
   unLikePost = async (params: UnLikeDTO): Promise<Like | null> => {
+    console.log("UnlikePost + Neon function called from like.controller.ts");
     try {
+      console.log("Did you call me - unLike Post - success?");
       const result = await sql`
         DELETE FROM likes
         WHERE user_id = ${params.user_id} AND post_id = ${params.post_id}
@@ -35,6 +39,7 @@ class NeonLikeRepo implements LikeRepo {
         `;
       return result.length > 0 ? (result[0] as Like) : null;
     } catch (error: any) {
+      console.log("Did you call me - unLike Post - error?");
       errorLog({ location: "NeonLikeRepo - unlike", error });
       return null;
     }

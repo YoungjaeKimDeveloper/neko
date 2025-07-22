@@ -144,7 +144,9 @@ const SinglePostPage = () => {
       // 여기에서 반환되는 값이 onSuccess/onERROR의 첫번쨰 인자로 들어가게됨
       return newLike;
     },
-    onSuccess: () => {},
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["post", postId] });
+    },
     onError: (error, variables: Like) => {
       // ROLLBACK - Cancel Like
       setLikes((prev) =>
@@ -170,7 +172,9 @@ const SinglePostPage = () => {
       // 여기에서 던진 newLike는 onSuccess / onError의 첫번쨰 인자로 받게됨
       return newLike;
     },
-    onSuccess: () => {},
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["post", postId] });
+    },
     // Failed -> RollBack
     onError: (variables: Like) => {
       // setLikes((prev) => [...prev, newLike]);

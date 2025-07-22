@@ -28,6 +28,7 @@ export const likePost = async (
   req: Request,
   res: Response<ResponseDTO>
 ): Promise<any> => {
+  console.log("Frontend called Like?👍🏻");
   try {
     const authenticatedUser = (req as VerifiedUserRequest).user;
     // Validation - 0 Auth User
@@ -132,6 +133,7 @@ export const unLikePost = async (
   req: Request,
   res: Response<ResponseDTO>
 ): Promise<any> => {
+  console.log("Frontend called unLike?👎");
   try {
     const authenticatedUser = (req as VerifiedUserRequest).user;
     if (!authenticatedUser) {
@@ -164,7 +166,7 @@ export const unLikePost = async (
       user_id: userId,
       post_id: postId,
     });
-    if (!result || result == null) {
+    if (!result) {
       return sendResponse({
         res: res,
         status: RESPONSE_HTTP.NOT_FOUND,
