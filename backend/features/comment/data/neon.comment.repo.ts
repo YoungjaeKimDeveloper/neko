@@ -23,7 +23,6 @@ class NeonCommentRepo implements CommentRepo {
       VALUES (${comment.content}, ${comment.user_id}, ${comment.post_id})
       RETURNING * 
       `;
-
       return newComment?.length > 0 ? (newComment[0] as Comment) : null;
     } catch (error: any) {
       errorLog({ location: "Create Comment", error });

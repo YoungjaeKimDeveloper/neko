@@ -316,9 +316,9 @@ const SinglePostPage = () => {
               onClick={handleNextImage}
             />
             {/* Status bar */}
-            <div className="flex justify-between p-2 rounded-b-xl bg-gray-100">
+            <div className="flex justify-between p-2 rounded-b-xl bg-gray-100 ">
               {/* Cat + like */}
-              <div className="flex">
+              <div className="flex hover:cursor-pointe w-[64px]">
                 <button
                   disabled={isLikePending || isUnLikePending}
                   onClick={() => handleLikePost()}
@@ -334,7 +334,7 @@ const SinglePostPage = () => {
                 <span>({likes.length})</span>
               </div>
               {/* Comments */}
-              <div className="flex hover:cursor-pointer">
+              <div className="flex hover:cursor-pointer w-[60px] ">
                 <MessageCircle
                   className={`${
                     isShowComment && "fill-green-300 stroke-white"

@@ -67,7 +67,7 @@ const AuthNavbar = () => {
         </Link>
 
         {/* Right Home + Login */}
-        <div className="flex gap-2 pr-5  items-center">
+        <div className="flex gap-5 pr-5  items-center">
           <CommonLinkIcon link="profile" size={30} icon={UserIocn} />
           <div className="hidden lg:block sm:relative">
             <CommonLinkIcon link="notification" size={30} icon={Bell} />
