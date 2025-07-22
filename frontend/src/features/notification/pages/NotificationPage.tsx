@@ -10,7 +10,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AuthDesktopSidebar } from "../../auth/components/Desktop/AuthDesktopSidebar.tsx";
 import { axiosInstance } from "../../../shared/api/axios";
-import toast from "react-hot-toast";
 import { errorLogV2 } from "../../../../../shared/error/error.log.ts";
 import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
 import NotificationComponent from "../components/NotificationComponent";
@@ -41,7 +40,6 @@ const NotificationPage = () => {
         function: "Fetch notification",
         file: "NotificationPage.tsx",
       });
-      toast.error("Failed to fetch notifications");
     },
   });
   // - 2. Read a notification
@@ -93,7 +91,6 @@ const NotificationPage = () => {
           function: "deleteNotification",
           file: "NotificationPage",
         });
-        toast.error(error.message);
       }
     },
   });

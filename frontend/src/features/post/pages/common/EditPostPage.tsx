@@ -23,7 +23,6 @@ import MainButton from "../../../../shared/components/MainButton";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "../../../../shared/api/axios";
 import { errorLogV2 } from "../../../../../../shared/error/error.log.ts";
-import toast from "react-hot-toast";
 import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -126,7 +125,6 @@ const EditPostPage = () => {
           type: "server",
           message: error.message,
         });
-        toast.error(`Failed to update post ${error.message}`);
       }
     },
   });

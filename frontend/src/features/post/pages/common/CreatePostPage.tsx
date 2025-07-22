@@ -9,8 +9,6 @@ import { PostSchema, type PostFormValues } from "../../schema/postSchema";
 import ImageUploader from "../../../../shared/components/ImageUploader";
 import { axiosInstance } from "../../../../shared/api/axios";
 import { RESPONSE_HTTP } from "../../../../../../shared/constants/http-status.ts";
-
-import toast from "react-hot-toast";
 import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -80,7 +78,6 @@ const CreatePostPage = () => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           message: (error as any).response.data.message,
         });
-        toast.error("Failed to create new post");
       }
     },
     // Error(fail)

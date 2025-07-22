@@ -16,7 +16,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "../../../shared/api/axios";
 import type { ResponseDTO } from "../../../../../shared/dto/common/response.dto";
-import toast from "react-hot-toast";
 import type { UserProfile } from "../../../../../shared/dto/profile/profile.dto";
 import { errorLogV2 } from "../../../../../shared/error/error.log.ts";
 import LoadingPage from "../../../shared/pages/common/LoadingPage";
@@ -42,9 +41,6 @@ const OtherUserProfile = () => {
         function: "fetchUser",
         file: "OtherUserProfile.ts",
       });
-      if (error instanceof Error) {
-        toast.error(`${error.message}`);
-      }
     },
   });
   if (isLoading) {

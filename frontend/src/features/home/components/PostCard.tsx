@@ -175,7 +175,7 @@ const PostCard = ({ post }: PostCardProps) => {
             ""
           ) : (
             <Link to={`/posts/${post.id}`}>
-              <button className="bg-gray-200  px-4 py-2 rounded-full text-sm text-gray-500 hover:text-black duration-300">
+              <button className="bg-gray-200 px-4 py-2 text-sm text-gray-500 hover:text-black duration-300 rounded-lg">
                 <p>View</p>
               </button>
             </Link>

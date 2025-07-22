@@ -63,7 +63,7 @@ const FAQItem = ({ icon, question, answer }: FAQItemProps) => {
       </div>
       <div className="flex justify-between w-full flex-col px-2 pt-4">
         {isOpened && (
-          <p className=" text-sm font-help font-semibold text-gray-400">
+          <p className=" text-sm font-help font-semibold text-gray-400 leading-relaxed">
             {answer}
           </p>
         )}

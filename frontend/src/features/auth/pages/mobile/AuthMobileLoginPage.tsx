@@ -5,7 +5,7 @@ import AuthFooter from "../../components/common/AuthFooter";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import loginAPI from "../../services/auth.login.service";
 import type { LoginDTO } from "../../../../../../shared/dto/auth/auth.request.dto";
-import toast from "react-hot-toast";
+
 import { Lock, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -44,7 +44,6 @@ const AuthMobileLoginPage = () => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           message: (error as any).response.data.message,
         });
-        toast.error("Something went wrong");
       }
     },
   });

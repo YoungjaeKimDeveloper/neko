@@ -31,12 +31,12 @@ const HelpPage = () => {
           {/* Top - title */}
           <h3 className="text-2xl font-content">Frequently asked questions</h3>
           {/* Top - Subtitle */}
-          <p className="text-xl mt-2 text-hintText mb-5">
-            These are the most commonly asked questions about Neko
+          <p className="text-xl mt-2 text-hintText mb-5 text-center">
+            These are the most commonly asked questions about Neko.
           </p>
 
           {/* Bottom - Container */}
-          <div className="flex items-start w-[75%] md:w-[60%] relative mt-10 flex-col gap-y-10">
+          <div className="flex items-start w-[75%] md:w-[60%] relative mt-10 flex-col gap-y-10 l">
             {FAQLists.map(({ icon, question, answer }, index) => (
               <FAQItem
                 key={index}
