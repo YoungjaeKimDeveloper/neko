@@ -15,7 +15,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { v4 as uuidV4 } from "uuid";
-import { AuthDesktopSidebar } from "../../../auth/components/desktop/AuthDesktopSidebar";
+import { AuthDesktopSidebar } from "../../../auth/components/desktop/AuthDesktopSidebar.tsx";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../../../../shared/api/axios";

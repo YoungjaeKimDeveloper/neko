@@ -18,7 +18,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PostInput from "../../components/common/PostInput";
-import { AuthDesktopSidebar } from "../../../auth/components/desktop/AuthDesktopSidebar";
+import { AuthDesktopSidebar } from "../../../auth/components/desktop/AuthDesktopSidebar.tsx";
 import MainButton from "../../../../shared/components/MainButton";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "../../../../shared/api/axios";

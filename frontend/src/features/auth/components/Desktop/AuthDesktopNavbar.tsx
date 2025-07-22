@@ -6,12 +6,12 @@ import { Link } from "react-router-dom";
 // Icons
 import { Bell, LogOut, User as UserIocn } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { axiosInstance } from "../../../../shared/api/axios";
-import CommonLinkIcon from "../../../../shared/components/CommonLinkIcon";
-import type User from "../../../../../../backend/features/auth/domain/entities/user";
-import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto";
+import { axiosInstance } from "../../../../shared/api/axios.ts";
+import CommonLinkIcon from "../../../../shared/components/CommonLinkIcon.tsx";
+import type User from "../../../../../../backend/features/auth/domain/entities/user.ts";
+import type { ResponseDTO } from "../../../../../../shared/dto/common/response.dto.ts";
 import { errorLogV2 } from "../../../../../../shared/error/error.log.ts";
-import type { NotificationAPIResponse } from "../../../../../../backend/features/notification/domain/dto/notification.dto";
+import type { NotificationAPIResponse } from "../../../../../../backend/features/notification/domain/dto/notification.dto.ts";
 const AuthNavbar = () => {
   // Single-ton
   const queryClient = useQueryClient();
