@@ -89,7 +89,7 @@ const AuthDesktopLoginPage = () => {
                     type="submit"
                   />
                   {errors.root && (
-                    <p className="text-center text-sm text-red-500 mt-5 bg-red-300 ">
+                    <p className="text-center text-sm text-red-500 mt-5 ">
                       {errors.root.message}
                     </p>
                   )}

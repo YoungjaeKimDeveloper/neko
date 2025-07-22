@@ -46,9 +46,9 @@ const AuthInputPassword = ({
           />
         )}
       </div>
-      {errorMessage && (
-        <p className="text-warning text-sm text-center py-2 ">{errorMessage}</p>
-      )}
+      <p className="text-center text-red-500 min-h-[20px] text-sm">
+        {errorMessage ? errorMessage : ""}
+      </p>
     </div>
   );
 };

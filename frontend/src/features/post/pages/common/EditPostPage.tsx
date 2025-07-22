@@ -112,6 +112,8 @@ const EditPostPage = () => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["posts", postId] });
       await queryClient.invalidateQueries({ queryKey: ["posts"] });
+      await queryClient.invalidateQueries({ queryKey: ["posts-missing"] });
+      await queryClient.invalidateQueries({ queryKey: ["posts-found"] });
       await navigate("/home");
     },
     onError: (error) => {

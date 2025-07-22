@@ -99,6 +99,7 @@ const AuthMobileLoginPage = () => {
                 type="submit"
                 isLoading={isLoading || isSubmitting}
               />
+
               {errors.root?.message && (
                 <p className="text-warning text-sm text-center py-2">
                   {errors.root?.message}

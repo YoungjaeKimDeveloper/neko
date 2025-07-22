@@ -32,9 +32,9 @@ const AuthInputText = ({
           className="input w-full [text-indent:1rem] shadow-sm border border-gray-200 font-content placeholder:text-hintText placeholder:text-sm"
         />
       </div>
-      {errorMessage && (
-        <p className="text-warning text-sm text-center py-2">{errorMessage}</p>
-      )}
+      <p className="text-center text-red-500  min-h-[30px] text-sm">
+        {errorMessage ? errorMessage : ""}
+      </p>
     </div>
   );
 };

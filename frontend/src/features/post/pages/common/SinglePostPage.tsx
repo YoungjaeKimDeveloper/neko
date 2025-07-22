@@ -12,9 +12,8 @@ import {
   MapPin,
   MessageCircle,
 } from "lucide-react";
-import { v4 as uuidV4 } from "uuid";
 import { AuthDesktopSidebar } from "../../../auth/components/Desktop/AuthDesktopSidebar.tsx";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../../../../shared/api/axios";
 
@@ -35,12 +34,13 @@ import { Link } from "react-router-dom";
 // Component -
 const SinglePostPage = () => {
   // Refetence Comment
-
+  const navigate = useNavigate();
   const [immageNumber, setImmageNumber] = useState<number>(0);
   const { postId } = useParams();
   const queryClient = useQueryClient();
   const [isShowComment, setIsShowComment] = useState<boolean>(true);
   const [isCopied, setIsCopied] = useState<boolean>(false);
+  // Comment
   const commentRef = useRef<HTMLInputElement>(null);
   const [commentLength, setCommentLength] = useState(0);
 
@@ -64,10 +64,10 @@ const SinglePostPage = () => {
         function: "fetch single post useQuery",
         error: error,
       });
+      navigate("/home");
     },
   });
-  // 05/07/2025 - In case of deleting post
-  console.log("Data from Backend", res);
+
   // Focus - OPTIMISTIC UI - Likes
   const [likes, setLikes] = useState<Like[]>([]);
   // Focus - OPTIMISTIC UI - Comments
@@ -85,20 +85,12 @@ const SinglePostPage = () => {
   const currentUserId = (currentUser as User).id;
   // Create Comment
   const { mutate: createComment, isLoading: isCommenting } = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (newComment: Comment) => {
       // Empty Comment
       if (commentRef.current?.value == null) {
         return;
       }
       // create new comment
-      const newComment: Comment = {
-        id: uuidV4(),
-        content: commentRef!.current!.value,
-        user_id: currentUserId,
-        post_id: postId!,
-        user_name: (currentUser as Comment).user_name,
-        user_profile_image: (currentUser as Comment).user_profile_image,
-      };
       await axiosInstance.post(`/comments/posts/${postId}`, {
         content: newComment.content,
       });
@@ -110,7 +102,6 @@ const SinglePostPage = () => {
         commentRef.current.value = "";
       }
       setCommentLength(0);
-      await queryClient.invalidateQueries({ queryKey: ["post", postId] });
     },
 
     onError: (_error, newComment: Comment) => {
@@ -133,7 +124,7 @@ const SinglePostPage = () => {
       return newLike;
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["post", postId] });
+      // await queryClient.invalidateQueries({ queryKey: ["post", postId] });
     },
     onError: (error, variables: Like) => {
       // ROLLBACK - Cancel Like
@@ -161,7 +152,7 @@ const SinglePostPage = () => {
       return newLike;
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["post", postId] });
+      // await queryClient.invalidateQueries({ queryKey: ["post", postId] });
     },
     // Failed -> RollBack
     onError: (variables: Like) => {
@@ -187,8 +178,8 @@ const SinglePostPage = () => {
         user_profile_image: (currentUser as User).user_profile_image,
         created_at: new Date(),
       };
-      await setOptimisticComment((prev) => [newComment, ...prev]);
-      // UPDATE OPTIMISTIC UI
+      // CREATE OPTIMISTIC UI
+      setOptimisticComment((prev) => [newComment, ...prev]);
 
       // RESET VALUE
       createComment(newComment);

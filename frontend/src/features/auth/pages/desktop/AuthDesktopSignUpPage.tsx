@@ -62,9 +62,9 @@ const AuthDesktopSignUpPage = () => {
     signupMutation(data);
   // Build Ui
   return (
-    <div className="w-full h-full  pb-10">
-      <div className="px-10 hidden lg:block mt-20 ">
-        <div className="w-[100%] bg-gray-50-50 h-fit rounded-lg border border-gray-300 shadow-sm ">
+    <div className="w-full h-[90%] pb-10">
+      <div className="px-10 hidden lg:block mt-5 w-full h-full ">
+        <div className="w-[100%] bg-gray-50-50 rounded-lg borderborder-gray-300 shadow-sm border border-gray-100 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-2 w-full h-full rounded-lg">
             {/* Left - Image + Description */}
             <div className="col-span-1 w-full h-full   lg:block  lg:relative">
@@ -92,7 +92,7 @@ const AuthDesktopSignUpPage = () => {
               {/* Right- Logo */}
               <img src="/neko_logo.png" alt="neko_logo" className="size-28" />
               {/* Input */}
-              <form className="w-[75%]" onSubmit={handleSubmit(onSubmit)}>
+              <form className="w-[75%] " onSubmit={handleSubmit(onSubmit)}>
                 {/* Email */}
                 <AuthInputText
                   Icon={User}
