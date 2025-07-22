@@ -99,7 +99,7 @@ const NotificationComponent = ({
                   ? "left a comment on your post."
                   : "reacted to your post"}
               </p>
-              <p className="text-sm ">
+              <p className="text-sm text-gray-400">
                 {formatDistanceToNow(
                   new Date(notification.notifications_created_at!)
                 )}

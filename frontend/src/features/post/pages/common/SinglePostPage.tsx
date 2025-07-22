@@ -57,7 +57,6 @@ const SinglePostPage = () => {
       const result = await axiosInstance.get<{ data: DenormalisedPost }>(
         `/posts/${postId}/full`
       );
-
       return result.data;
     },
     onError: (error) => {
@@ -69,7 +68,7 @@ const SinglePostPage = () => {
     },
   });
   // 05/07/2025 - In case of deleting post
-
+  console.log("Data from Backend", res);
   // Focus - OPTIMISTIC UI - Likes
   const [likes, setLikes] = useState<Like[]>([]);
   // Focus - OPTIMISTIC UI - Comments
@@ -77,8 +76,9 @@ const SinglePostPage = () => {
   // Fetch the data only one time when page reload
   useEffect(() => {
     if (isSuccess) {
-      setLikes(res.data.likes);
-      setOptimisticComment(res.data.comments);
+      // Fetch Likes && Comments
+      setLikes(res.data.likes ?? []);
+      setOptimisticComment(res.data.comments ?? []);
     }
   }, [isSuccess, res]);
   // Step1. Store Likes - Source of Truth
@@ -132,7 +132,7 @@ const SinglePostPage = () => {
       );
     },
   });
-  // Like Post
+  // Like - Post
   const { mutate: likePost, isPending: isLikePending } = useMutation({
     mutationFn: async (newLike: Like) => {
       // SEND ACTUCAL REQUEST TO BACKEND - 실제 백엔드로 보여주게됨
@@ -170,12 +170,16 @@ const SinglePostPage = () => {
       // 여기에서 던진 newLike는 onSuccess / onError의 첫번쨰 인자로 받게됨
       return newLike;
     },
-    // 실제로 백엔드에서 결과가 제대로진행됨 setLikes 업데이트해주기 -> useOptimistic이 의존하고있음으로 setLikes가 변경되면 자동으로 같이 변경됨
     onSuccess: () => {},
-    // 백엔드에서 실패함 롤백해줘야함
+    // Failed -> RollBack
     onError: (variables: Like) => {
       // setLikes((prev) => [...prev, newLike]);
-      setLikes((prev) => [...prev, variables]);
+      setLikes((prev) => {
+        const alreadyExists = prev.some(
+          (like) => like.user_id === variables.user_id
+        );
+        return alreadyExists ? prev : [...prev, variables];
+      });
     },
   });
   // HandleComment

@@ -31,7 +31,7 @@ const frontendPath = path.resolve(__dirname, "../../frontend/dist");
 
 // middleware
 
-// JSON - BODY-  
+// JSON - BODY-
 const corsOptions = {
   origin: process.env.FRONT_END_URL,
   credentials: true,

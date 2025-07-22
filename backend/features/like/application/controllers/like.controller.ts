@@ -28,9 +28,9 @@ export const likePost = async (
   req: Request,
   res: Response<ResponseDTO>
 ): Promise<any> => {
-  console.log("Did you Call me?");
   try {
     const authenticatedUser = (req as VerifiedUserRequest).user;
+    // Validation - 0 Auth User
     if (!authenticatedUser) {
       return sendResponse({
         res: res,
@@ -39,6 +39,7 @@ export const likePost = async (
         message: `${RESPONSE_MESSAGES.UNAUTHORIZED} `,
       });
     }
+    // Validation - 1 User id
     const userId = (req as VerifiedUserRequest).user.id;
     if (!userId) {
       return sendResponse({
@@ -48,7 +49,7 @@ export const likePost = async (
         message: `${RESPONSE_MESSAGES.BAD_REQUEST} - userid is required`,
       });
     }
-    // Extract PostId
+    // Validation - 2 Post id
     const postId = req.params.postId;
     if (!postId) {
       return sendResponse({
@@ -73,6 +74,7 @@ export const likePost = async (
       });
     }
     // fetch Single post and check if the post writer and user are same
+    // Validation - 3 fetch single post to crea te notification
     const post = await neonPostRepo.fetchSinglePost({ postId });
     if (!post) {
       return sendResponse({

@@ -23,7 +23,6 @@ class NeonLikeRepo implements LikeRepo {
       return result.length > 0 ? (result[0] as Like) : null;
     } catch (error: any) {
       errorLog({ location: "NeonLikeRepo - like", error });
-
       return null;
     }
   };
