@@ -25,7 +25,6 @@ import path from "path";
 
 dotenv.config();
 const PORT = process.env.PORT || 8011;
-// const __dirname = path.resolve();
 // SERVER SINGLETON
 const app = express();
 const frontendPath = path.resolve(__dirname, "../../frontend/dist");
@@ -41,7 +40,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Todo - fix it later
-app.use(express.json({ limit: "50mb" }));
+app.use(express.json({ limit: "10mb" }));
 app.use(morgan("dev"));
 app.use(cookieParser());
 
@@ -59,10 +58,11 @@ app.use("/api/comments", commentRouter);
 // comment
 app.use("/api/profile", profileRouter);
 
+// distribution configuration
 if (process.env.NODE_ENV === "production") {
-  // Serve React file
+  // Serve static file
   app.use(express.static(frontendPath));
-
+  // SPA - as react is SPA serve single index.html file
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(frontendPath, "index.html"));
   });
