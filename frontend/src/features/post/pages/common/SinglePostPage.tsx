@@ -1,6 +1,4 @@
 /*
-
-
     Single Post + Comments
     1.fetch Single page  
 */
@@ -37,12 +35,13 @@ import { Link } from "react-router-dom";
 // Component -
 const SinglePostPage = () => {
   // Refetence Comment
-  const commentRef = useRef<HTMLInputElement>(null);
+
   const [immageNumber, setImmageNumber] = useState<number>(0);
   const { postId } = useParams();
   const queryClient = useQueryClient();
   const [isShowComment, setIsShowComment] = useState<boolean>(true);
   const [isCopied, setIsCopied] = useState<boolean>(false);
+  const commentRef = useRef<HTMLInputElement>(null);
   const [commentLength, setCommentLength] = useState(0);
 
   // Fetch Post
@@ -51,7 +50,7 @@ const SinglePostPage = () => {
     isLoading,
     isSuccess,
   } = useQuery({
-    // (caching key
+    // catching key
     queryKey: ["post", postId],
     queryFn: async () => {
       const result = await axiosInstance.get<{ data: DenormalisedPost }>(
@@ -81,23 +80,17 @@ const SinglePostPage = () => {
       setOptimisticComment(res.data.comments ?? []);
     }
   }, [isSuccess, res]);
-  // Step1. Store Likes - Source of Truth
-  // const [likes, setLikes] = useState<Like[]>(res?.data.likes ?? []);
 
-  // Optimistic UI
-  // Only for fake UI
-
-  // Todo - Refactoring to wrtie clean code - Divide the file
-  // Verified User
   const currentUser = queryClient.getQueryData(["authUser"]);
   const currentUserId = (currentUser as User).id;
   // Create Comment
   const { mutate: createComment, isLoading: isCommenting } = useMutation({
     mutationFn: async () => {
-      // Create Comment
+      // Empty Comment
       if (commentRef.current?.value == null) {
         return;
       }
+      // create new comment
       const newComment: Comment = {
         id: uuidV4(),
         content: commentRef!.current!.value,
@@ -106,25 +99,20 @@ const SinglePostPage = () => {
         user_name: (currentUser as Comment).user_name,
         user_profile_image: (currentUser as Comment).user_profile_image,
       };
-
-      if (
-        newComment.content?.trim().length === 0 ||
-        newComment.content == null
-      ) {
-        throw new Error("Please write the comment");
-      }
       await axiosInstance.post(`/comments/posts/${postId}`, {
         content: newComment.content,
       });
       return newComment;
     },
 
-    onSuccess: () => {
+    onSuccess: async () => {
       if (commentRef.current) {
         commentRef.current.value = "";
       }
       setCommentLength(0);
+      await queryClient.invalidateQueries({ queryKey: ["post", postId] });
     },
+
     onError: (_error, newComment: Comment) => {
       // Roallback
       setOptimisticComment((prev) =>
