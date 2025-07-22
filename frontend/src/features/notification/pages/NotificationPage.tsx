@@ -33,7 +33,6 @@ const NotificationPage = () => {
       return result.data;
     },
     onSuccess: (notification) => {
-      toast.success("Notifications fetched successfully");
       return notification;
     },
     onError: (error) => {
@@ -58,7 +57,6 @@ const NotificationPage = () => {
       return true;
     },
     onSuccess: async () => {
-      toast.success("Notification read successfully!");
       await queryClient.invalidateQueries({
         queryKey: ["notifications", currentUser?.id],
       });
@@ -83,7 +81,6 @@ const NotificationPage = () => {
       return true;
     },
     onSuccess: async () => {
-      toast.success("Delete notification successfully");
       await queryClient.invalidateQueries({
         queryKey: ["notifications", currentUser?.id],
       });

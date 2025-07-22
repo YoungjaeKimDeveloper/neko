@@ -41,7 +41,7 @@ const SinglePostPage = () => {
   const [immageNumber, setImmageNumber] = useState<number>(0);
   const { postId } = useParams();
   const queryClient = useQueryClient();
-  const [isShowComment, setIsShowComment] = useState<boolean>(false);
+  const [isShowComment, setIsShowComment] = useState<boolean>(true);
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [commentLength, setCommentLength] = useState(0);
 
@@ -389,7 +389,9 @@ const SinglePostPage = () => {
               {/* Icon + Location */}
               <div className="flex items-center justify-center">
                 <MapPin className="text-warning" />
-                <p className="text-gray-400">{res?.data?.post?.location}</p>
+                <p className="text-gray-400 text-[10px] sm:text-sm ">
+                  {res?.data?.post?.location}
+                </p>
               </div>
             </div>
           </div>
