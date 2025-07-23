@@ -15,6 +15,9 @@
   <img src="https://img.shields.io/badge/Zod-EF4444?style=for-the-badge&logo=zod&logoColor=white" />
   <img src="https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white" />
   <img src="https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=black" />
+  <img src="https://img.shields.io/badge/Neon-1E90FF?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZmIiBoZWlnaHQ9IjMyIiB3aWR0aD0iMzIiIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHBhdGggZD0iTTI0IDJDMTIuOTUgMiAyIDExLjI4IDIgMjRzMTAuOTUgMjIgMjIgMjIgMjItMTAuOTkgMjItMjJTMzUuMDUgMiAyNCAyem0xMS4yNyAyNi45OEwyMy43MyAzNC4wMmwtNy4zMiAxMS41Yy0uNjkuOXYtOS4xTDExLjMgMzcuOThIMjIuM2wxLjY4LTIuMjR6Ii8+PC9zdmc+" />
+  <img src="https://img.shields.io/badge/React_Hook_Form-EC5990?style=for-the-badge&logo=reacthookform&logoColor=white" />
+
 </p>
 
 ### Backend
