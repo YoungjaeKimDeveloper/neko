@@ -30,7 +30,7 @@
 - **RHF(React Hook Form)**
 - **Zod**
 
-### Backend
+### Backend(RestfulAPI)
 
 - **Node.js**
 - **Express.js**
@@ -58,31 +58,32 @@
 
 ### Post
 
-- Create/edit/delete lost cat posts
-- Image upload supported
+- View post details
+- Display relative updated time
+- Shareable post URL
 
 ### Comment
 
-- Add/delete comments
-- Optimistic UI update
-- Edge case & error handled
+- Add comments
+- Optimistic UI(useState + Tanstack(Rollback))
 
-### React
+### React(like)
 
 - Toggle like/unlike
 - Prevent duplicate likes
-- Optimistic UI
+- Optimistic UI(useState + Tanstack(Rollback))
 
 ### Notification
 
 - View comment, like, and post notifications
 - Auto-fetch and clear read notifications
-- Can find user info and post info
+- Can find user and post info
 
 ### Profile
 
 - View other users’ profiles
-- Update own profile (Zod validated)
+- Update own profile image
+- Update own profile location
 
 ### Error Handling
 
@@ -113,6 +114,17 @@ All payloads are validated with **Zod**:
 - [x] Toast feedback system
 
 ---
+
+## 🧩 UI Feature Breakdown
+
+| Feature | Description | Optimistic UI | Status |
+| ------- | ----------- | ------------- | ------ |
+
+| Comment | Add/delete | ✅ | ✅ |
+| Like | Toggle like/unlike | ✅ | ✅ |
+| Post | Create, edit, delete, view details | - | ✅ |
+| Notification | View, fetch, mark as read | - | ✅ |
+| Profile | View/edit profile image/location | - | ✅ |
 
 ## Author
 
