@@ -1,6 +1,4 @@
-# Neko - Lost Cat Community Platform
-
-> A full-stack web application to help users find their lost cats and connect with others. <br/>Built with the PERN stack and designed with clean architecture principles.
+> 🐱 Lost cat reporting and discovery platform built with PERN stack and Clean Architecture principles.
 
 ---
 
@@ -30,7 +28,7 @@
 - **RHF(React Hook Form)**
 - **Zod**
 
-### Backend(RestfulAPI)
+### Backend
 
 - **Node.js**
 - **Express.js**
@@ -65,7 +63,7 @@
 ### Comment
 
 - Add comments
-- Optimistic UI(useState + Tanstack(Rollback))
+- Optimistic UI using useState and TanStack Query rollback
 
 ### Like System
 
@@ -77,7 +75,7 @@
 
 - View comment, like, and post notifications
 - Auto-fetch and clear read notifications
-- Can find user and post info
+- Can find user and post information
 
 ### Profile
 
@@ -115,49 +113,66 @@ All payloads are validated with **Zod**:
 
 ---
 
-## 🧱 Architecture Overview
+## 📦 Architecture Overview
 
 This project follows a feature-first folder structure, loosely inspired by Clean Architecture principles. Each domain (e.g., post, auth, comment) encapsulates its logic inside dedicated folders in both frontend and backend.
 
 ```bash
 📦 backend/
-├── features/           # Backend domain logic
+├── db/                           # Neon DB configuration & connection
+│
+├── features/                    # Feature-first domain structure
+│   ├── auth/                    # Auth logic
+│   ├── comment/                 # Comment logic
+│   ├── like/                    # Like logic
+│   ├── notification/            # Notification delivery logic
+│   ├── post/                    # Post CRUD logic
+│   └── profile/                 # User profile updates
+│
+├── lib/                         # Shared utilities
+│   ├── cloudinary/              # Cloudinary uploader & config
+│   └── utils/                   # Helper functions
+│
+├── middleware/                  # Custom Express middleware
+│   ├── verifyAuth.ts            # JWT verification
+│
+├── tests/                       # Test each feature
+│   ├── _config/
+│   ├── auth/                    # Auth feature tests
+│   ├── comment/                 # Comment feature tests
+│   ├── notification/
 │   └── post/
-│   └── auth/
-│   └── comment/
-├── db/                 # Database config and queries
-├── middleware/         # Express middlewares
-├── lib/                # Shared backend logic
-├── tests/              # Unit & integration tests
-└── server.ts           # Entry point
+│
+├── server.ts                    # Main Express entry point
+└── dist/                        # Compiled output (tsc build)
+
 
 📦 frontend/
 ├── src/
-│   ├── features/       # Feature-based structure
-│   │   ├── post/
-│   │   ├── auth/
-│   │   ├── comment/
-│   │   ├── notification/
-│   │   └── ...
-│   └── shared/         # Reusable components/hooks/utils
-│   └── App.tsx         # Root app component
-│   └── main.tsx        # Entry point
+│   ├── features/                 # Feature-based modules
+│   │   ├── auth/                 # Auth
+│   │   ├── found/                # Found
+│   │   ├── help/                 # Help
+│   │   ├── home/                 # Home
+│   │   ├── news/                 # News feed (temporarily moved due to daily API limits)
+│   │   ├── notification/         # notification
+│   │   ├── post/                 # post
+│   │   ├── profile/              # profile
+│   ├── shared/                   # Global reusable components
+│   ├── App.tsx                   # Root React component
+│   ├── main.tsx                  # Entry point (ReactDOM.createRoot)
+│   └── vite-env.d.ts             # Vite-specific types
+```
 
-Structure Highlights
-Domain isolation: Each domain (post, auth, etc.) is self-contained
+## Structure Highlights
 
-Zod used for both FE/BE validation
-
-RHF + TanStack Query colocated per feature
-
-Shared module for global UI/components/hooks
-
-
+- **Zod used**: For both frontend and backend validation
+- **DTO usage**: Strong typing for API contracts and maintainability
 
 ## Author
 
 **Youngjae Kim**
+
 Frontend-Focused Full-Stack Developer
-Macquarie University
-[LinkedIn](https://www.linkedin.com/in/youngjaekimdeveloper/)
-```
+🎓 Macquarie University
+🔗 [LinkedIn Profile](https://www.linkedin.com/in/youngjaekimdeveloper/)
