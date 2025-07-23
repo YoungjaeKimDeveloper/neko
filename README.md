@@ -1,6 +1,6 @@
 # Neko - Lost Cat Community Platform
 
-> A full-stack web application to help users find their lost cats and connect with others. Built with the PERN stack and designed with clean architecture principles.
+> A full-stack web application to help users find their lost cats and connect with others. <br/>Built with the PERN stack and designed with clean architecture principles.
 
 ---
 
@@ -19,31 +19,33 @@
 
 </p>
 
-### Backend
-
-- **Node.js** + **Express.js**
-- **PostgreSQL** (Neon)
-- **TypeScript**
-- **Zod** (Schema validation)
-- **Jest** (Unit testing)
-
 ### Frontend
 
-- **React** + **TypeScript**
+- **React**
+- **TypeScript**
 - **TanStack Query** (Server state)
-- **Tailwind CSS** + **Daisy UI**
+- **Tailwind CSS**
+- **Daisy UI**
 - **React Router**
 - **RHF(React Hook Form)**
 - **Zod**
 
-### DevOps / Infra
+### Backend
+
+- **Node.js**
+- **Express.js**
+- **PostgreSQL** (Neon)
+- **TypeScript**
+- **Zod**
+- **Jest**
+
+### DevOps
 
 - **Render** (Deployment)
-- **ESLint** + **Prettier**
 
-### API
+### Third-Party / External APIs
 
-- **cloudinary**
+- **Cloudinary** – Image upload and hosting service
 
 ---
 
