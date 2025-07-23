@@ -76,8 +76,8 @@ const SinglePostPage = () => {
   useEffect(() => {
     if (isSuccess) {
       // Fetch Likes && Comments
-      setLikes(res.data.likes ?? []);
-      setOptimisticComment(res.data.comments ?? []);
+      setLikes(res?.data?.likes ?? []);
+      setOptimisticComment(res?.data?.comments ?? []);
     }
   }, [isSuccess, res]);
 
@@ -119,7 +119,7 @@ const SinglePostPage = () => {
         `/likes/post/${postId}`
       );
       // 실페시 ERROR 던져서 - 강제로 ROLLBACK 시키도록함
-      if (!res.data.success) throw new Error("Failed to like");
+      if (!res?.data?.success) throw new Error("Failed to like");
       // 여기에서 반환되는 값이 onSuccess/onERROR의 첫번쨰 인자로 들어가게됨
       return newLike;
     },
@@ -263,7 +263,7 @@ const SinglePostPage = () => {
       setCommentLength(commentRef.current.value.length);
     }
   };
-  const postUserName = res?.data.post.user_name;
+  const postUserName = res?.data?.post.user_name;
   const isCurrentUserProfile =
     (currentUser as UserProfile)?.user_name == postUserName;
   // BUILD UI
@@ -388,7 +388,7 @@ const SinglePostPage = () => {
           {/* Bottom - Description */}
           <div className="flex flex-col items-stars">
             <h1 className="text-xl font-bold py-2 border-b border-b-gray-200">
-              {res?.data.post.title}
+              {res?.data?.post.title}
             </h1>
             <p className="pt-2 text-gray-400">{res?.data?.post?.content}</p>
           </div>

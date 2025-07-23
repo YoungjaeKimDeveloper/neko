@@ -72,6 +72,7 @@ if (process.env.NODE_ENV === "production") {
 app.listen(PORT, async () => {
   try {
     await initDB();
+    console.log("Server is running in ts file");
     console.log(`SERVER IS RUNNING IN ${PORT}💨`);
   } catch (error: any) {
     console.error(`FAILED TO RUN SERVER ${error.message}❌`);

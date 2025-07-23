@@ -254,17 +254,21 @@ class NeonPostRepo implements PostRepo {
         user_profile_image: firstRow.user_profile_image,
       };
       // Comments denormalisation - Follow alias
-      const comments: Comment[] = result
-        .filter((row) => row.comment_id != null)
-        .map((row) => ({
-          id: row.comment_id ?? undefined,
-          content: row.comment_content,
-          created_at: row.comment_created_at ?? undefined,
-          user_id: row.comment_user_id,
-          post_id: row.comment_post_id,
-          user_name: row.comment_user_user_name,
-          user_profile_image: row.comment_user_user_profile_image,
-        }));
+      const commentMap = new Map<string, Comment>();
+      result.forEach((row) => {
+        const id = row.comment_id;
+        if (id && !commentMap.has(id)) {
+          commentMap.set(id, {
+            content: row.comment_content,
+            created_at: row.comment_created_at,
+            user_id: row.comment_user_id,
+            post_id: row.comment_post_id,
+            user_name: row.comment_user_user_name,
+            user_profile_image: row.comment_user_user_profile_image,
+          });
+        }
+      });
+      const comments = Array.from(commentMap.values());
       // Array, Removed Duplicate like
       const likeMap = new Map<string, Like>();
 

@@ -551,6 +551,7 @@ export const fetchSinglePostWithComments = async (
   req: Request,
   res: Response<ResponseDTO>
 ): Promise<any> => {
+  console.log("Fucning called");
   try {
     const postId = req.params.postId;
     // Validation - Verify User
@@ -572,6 +573,7 @@ export const fetchSinglePostWithComments = async (
       });
     }
     const result = await neonPostRepo.fetchSinglePostWithComments({ postId });
+    console.log("DATA FROM NEON RESULT FROM ", result);
     return sendResponseV2({
       res: res,
       status: RESPONSE_HTTP.OK,
