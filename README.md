@@ -67,7 +67,7 @@
 - Add comments
 - Optimistic UI(useState + Tanstack(Rollback))
 
-### React(like)
+### Like System
 
 - Toggle like/unlike
 - Prevent duplicate likes
@@ -115,20 +115,49 @@ All payloads are validated with **Zod**:
 
 ---
 
-## 🧩 UI Feature Breakdown
+## 🧱 Architecture Overview
 
-| Feature | Description | Optimistic UI | Status |
-| ------- | ----------- | ------------- | ------ |
+This project follows a feature-first folder structure, loosely inspired by Clean Architecture principles. Each domain (e.g., post, auth, comment) encapsulates its logic inside dedicated folders in both frontend and backend.
 
-| Comment | Add/delete | ✅ | ✅ |
-| Like | Toggle like/unlike | ✅ | ✅ |
-| Post | Create, edit, delete, view details | - | ✅ |
-| Notification | View, fetch, mark as read | - | ✅ |
-| Profile | View/edit profile image/location | - | ✅ |
+```bash
+📦 backend/
+├── features/           # Backend domain logic
+│   └── post/
+│   └── auth/
+│   └── comment/
+├── db/                 # Database config and queries
+├── middleware/         # Express middlewares
+├── lib/                # Shared backend logic
+├── tests/              # Unit & integration tests
+└── server.ts           # Entry point
+
+📦 frontend/
+├── src/
+│   ├── features/       # Feature-based structure
+│   │   ├── post/
+│   │   ├── auth/
+│   │   ├── comment/
+│   │   ├── notification/
+│   │   └── ...
+│   └── shared/         # Reusable components/hooks/utils
+│   └── App.tsx         # Root app component
+│   └── main.tsx        # Entry point
+
+Structure Highlights
+Domain isolation: Each domain (post, auth, etc.) is self-contained
+
+Zod used for both FE/BE validation
+
+RHF + TanStack Query colocated per feature
+
+Shared module for global UI/components/hooks
+
+
 
 ## Author
 
-**Youngjae Kim**  
-Frontend-Focused Full-Stack Developer  
-Macquarie University  
+**Youngjae Kim**
+Frontend-Focused Full-Stack Developer
+Macquarie University
 [LinkedIn](https://www.linkedin.com/in/youngjaekimdeveloper/)
+```
