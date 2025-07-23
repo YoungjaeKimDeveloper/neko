@@ -264,6 +264,11 @@ const SinglePostPage = () => {
     }
   };
   const postUserName = res?.data?.post.user_name;
+  let isMorethanOnePic;
+  if (res?.data?.post?.image_urls) {
+    isMorethanOnePic = res?.data?.post?.image_urls.length > 1;
+  }
+
   const isCurrentUserProfile =
     (currentUser as UserProfile)?.user_name == postUserName;
   // BUILD UI
@@ -282,18 +287,24 @@ const SinglePostPage = () => {
             <img
               src={res?.data?.post?.image_urls[immageNumber]}
               alt="hero_image"
-              className="w-full aspect-video rounded-t-lg"
+              className="w-full aspect-video rounded-t-lg object-cover object-centerr"
             />
             {/* Left btn */}
-            <CircleChevronLeftIcon
-              className="absolute top-[40%] size-10"
-              onClick={handlePreviousImage}
-            />
+            {isMorethanOnePic && (
+              <CircleChevronLeftIcon
+                className="absolute top-[40%] size-10"
+                onClick={handlePreviousImage}
+              />
+            )}
+
             {/* Right btn */}
-            <CircleChevronRight
-              className="absolute right-0 top-[40%] size-10"
-              onClick={handleNextImage}
-            />
+            {isMorethanOnePic && (
+              <CircleChevronRight
+                className="absolute right-0 top-[40%] size-10"
+                onClick={handleNextImage}
+              />
+            )}
+
             {/* Status bar */}
             <div className="flex justify-between p-2 rounded-b-xl bg-gray-100 ">
               {/* Cat + like */}

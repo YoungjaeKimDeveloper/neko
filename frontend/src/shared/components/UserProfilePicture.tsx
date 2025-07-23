@@ -45,7 +45,9 @@ const UserProfilePicture = ({
         <img
           src={imageSrc ?? "/userProfile.png"}
           alt="user-profile-image"
-          className={`${imageSize ?? "size-12"} rounded-full`}
+          className={`${
+            imageSize ?? "size-12"
+          } rounded-full object-cover object-center`}
         />
         {isEditable && (
           <>

@@ -131,7 +131,7 @@ const PostCard = ({ post }: PostCardProps) => {
             "https://cdn.pixabay.com/photo/2020/10/05/10/51/cat-5628953_1280.jpg"
           }
           alt="cat_img"
-          className="w-full aspect-square object-center rounded-t-lg"
+          className="w-full aspect-square object-cover rounded-t-lg object-center"
         />
       </Link>
 
