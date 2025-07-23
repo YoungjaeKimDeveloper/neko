@@ -18,7 +18,6 @@ import {
 import { RESPONSE_HTTP } from "../../../../../shared/constants/http-status";
 import { RESPONSE_MESSAGES } from "../../../../lib/utils/constants/messages";
 
-
 enum NotificationType {
   comment = "COMMENT",
   like = "LIKE",
@@ -32,8 +31,6 @@ export const likePost = async (
   req: Request,
   res: Response<ResponseDTO>
 ): Promise<any> => {
-  console.log("Frontend called Like?👍🏻");
-  console.log("CHECK TYPE", NotificationType);
   try {
     const authenticatedUser = (req as VerifiedUserRequest).user;
     // Validation - 0 Auth User
@@ -138,7 +135,6 @@ export const unLikePost = async (
   req: Request,
   res: Response<ResponseDTO>
 ): Promise<any> => {
-  console.log("Frontend called unLike?👎");
   try {
     const authenticatedUser = (req as VerifiedUserRequest).user;
     if (!authenticatedUser) {

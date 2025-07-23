@@ -61,7 +61,6 @@ const CreatePostPage = () => {
         result.status !== RESPONSE_HTTP.CREATED ||
         result.data.success !== true
       ) {
-        console.log("에러추적", result.data);
         throw new Error(result.data.message || "Failed to create newpost");
       }
       return true;
@@ -73,7 +72,6 @@ const CreatePostPage = () => {
     },
     onError: async (error) => {
       if (error instanceof Error) {
-        console.log("에러 열어보기", error);
         setError("root", {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           message: (error as any).response.data.message,

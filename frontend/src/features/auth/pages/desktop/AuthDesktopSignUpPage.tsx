@@ -51,9 +51,6 @@ const AuthDesktopSignUpPage = () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         message: (error as any).response.data.message || "ID is existed",
       });
-      if (error instanceof Error) {
-        console.log("Failed to signup", error?.message);
-      }
     },
   });
   // Submit to API

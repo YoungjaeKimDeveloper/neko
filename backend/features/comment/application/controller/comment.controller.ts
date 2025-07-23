@@ -157,8 +157,6 @@ export const deleteComment = async (
   try {
     const commentId = req.params.commentId;
     const authenticatedUser = (req as VerifiedUserRequest).user;
-
-    // console.log("authenticatedUser", authenticatedUser);
     if (!authenticatedUser) {
       return sendResponse({
         res: res,
@@ -170,7 +168,7 @@ export const deleteComment = async (
     // Validation - 1
 
     const userId = (req as VerifiedUserRequest).user.id;
-    console.log("USERID", userId);
+
     if (!userId) {
       return sendResponse({
         res: res,

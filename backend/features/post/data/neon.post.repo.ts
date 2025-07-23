@@ -240,7 +240,7 @@ class NeonPostRepo implements PostRepo {
       // Denormalisation - Extract postInfo and user info
       const firstRow = result[0] as SinglePostWithComments;
       // POST + USER is always same for one poster
-      // 정적인 정보기준에서는 result[0] 하나만 뽑아서 가도됌
+      // It is possible as there is only one post writer
       const post: PostWithWriter = {
         id: firstRow.post_id ?? null,
         user_id: firstRow.user_id ?? null,
@@ -254,6 +254,8 @@ class NeonPostRepo implements PostRepo {
         user_profile_image: firstRow.user_profile_image,
       };
       // Comments denormalisation - Follow alias
+      // 23/07/2025 - Solve Error - only show unique comment
+      // Set unique comments
       const commentMap = new Map<string, Comment>();
       result.forEach((row) => {
         const id = row.comment_id;
@@ -270,10 +272,12 @@ class NeonPostRepo implements PostRepo {
       });
       const comments = Array.from(commentMap.values());
       // Array, Removed Duplicate like
+      // 22/07/2025 - Show unique Like
       const likeMap = new Map<string, Like>();
-
+      // Foreach method doens't return new array so ,set new values in likeMap
       result.forEach((row) => {
         if (row.like_user_id && row.like_post_id) {
+          // Create Unique key
           const key = `${row.like_user_id}-${row.like_post_id}`;
           if (!likeMap.has(key)) {
             likeMap.set(key, {
@@ -284,6 +288,7 @@ class NeonPostRepo implements PostRepo {
         }
       });
       // Likes denormalisation - Follow alias
+      // Foreach -> Map -> store only values to new List
       const likes: Like[] = Array.from(likeMap.values());
       return { post, comments, likes };
     } catch (error) {
