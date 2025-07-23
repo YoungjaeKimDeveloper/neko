@@ -95,7 +95,7 @@ const AuthMobileSignUpPage = () => {
             {/* Login button */}
             <div className="w-[80%] mx-auto mt-1">
               <MainButton
-                text="sign up"
+                text="Sign up"
                 type="submit"
                 isLoading={isSubmitting}
               />

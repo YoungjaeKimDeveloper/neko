@@ -124,15 +124,16 @@ const PostCard = ({ post }: PostCardProps) => {
         </div>
         {/* Middle -image */}
       </fieldset>
-
-      <img
-        src={
-          post?.image_urls[0] ??
-          "https://cdn.pixabay.com/photo/2020/10/05/10/51/cat-5628953_1280.jpg"
-        }
-        alt="cat_img"
-        className="w-full aspect-square object-center rounded-t-lg"
-      />
+      <Link to={`/posts/${post.id}`}>
+        <img
+          src={
+            post?.image_urls[0] ??
+            "https://cdn.pixabay.com/photo/2020/10/05/10/51/cat-5628953_1280.jpg"
+          }
+          alt="cat_img"
+          className="w-full aspect-square object-center rounded-t-lg"
+        />
+      </Link>
 
       {/* Bottom Details */}
       <div className="px-4 py-2">
@@ -157,7 +158,7 @@ const PostCard = ({ post }: PostCardProps) => {
           </span>
         </p>
         {/* Details */}
-        <p className="w-[40%] h-[20px] text-gray-500 overflow-hidden">
+        <p className="w-[40%] h-[20px] text-gray-500 line-clamp-1">
           {post.content}
         </p>
         {/* Last Bottom */}

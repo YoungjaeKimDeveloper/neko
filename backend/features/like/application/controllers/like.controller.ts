@@ -11,7 +11,6 @@ import NeonLikeRepo from "../../data/neon.like.repo";
 import { errorLog } from "../../../../../shared/error/error.log";
 import NeonPostRepo from "../../../post/data/neon.post.repo";
 import NeonNotificationRepo from "../../../notification/data/neon.notification.repo";
-import { NotificationType } from "../../../notification/domain/entity/notification";
 import {
   sendResponse,
   sendResponseV2,
@@ -19,6 +18,11 @@ import {
 import { RESPONSE_HTTP } from "../../../../../shared/constants/http-status";
 import { RESPONSE_MESSAGES } from "../../../../lib/utils/constants/messages";
 
+
+enum NotificationType {
+  comment = "COMMENT",
+  like = "LIKE",
+}
 // Neon Instance
 const neonLikeRepo = new NeonLikeRepo();
 const neonPostRepo = new NeonPostRepo();
@@ -29,6 +33,7 @@ export const likePost = async (
   res: Response<ResponseDTO>
 ): Promise<any> => {
   console.log("Frontend called Like?👍🏻");
+  console.log("CHECK TYPE", NotificationType);
   try {
     const authenticatedUser = (req as VerifiedUserRequest).user;
     // Validation - 0 Auth User

@@ -64,8 +64,8 @@ const AuthDesktopSignUpPage = () => {
   return (
     <div className="w-full h-[90%] pb-10">
       <div className="px-10 hidden lg:block mt-5 w-full h-full ">
-        <div className="w-[100%] bg-gray-50-50 rounded-lg borderborder-gray-300 shadow-sm border border-gray-100 shadow-sm">
-          <div className="grid grid-cols-1 lg:grid-cols-2 w-full h-full rounded-lg">
+        <div className="w-[100%] bg-gray-50-50 rounded-lg borderborder-gray-300  border border-gray-100 shadow-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-2 w-full h-[80%] rounded-lg">
             {/* Left - Image + Description */}
             <div className="col-span-1 w-full h-full   lg:block  lg:relative">
               <img
@@ -125,7 +125,7 @@ const AuthDesktopSignUpPage = () => {
                 <p className="text-center text-red-500 py-4">
                   {errors.root && errors.root.message}
                 </p>
-                <div className="w-[70%] max-w-[200px] mx-auto mt-5">
+                <div className="w-[70%] max-w-[200px] mx-auto mt-2">
                   <MainButton
                     text="Sign up"
                     type="submit"
@@ -134,7 +134,7 @@ const AuthDesktopSignUpPage = () => {
                 </div>
               </form>
 
-              <div className="mt-5 pb-6">
+              <div className="mt-2 pb-6">
                 <AuthFooter
                   description="Already have an account with Neko?"
                   text="Login"

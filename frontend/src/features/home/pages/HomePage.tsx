@@ -42,18 +42,18 @@ const HomePage = () => {
   }
   // BUILD UI
   return (
-    <div className="flex min-h-screen w-screen">
+    <div className="flex h-[100dvh] w-screen">
       {/* Sidebar - left */}
       {/* <AuthDesktopSidebar /> */}
       <AuthMobileSidebar />
       <AuthDesktopSidebar />
       {/* MainPage - Right */}
       {/* Cards layout */}
-      <div className="h-screen w-screen mx-auto lg:pr-10">
+      <div className=" min-h-screen w-screen mx-auto lg:pr-10 overflow-y-auto">
         {isLoading ? (
           <LoadingPage />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 overflow-hidden 2xl:grid-cols-4 w-fit lg:w-full mx-auto mt-4 lg:mx-4 lg:pl-[200px] gap-5 gap-y-10 pb-32 pt-4 ">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-4 w-fit lg:w-full mx-auto mt-4 lg:mx-4 lg:pl-[200px] gap-5 gap-y-10 pb-32 pt-4 ">
             {/* Mapping posts */}
             {posts?.map((post: PostWithWriter) => (
               <PostCard key={post.id} post={post} />

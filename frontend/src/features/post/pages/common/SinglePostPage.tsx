@@ -369,14 +369,17 @@ const SinglePostPage = () => {
               {/* Price +Icon */}
               <div className="flex items-center gap-x-1">
                 <Gift />
-                <p className="text-gray-400">
-                  ${res?.data?.post?.reward_amount}
+                <p className="text-gray-400 font-content ">
+                  $
+                  {res?.data?.post?.reward_amount == 0
+                    ? "Volunteer"
+                    : res?.data?.post?.reward_amount}
                 </p>
               </div>
               {/* Icon + Location */}
               <div className="flex items-center justify-center">
                 <MapPin className="text-warning" />
-                <p className="text-gray-400 text-[11px]">
+                <p className="text-gray-400 text-[10px] md:text-[14px] font-content font-semibold">
                   {res?.data?.post?.location}
                 </p>
               </div>

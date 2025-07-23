@@ -51,7 +51,7 @@ const Comment = ({ comment }: CommentProps) => {
                 </p>
               </div>
             </div>
-            <p className="pl-2">{comment.content} </p>
+            <p className="pl-2 py-2">{comment.content} </p>
           </div>
         </div>
       </div>
