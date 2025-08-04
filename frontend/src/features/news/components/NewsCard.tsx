@@ -1,6 +1,6 @@
 /*
 
-    Individual News card component
+    Individual News card component - 
 
 */
 
